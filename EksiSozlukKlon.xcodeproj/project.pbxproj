@@ -3,27 +3,93 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC5CA3BD853A267F0FFD7FB2 /* Pods_EksiSozlukKlon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B15CD14E892D2DE0529BD47 /* Pods_EksiSozlukKlon.framework */; };
+		BA01156C261453CC00E4799B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA01156B261453CC00E4799B /* LoginViewController.swift */; };
+		BA0115712614543300E4799B /* stackEksi.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0115702614543300E4799B /* stackEksi.swift */; };
+		BA0115742614814100E4799B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0115732614814000E4799B /* LoginViewModel.swift */; };
+		BA0115772614932100E4799B /* LogMutualView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0115762614932100E4799B /* LogMutualView.swift */; };
+		BA2497A82613A8C3002B00F0 /* MutualUnregisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */; };
+		BA648EDA2615B6BD00972746 /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648ED92615B6BD00972746 /* FirebaseService.swift */; };
+		BA648EDE2615C02B00972746 /* UserStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648EDD2615C02B00972746 /* UserStruct.swift */; };
+		BA648F032615CB6B00972746 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648F022615CB6B00972746 /* LoginModel.swift */; };
+		BA648F062615DCEB00972746 /* LogupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648F052615DCEB00972746 /* LogupModel.swift */; };
+		BA648F0A2615E73C00972746 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648F092615E73C00972746 /* Date.swift */; };
+		BA648F0D2615FA0600972746 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA648F0C2615FA0600972746 /* Status.swift */; };
+		BA67E8502614A9EF006B11F1 /* LogupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA67E84F2614A9EF006B11F1 /* LogupViewModel.swift */; };
+		BA67E8552615A21C006B11F1 /* LogupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA67E8542615A21C006B11F1 /* LogupViewController.swift */; };
+		BA67E85C2615ABB0006B11F1 /* DrawLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA67E85B2615ABB0006B11F1 /* DrawLine.swift */; };
 		BA781DAF26122DC5000C4B0B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DAE26122DC5000C4B0B /* AppDelegate.swift */; };
 		BA781DB126122DC5000C4B0B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DB026122DC5000C4B0B /* SceneDelegate.swift */; };
-		BA781DB326122DC5000C4B0B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DB226122DC5000C4B0B /* ViewController.swift */; };
 		BA781DB626122DC5000C4B0B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA781DB426122DC5000C4B0B /* Main.storyboard */; };
 		BA781DB826122DC5000C4B0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA781DB726122DC5000C4B0B /* Assets.xcassets */; };
 		BA781DBB26122DC5000C4B0B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA781DB926122DC5000C4B0B /* LaunchScreen.storyboard */; };
+		BA781DD026122FAF000C4B0B /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DCF26122FAF000C4B0B /* TabBar.swift */; };
+		BA781DD426123041000C4B0B /* Tabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DD326123041000C4B0B /* Tabbar.swift */; };
+		BA781DD826123074000C4B0B /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DD726123074000C4B0B /* Collections.swift */; };
+		BA781DDD261230A5000C4B0B /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DDC261230A5000C4B0B /* UIButton.swift */; };
+		BA781DE32612310C000C4B0B /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DE22612310C000C4B0B /* MainPage.swift */; };
+		BA781DE626123131000C4B0B /* MainPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DE526123131000C4B0B /* MainPageCell.swift */; };
+		BA781DE92612314C000C4B0B /* MainPageViewModel,.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DE82612314C000C4B0B /* MainPageViewModel,.swift */; };
+		BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DEE2612318F000C4B0B /* GundemView.swift */; };
+		BA781DF4261231E1000C4B0B /* MessageUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */; };
+		BA781DFA26123223000C4B0B /* SearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DF926123223000C4B0B /* SearchPage.swift */; };
+		BA781DFF2612324F000C4B0B /* UpdateUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DFE2612324F000C4B0B /* UpdateUnsigned.swift */; };
+		BA781E042612328B000C4B0B /* UserControlUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E032612328B000C4B0B /* UserControlUnsigned.swift */; };
+		BA781E0A2612337A000C4B0B /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E092612337A000C4B0B /* MainTableView.swift */; };
+		BA781E0E26123CB0000C4B0B /* BugunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E0D26123CB0000C4B0B /* BugunView.swift */; };
+		BA781E1426123D95000C4B0B /* DebeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E1326123D95000C4B0B /* DebeView.swift */; };
+		BA781E192612576D000C4B0B /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E182612576D000C4B0B /* UIView.swift */; };
+		BA781E1E26130DC4000C4B0B /* SorunsallarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E1D26130DC4000C4B0B /* SorunsallarView.swift */; };
+		BA781E3526131961000C4B0B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA781E3426131961000C4B0B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00229550F8EBC9348CE2000A /* Pods-EksiSozlukKlon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EksiSozlukKlon.debug.xcconfig"; path = "Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon.debug.xcconfig"; sourceTree = "<group>"; };
+		0B15CD14E892D2DE0529BD47 /* Pods_EksiSozlukKlon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EksiSozlukKlon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F89CC3FEECF3D0EC96C41F1 /* Pods-EksiSozlukKlon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EksiSozlukKlon.release.xcconfig"; path = "Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon.release.xcconfig"; sourceTree = "<group>"; };
+		BA01156B261453CC00E4799B /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BA0115702614543300E4799B /* stackEksi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stackEksi.swift; sourceTree = "<group>"; };
+		BA0115732614814000E4799B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		BA0115762614932100E4799B /* LogMutualView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogMutualView.swift; sourceTree = "<group>"; };
+		BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualUnregisterViewController.swift; sourceTree = "<group>"; };
+		BA648ED92615B6BD00972746 /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
+		BA648EDD2615C02B00972746 /* UserStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStruct.swift; sourceTree = "<group>"; };
+		BA648F022615CB6B00972746 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		BA648F052615DCEB00972746 /* LogupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogupModel.swift; sourceTree = "<group>"; };
+		BA648F092615E73C00972746 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		BA648F0C2615FA0600972746 /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		BA67E84F2614A9EF006B11F1 /* LogupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogupViewModel.swift; sourceTree = "<group>"; };
+		BA67E8542615A21C006B11F1 /* LogupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogupViewController.swift; sourceTree = "<group>"; };
+		BA67E85B2615ABB0006B11F1 /* DrawLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawLine.swift; sourceTree = "<group>"; };
 		BA781DAB26122DC5000C4B0B /* EksiSozlukKlon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EksiSozlukKlon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA781DAE26122DC5000C4B0B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA781DB026122DC5000C4B0B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		BA781DB226122DC5000C4B0B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BA781DB526122DC5000C4B0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA781DB726122DC5000C4B0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA781DBA26122DC5000C4B0B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA781DBC26122DC5000C4B0B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA781DCF26122FAF000C4B0B /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		BA781DD326123041000C4B0B /* Tabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabbar.swift; sourceTree = "<group>"; };
+		BA781DD726123074000C4B0B /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
+		BA781DDC261230A5000C4B0B /* UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		BA781DE22612310C000C4B0B /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
+		BA781DE526123131000C4B0B /* MainPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageCell.swift; sourceTree = "<group>"; };
+		BA781DE82612314C000C4B0B /* MainPageViewModel,.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainPageViewModel,.swift"; sourceTree = "<group>"; };
+		BA781DEE2612318F000C4B0B /* GundemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GundemView.swift; sourceTree = "<group>"; };
+		BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUnsigned.swift; sourceTree = "<group>"; };
+		BA781DF926123223000C4B0B /* SearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPage.swift; sourceTree = "<group>"; };
+		BA781DFE2612324F000C4B0B /* UpdateUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnsigned.swift; sourceTree = "<group>"; };
+		BA781E032612328B000C4B0B /* UserControlUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControlUnsigned.swift; sourceTree = "<group>"; };
+		BA781E092612337A000C4B0B /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
+		BA781E0D26123CB0000C4B0B /* BugunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugunView.swift; sourceTree = "<group>"; };
+		BA781E1326123D95000C4B0B /* DebeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebeView.swift; sourceTree = "<group>"; };
+		BA781E182612576D000C4B0B /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		BA781E1D26130DC4000C4B0B /* SorunsallarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorunsallarView.swift; sourceTree = "<group>"; };
+		BA781E3426131961000C4B0B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +97,86 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC5CA3BD853A267F0FFD7FB2 /* Pods_EksiSozlukKlon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65B53D5D715E3047DEBE0200 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0B15CD14E892D2DE0529BD47 /* Pods_EksiSozlukKlon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B7D55E6F40EED3D6FDC8D5BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				00229550F8EBC9348CE2000A /* Pods-EksiSozlukKlon.debug.xcconfig */,
+				2F89CC3FEECF3D0EC96C41F1 /* Pods-EksiSozlukKlon.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BA01156A2614539F00E4799B /* LoginPage */ = {
+			isa = PBXGroup;
+			children = (
+				BA01156B261453CC00E4799B /* LoginViewController.swift */,
+				BA648F022615CB6B00972746 /* LoginModel.swift */,
+				BA0115732614814000E4799B /* LoginViewModel.swift */,
+			);
+			path = LoginPage;
+			sourceTree = "<group>";
+		};
+		BA2497AA2613C0BD002B00F0 /* CommonViews&Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BA0115762614932100E4799B /* LogMutualView.swift */,
+				BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */,
+				BA0115702614543300E4799B /* stackEksi.swift */,
+				BA67E85B2615ABB0006B11F1 /* DrawLine.swift */,
+				BA781E092612337A000C4B0B /* MainTableView.swift */,
+			);
+			path = "CommonViews&Controllers";
+			sourceTree = "<group>";
+		};
+		BA648ED72615B69600972746 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BA648ED82615B6A100972746 /* FireBase */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BA648ED82615B6A100972746 /* FireBase */ = {
+			isa = PBXGroup;
+			children = (
+				BA648ED92615B6BD00972746 /* FirebaseService.swift */,
+				BA648EDD2615C02B00972746 /* UserStruct.swift */,
+			);
+			path = FireBase;
+			sourceTree = "<group>";
+		};
+		BA67E84C2614A93D006B11F1 /* LogupPage */ = {
+			isa = PBXGroup;
+			children = (
+				BA67E8542615A21C006B11F1 /* LogupViewController.swift */,
+				BA648F052615DCEB00972746 /* LogupModel.swift */,
+				BA67E84F2614A9EF006B11F1 /* LogupViewModel.swift */,
+			);
+			path = LogupPage;
+			sourceTree = "<group>";
+		};
 		BA781DA226122DC4000C4B0B = {
 			isa = PBXGroup;
 			children = (
 				BA781DAD26122DC5000C4B0B /* EksiSozlukKlon */,
 				BA781DAC26122DC5000C4B0B /* Products */,
+				B7D55E6F40EED3D6FDC8D5BE /* Pods */,
+				65B53D5D715E3047DEBE0200 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +193,148 @@
 			children = (
 				BA781DAE26122DC5000C4B0B /* AppDelegate.swift */,
 				BA781DB026122DC5000C4B0B /* SceneDelegate.swift */,
-				BA781DB226122DC5000C4B0B /* ViewController.swift */,
 				BA781DB426122DC5000C4B0B /* Main.storyboard */,
 				BA781DB726122DC5000C4B0B /* Assets.xcassets */,
+				BA648ED72615B69600972746 /* Services */,
+				BA781DDB26123095000C4B0B /* Extension */,
+				BA781DD226122FBE000C4B0B /* Enum */,
+				BA781DCD26122F85000C4B0B /* Pages */,
 				BA781DB926122DC5000C4B0B /* LaunchScreen.storyboard */,
+				BA781E3426131961000C4B0B /* GoogleService-Info.plist */,
 				BA781DBC26122DC5000C4B0B /* Info.plist */,
 			);
 			path = EksiSozlukKlon;
+			sourceTree = "<group>";
+		};
+		BA781DCD26122F85000C4B0B /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				BA67E84C2614A93D006B11F1 /* LogupPage */,
+				BA01156A2614539F00E4799B /* LoginPage */,
+				BA2497AA2613C0BD002B00F0 /* CommonViews&Controllers */,
+				BA781DCE26122F9C000C4B0B /* TabBar */,
+				BA781DE1261230FA000C4B0B /* MainPage */,
+				BA781E022612327E000C4B0B /* UserControlPage */,
+				BA781DFC2612323D000C4B0B /* UpdatePage */,
+				BA781DF726123206000C4B0B /* SearchPage */,
+				BA781DF2261231B5000C4B0B /* MessagePage */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		BA781DCE26122F9C000C4B0B /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DCF26122FAF000C4B0B /* TabBar.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		BA781DD226122FBE000C4B0B /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DD326123041000C4B0B /* Tabbar.swift */,
+				BA781DD726123074000C4B0B /* Collections.swift */,
+				BA648F0C2615FA0600972746 /* Status.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
+		BA781DDB26123095000C4B0B /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DDC261230A5000C4B0B /* UIButton.swift */,
+				BA781E182612576D000C4B0B /* UIView.swift */,
+				BA648F092615E73C00972746 /* Date.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		BA781DE1261230FA000C4B0B /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DE22612310C000C4B0B /* MainPage.swift */,
+				BA781DE526123131000C4B0B /* MainPageCell.swift */,
+				BA781DE82612314C000C4B0B /* MainPageViewModel,.swift */,
+				BA781DEC26123176000C4B0B /* SubViews */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		BA781DEC26123176000C4B0B /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				BA781E1C26130DB2000C4B0B /* Sorunsallar */,
+				BA781E1626123D9A000C4B0B /* DebeView */,
+				BA781E0C26123CA8000C4B0B /* Bugun */,
+				BA781DED2612317F000C4B0B /* Gündem */,
+			);
+			path = SubViews;
+			sourceTree = "<group>";
+		};
+		BA781DED2612317F000C4B0B /* Gündem */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DEE2612318F000C4B0B /* GundemView.swift */,
+			);
+			name = "Gündem";
+			path = "Gündem";
+			sourceTree = "<group>";
+		};
+		BA781DF2261231B5000C4B0B /* MessagePage */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */,
+			);
+			path = MessagePage;
+			sourceTree = "<group>";
+		};
+		BA781DF726123206000C4B0B /* SearchPage */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DF926123223000C4B0B /* SearchPage.swift */,
+			);
+			path = SearchPage;
+			sourceTree = "<group>";
+		};
+		BA781DFC2612323D000C4B0B /* UpdatePage */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DFE2612324F000C4B0B /* UpdateUnsigned.swift */,
+			);
+			path = UpdatePage;
+			sourceTree = "<group>";
+		};
+		BA781E022612327E000C4B0B /* UserControlPage */ = {
+			isa = PBXGroup;
+			children = (
+				BA781E032612328B000C4B0B /* UserControlUnsigned.swift */,
+			);
+			path = UserControlPage;
+			sourceTree = "<group>";
+		};
+		BA781E0C26123CA8000C4B0B /* Bugun */ = {
+			isa = PBXGroup;
+			children = (
+				BA781E0D26123CB0000C4B0B /* BugunView.swift */,
+			);
+			path = Bugun;
+			sourceTree = "<group>";
+		};
+		BA781E1626123D9A000C4B0B /* DebeView */ = {
+			isa = PBXGroup;
+			children = (
+				BA781E1326123D95000C4B0B /* DebeView.swift */,
+			);
+			path = DebeView;
+			sourceTree = "<group>";
+		};
+		BA781E1C26130DB2000C4B0B /* Sorunsallar */ = {
+			isa = PBXGroup;
+			children = (
+				BA781E1D26130DC4000C4B0B /* SorunsallarView.swift */,
+			);
+			path = Sorunsallar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +344,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BA781DBF26122DC5000C4B0B /* Build configuration list for PBXNativeTarget "EksiSozlukKlon" */;
 			buildPhases = (
+				170C0410880311C42D961535 /* [CP] Check Pods Manifest.lock */,
 				BA781DA726122DC5000C4B0B /* Sources */,
 				BA781DA826122DC5000C4B0B /* Frameworks */,
 				BA781DA926122DC5000C4B0B /* Resources */,
+				26C39CF78742AF8F496C9B95 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -125,6 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA781DBB26122DC5000C4B0B /* LaunchScreen.storyboard in Resources */,
+				BA781E3526131961000C4B0B /* GoogleService-Info.plist in Resources */,
 				BA781DB826122DC5000C4B0B /* Assets.xcassets in Resources */,
 				BA781DB626122DC5000C4B0B /* Main.storyboard in Resources */,
 			);
@@ -132,14 +405,86 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		170C0410880311C42D961535 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EksiSozlukKlon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		26C39CF78742AF8F496C9B95 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		BA781DA726122DC5000C4B0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA781DB326122DC5000C4B0B /* ViewController.swift in Sources */,
+				BA0115742614814100E4799B /* LoginViewModel.swift in Sources */,
+				BA01156C261453CC00E4799B /* LoginViewController.swift in Sources */,
+				BA648EDE2615C02B00972746 /* UserStruct.swift in Sources */,
+				BA648F0A2615E73C00972746 /* Date.swift in Sources */,
+				BA781E1426123D95000C4B0B /* DebeView.swift in Sources */,
+				BA781DF4261231E1000C4B0B /* MessageUnsigned.swift in Sources */,
+				BA781DD026122FAF000C4B0B /* TabBar.swift in Sources */,
+				BA0115712614543300E4799B /* stackEksi.swift in Sources */,
+				BA781DFA26123223000C4B0B /* SearchPage.swift in Sources */,
+				BA781E042612328B000C4B0B /* UserControlUnsigned.swift in Sources */,
 				BA781DAF26122DC5000C4B0B /* AppDelegate.swift in Sources */,
+				BA781E0E26123CB0000C4B0B /* BugunView.swift in Sources */,
 				BA781DB126122DC5000C4B0B /* SceneDelegate.swift in Sources */,
+				BA2497A82613A8C3002B00F0 /* MutualUnregisterViewController.swift in Sources */,
+				BA67E8552615A21C006B11F1 /* LogupViewController.swift in Sources */,
+				BA781DD426123041000C4B0B /* Tabbar.swift in Sources */,
+				BA781DD826123074000C4B0B /* Collections.swift in Sources */,
+				BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */,
+				BA781DE32612310C000C4B0B /* MainPage.swift in Sources */,
+				BA648F062615DCEB00972746 /* LogupModel.swift in Sources */,
+				BA67E85C2615ABB0006B11F1 /* DrawLine.swift in Sources */,
+				BA648EDA2615B6BD00972746 /* FirebaseService.swift in Sources */,
+				BA67E8502614A9EF006B11F1 /* LogupViewModel.swift in Sources */,
+				BA781DDD261230A5000C4B0B /* UIButton.swift in Sources */,
+				BA781DFF2612324F000C4B0B /* UpdateUnsigned.swift in Sources */,
+				BA781E0A2612337A000C4B0B /* MainTableView.swift in Sources */,
+				BA648F0D2615FA0600972746 /* Status.swift in Sources */,
+				BA0115772614932100E4799B /* LogMutualView.swift in Sources */,
+				BA648F032615CB6B00972746 /* LoginModel.swift in Sources */,
+				BA781DE92612314C000C4B0B /* MainPageViewModel,.swift in Sources */,
+				BA781E192612576D000C4B0B /* UIView.swift in Sources */,
+				BA781E1E26130DC4000C4B0B /* SorunsallarView.swift in Sources */,
+				BA781DE626123131000C4B0B /* MainPageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,6 +628,7 @@
 		};
 		BA781DC026122DC5000C4B0B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00229550F8EBC9348CE2000A /* Pods-EksiSozlukKlon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -302,6 +648,7 @@
 		};
 		BA781DC126122DC5000C4B0B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F89CC3FEECF3D0EC96C41F1 /* Pods-EksiSozlukKlon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
