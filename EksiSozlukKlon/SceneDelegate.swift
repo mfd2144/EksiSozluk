@@ -11,6 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     let firebaseService = FirebaseService()
+    var id:String?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -18,10 +19,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowsscene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowsscene.coordinateSpace.bounds)
         window?.windowScene = windowsscene
-        let tabBar = TabBar()
+        let tabBar =  TabBar()
         NotificationCenter.default.addObserver(self, selector: #selector(userDidChangeStatus(_ :)), name: .AuthStateDidChange, object: nil)
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
+
     }
 
 

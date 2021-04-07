@@ -20,7 +20,7 @@ enum Tabbar{
     
     var controller:UIViewController{
         switch self {
-        case .mainPage: return MainPage()
+        case .mainPage: return MainPageController()
         case .searchPage:return SearchView()
         case.messagePage: return  Auth.auth().currentUser != nil ? UIViewController() : MessageUnsigned()
         case.userControlPage:return  Auth.auth().currentUser != nil ? UIViewController() : UserControlUnsigned()

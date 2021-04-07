@@ -9,11 +9,14 @@ import UIKit
 import Firebase
 
 class FirebaseService:NSObject{
-     
+    
     let db = Firestore.firestore()
     let user = Auth.auth().currentUser
     lazy var userCollection = db.collection("User")
+    lazy var entryCollection = db.collection("Entry")
+    var listener :ListenerRegistration?
     var authStatus :((Status)->())?
+    var favoriteArray = [FavoriteStruct]()
     
     
     override init() {
@@ -25,40 +28,40 @@ class FirebaseService:NSObject{
         }
         
     }
- 
     
     
-    //MARK: -  Add new user and control it via sign in method
     
-    func createUser(user:UserStruct){
-        Auth.auth().createUser(withEmail: user.email, password: user.password) { authResult, error in
+    //MARK: -  User methods
+    
+    func createUser(userInfo:UserStruct){
+        Auth.auth().createUser(withEmail: userInfo.email, password: userInfo.password) { authResult, error in
             if let error = error {
                 print("Adding new user error\(error)")
             }else{
                 let changeRequest = authResult?.user.createProfileChangeRequest()
-                changeRequest?.displayName = user.nick
+                changeRequest?.displayName = userInfo.nick
                 changeRequest?.commitChanges(completion: { (error) in
                     if let _ = error {
-                        print("User couldn't been created \(error!.localizedDescription)")
+                        print("User couldn't be created \(error!.localizedDescription)")
                     }
-                    guard let id = authResult?.user.uid else {return}
-                    self.saveNewUsersInfo(user,id)
+                    guard let currentUser = authResult?.user else {return}
+                    self.saveNewUsersInfo(userInfo,currentUser)
                 })
             }
         }
     }
     
-    private func saveNewUsersInfo(_ user: UserStruct,_ id:String){
-        userCollection.addDocument(data: ["userNick" : user.nick,
-                                          "createDate": user.createDate,
-                                          "userBirthday": user.birtday,
-                                          "userGender":user.gender,
-                                          "userID" : id
-        
-        
+    private func saveNewUsersInfo(_ userInfo: UserStruct,_ currentUser:User){
+        userCollection.addDocument(data: [user_nick : userInfo.nick,
+                                          create_date: userInfo.createDate,
+                                          user_birthday: userInfo.birtday,
+                                          user_gender:userInfo.gender,
+                                          user_ID :currentUser.uid,
+                                          
+                                          
         ]){ error in
             guard let _ = error else {return}
-            print("User information couldn't been added \(error!.localizedDescription)")
+            print("User information couldn't be added \(error!.localizedDescription)")
         }
     }
     
@@ -82,10 +85,222 @@ class FirebaseService:NSObject{
         do {
             try Auth.auth().signOut()
         }catch{
-            print("lout error \(error.localizedDescription)")
+            print("logut error \(error.localizedDescription)")
             return
         }
         self.authStatus?(.logout)
     }
     
+}
+
+
+
+extension FirebaseService{
+    //MARK: - Entity processes
+    
+    
+    func addNewEntity(entry:EntryStruct){
+        
+        entryCollection.addDocument(data: [entry_text : entry.entryLabel,
+                                           comments_number:entry.comments,
+                                           user_ID:entry.userID,
+                                           create_date:entry.date
+        ]) { (error) in
+            if let _ = error{
+                print("entity could't be created  \(error!.localizedDescription)")
+            }
+        }
+    }
+    
+    func fetchEntities(handler:@escaping([EntryStruct],Error?)->()){
+        listener = entryCollection.order(by: create_date, descending: true)
+            .addSnapshotListener { (querySnapshot, error) in
+                var entities = [EntryStruct]()
+                if let error = error{
+                    handler(entities,error)
+                }else{
+                    guard let querySnapshotDocs = querySnapshot?.documents else { handler(entities,nil)
+                        return}
+                    
+                    for doc in querySnapshotDocs{
+                        
+                        let entity = EntryStruct.init(querySnapshot: doc,documentID: doc.documentID)
+                        entities.append(entity)
+                    }
+                    
+                    handler(entities,nil)
+                }
+            }
+    }
+    func stopListener(){
+        listener?.remove()
+    }
+    
+}
+
+
+extension FirebaseService{
+    //MARK: - Comment Processes
+    
+    func addNewComment(_ parentEntityID :String,comment:String){
+        
+        let selectedDocumentPath = entryCollection.document(parentEntityID)
+        
+        db.runTransaction {(transaction, errorPointer) -> Any? in
+            guard let user = self.user else {return nil}
+            var entryDocument:DocumentSnapshot!
+            do{
+                entryDocument = try transaction.getDocument(selectedDocumentPath)
+            }catch let error as NSError{
+                errorPointer?.pointee = error
+                return nil
+            }
+            
+            guard let oldValue = entryDocument.data()?[comments_number] as? Int else {return nil}
+            transaction.updateData([comments_number:oldValue+1], forDocument: selectedDocumentPath)
+            
+            let commentPath = selectedDocumentPath.collection("Comments")
+            let data:[String : Any] = [
+                comment_text:comment,
+                user_ID:user.uid,
+                user_nick:user.displayName ?? "" ,
+                create_date:FieldValue.serverTimestamp(),
+                entry_ID:parentEntityID,
+                likes_number:0,
+                favorites_number:0
+            ]
+            
+            transaction.setData(data, forDocument: commentPath.document())
+            
+            return nil
+        } completion: { (object, error) in
+            if let _ = error {
+                print("comment transaction completion error\(error!.localizedDescription)")
+            }
+        }
+        
+    }
+    
+    func fetchComments(documentID:String,handler:@escaping ([CommentStruct],Error?)->()){
+        listener = entryCollection.document(documentID).collection("Comments").addSnapshotListener({ (querySnapshot, error) in
+            var comments = [CommentStruct]()
+            if let error = error{
+                
+                handler(comments,error)
+            }else{
+                guard let querySnapshotDocs = querySnapshot?.documents else {return}
+                for doc in querySnapshotDocs{
+                    let id = doc.documentID
+                    let comment = CommentStruct(snapShot: doc, commentID: id)
+                    comments.append(comment)
+                }
+                handler(comments,nil)
+                
+            }
+            
+        })
+    }
+    
+}
+
+//MARK: - Comment Favorite
+extension FirebaseService{
+    
+    func fetchFavorite(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+        
+        let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
+        guard let userID = user?.uid else {return}
+        self.listener = commentRef
+            .collection("Favorites")
+            .whereField(user_ID, isEqualTo: userID)
+            .addSnapshotListener({ [self] (querySnapshot, error) in
+                if let error = error {
+                    completion(error)
+                }else{
+                    guard let querySnapShot = querySnapshot else { return }
+                    favoriteArray = FavoriteStruct.createFAvoriteArray(querySnapShot: querySnapShot)
+                    if favoriteArray.count > 0{
+                        //                        already added as favorite
+                        print("beğenildi")
+                        
+                    }else{
+                        //                    still empty
+                        print("silindi")
+                    }
+                    
+                }
+            })
+    }
+    
+    
+    func addorRemoveToFavorites(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+        guard let userID = user?.uid else {return}
+        let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
+        
+        db.runTransaction { [self] (transaction, errorPointer) -> Any? in
+            let commentDoc: DocumentSnapshot!
+            
+            do{
+                commentDoc =  try transaction.getDocument(commentRef)
+            }catch let error as NSError{
+                completion(error)
+                return nil
+            }
+            
+            //            we fetch how many user add it to favorite here
+            guard let oldValue = commentDoc.data()?[favorites_number] as? Int else {return nil}
+            
+            if favoriteArray.count > 0{
+                //  user already have added it to own favorite , user delete it from own list
+                
+                guard let favoriteID = favoriteArray.first?.favoriteID else { return nil}
+                let favoriteRef = commentRef.collection("Favorites").document(favoriteID)
+               
+                transaction.updateData([favorites_number:oldValue-1], forDocument: commentRef)
+                transaction.deleteDocument(favoriteRef)
+            }else{
+                //  user didn't add favorite before,it is first time
+                do{
+                    try transaction.getDocument(commentRef.collection("Favorites").addDocument(data: [
+                                                                                                user_ID : userID,
+                                                                                                comment_ID :commentDoc.documentID])
+                    )
+                    transaction.updateData([favorites_number:oldValue+1], forDocument: commentRef)
+                }catch{
+                    completion(error)
+                }
+                
+            }
+            return nil
+            
+            
+        } completion: { (object, error) in
+            if let error = error {
+                completion(error)
+            }
+            
+        }
+
+    }
+    
+}
+
+struct  FavoriteStruct {
+    let userID:String
+    let  commentID:String
+    let favoriteID:String
+    
+    init(data:QueryDocumentSnapshot,favoriteID:String) {
+        userID = data.data()[user_ID] as? String ?? ""
+        commentID = data.data()[comment_ID] as? String ?? ""
+        self.favoriteID = favoriteID
+    }
+   static func createFAvoriteArray(querySnapShot:QuerySnapshot)->[FavoriteStruct]{
+        var favorites = [FavoriteStruct]()
+        for doc in querySnapShot.documents{
+            let id = doc.documentID
+            favorites.append(FavoriteStruct.init(data: doc, favoriteID: id))
+        }
+        return favorites
+    }
 }

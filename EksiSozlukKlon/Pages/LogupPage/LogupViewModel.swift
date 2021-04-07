@@ -299,11 +299,8 @@ class LogupViewModel:LogMutualView{
     @objc func dateChanged(){
         userBirthdayField.text = datePicker.date.convertDateToString()
     }
-    
-
-    
+   
 }
-
 
 extension LogupViewModel:UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -322,13 +319,8 @@ extension LogupViewModel:UITextFieldDelegate{
         textField.endEditing(true)
 
     }
-    
-    
 
 }
-
-
-
 
 protocol  LogupViewModelDelegate {
     func  logupButtonClicked(_ user:UserStruct)

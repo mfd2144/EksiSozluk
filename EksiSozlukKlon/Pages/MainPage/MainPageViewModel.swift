@@ -15,7 +15,8 @@ class MainPageViewModel:BasicView{
     var start:CGFloat = 0
     var delegate:MainPageViewModelDelegate?
     var difference:CGFloat=0
-    var selectedSubView:((Collections)->())?
+    var parent:UIViewController?
+    var selectedSubView:((Collections)->())?//with this closure view communicate controller and learn which view add on scrool view
     
     
     lazy var scrollView:UIScrollView={
@@ -33,6 +34,9 @@ class MainPageViewModel:BasicView{
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
         addViewConstraints()
+        parentController = { [self] controller in
+            parent = controller
+        }
         
         //        swipe action on scroll view
         let pan = UIPanGestureRecognizer(target: self, action: #selector(scrollDidChange(_ :)))//add swipe gesture recognizer because page will change completely as its original source
@@ -40,6 +44,9 @@ class MainPageViewModel:BasicView{
         
         scrollView.addGestureRecognizer(pan)
         scrollView.isUserInteractionEnabled = true
+        
+        
+//        program add view which selected by user via collection view
         selectedSubView = { [self] collection in
             let newSubview = collection.view
             let screenWidth = UIScreen.main.bounds.width
@@ -47,7 +54,9 @@ class MainPageViewModel:BasicView{
             let size = CGSize(width: screenWidth, height: self.frame.height)
             newSubview.frame = CGRect(origin: point, size: size)
             self.scrollView.addSubview(newSubview)
-
+            guard let _ = parent else {return}
+            (newSubview as? BasicView)?.parentController?(parent!) //send parent controller 
+            
         }
     }
     
@@ -70,7 +79,7 @@ class MainPageViewModel:BasicView{
             difference = scrollView.contentOffset.x - start
             guard scrollView.contentOffset.x > UIScreen.main.bounds.width else {return}
         case.ended:
-            if difference > 0 {
+            if difference > 0{
                 delegate?.changePage(upOrDown: 1)
             }else{
                 delegate?.changePage(upOrDown: -1)
@@ -91,5 +100,6 @@ extension MainPageViewModel:UIGestureRecognizerDelegate{
 
 
 protocol MainPageViewModelDelegate{
+   
     func changePage(upOrDown:Int)
 }

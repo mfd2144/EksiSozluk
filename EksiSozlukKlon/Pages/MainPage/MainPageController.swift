@@ -7,8 +7,8 @@
 
 import UIKit
 
-class MainPage: UIViewController {
-    
+class MainPageController: UIViewController {
+    var id:String?
     
     let collectionView:UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .fractionalHeight(1))
@@ -39,9 +39,10 @@ class MainPage: UIViewController {
     let viewModel = MainPageViewModel()
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.selectedSubView?(Collections.init(value: pageControl.currentPage)!)
+            super.viewDidAppear(animated)
+            viewModel.selectedSubView?(Collections.init(value: pageControl.currentPage)!)
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +51,8 @@ class MainPage: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         viewModel.delegate = self
+        viewModel.parentController?(self)
+        
     }
     
     func addModelView(){
@@ -59,7 +62,7 @@ class MainPage: UIViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 60),
+            collectionView.heightAnchor.constraint(equalToConstant: 50),
             viewModel.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             viewModel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             viewModel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -67,12 +70,13 @@ class MainPage: UIViewController {
         ])
         
     }
+    
 }
 
 
+//MARK: - Set collection view
 
-
-extension MainPage:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension MainPageController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 9
     }
@@ -84,15 +88,10 @@ extension MainPage:UICollectionViewDelegate,UICollectionViewDataSource,UICollect
         cell.selectedCell?(pageControl.currentPage)
         return cell
     }
-    
-  
-    
 
 }
 
-
-
-extension MainPage:MainPageCellDelegate{
+extension MainPageController:MainPageCellDelegate{
   
     func cellPressed(name: String) {
         let cellNumber = (Collections.init(rawValue: name)?.value)!
@@ -114,8 +113,9 @@ extension MainPage:MainPageCellDelegate{
     
 }
 
-extension MainPage:MainPageViewModelDelegate{
+extension MainPageController:MainPageViewModelDelegate{
     func changePage(upOrDown: Int) {
+    
         let goToPage = pageControl.currentPage + upOrDown
         if goToPage >= 0 && goToPage < 9{
             pageControl.currentPage = goToPage
