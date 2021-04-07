@@ -56,7 +56,6 @@ class BugunModel:NSObject{
         }
         alert.addAction(enterAction)
         alert.addAction(cancelAction)
-        print("here")
         parent?.present(alert, animated: true, completion: nil)
     }
     

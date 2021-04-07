@@ -8,7 +8,6 @@
 import UIKit
 
 class SingleCommentMain: UITableViewCell {
-    
     var comment:CommentStruct?
     var delegate: CommentMainCellDelegate?
 
@@ -28,7 +27,7 @@ class SingleCommentMain: UITableViewCell {
     }()
     
     let favoriteView:UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "drop"))
+        let image = UIImageView()
         image.tintColor = .systemGray3
         return image
     }()
@@ -72,10 +71,7 @@ class SingleCommentMain: UITableViewCell {
         return image
     }()
     
-    func takeDelegate(delegate:CommentMainCellDelegate) {
-        self.delegate = delegate
-        
-    }
+   
     
     let userLabelStack:UIStackView = {
         let stack = UIStackView()
@@ -114,7 +110,7 @@ class SingleCommentMain: UITableViewCell {
         stack.distribution = .fill
         stack.spacing = 10
         stack.alignment = .trailing
-        stack.alignment = .center
+        stack.alignment = .fill
         stack.translatesAutoresizingMaskIntoConstraints = false
         return stack
     }()
@@ -145,6 +141,7 @@ class SingleCommentMain: UITableViewCell {
         setPersonStack()
         setCommentToCell()
         setViewGestures()
+     
         
     }
     
@@ -214,8 +211,14 @@ class SingleCommentMain: UITableViewCell {
         ])
     }
     
+    func sendInfos(_ delegate :CommentMainCellDelegate,_  favoriteCondition:Bool) {
+        self.delegate = delegate
+        favoriteView.image = favoriteCondition ? UIImage(systemName: "drop.fill") : UIImage(systemName: "drop")
+        
+    }
 
 }
+
 
 protocol CommentMainCellDelegate{
     func favoriteClicked()

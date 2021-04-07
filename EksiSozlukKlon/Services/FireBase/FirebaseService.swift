@@ -8,6 +8,10 @@
 import UIKit
 import Firebase
 
+protocol FireBaseCellDelegate {
+    func decideToFavoriteImage(_ fill:Bool)
+}
+
 class FirebaseService:NSObject{
     
     let db = Firestore.firestore()
@@ -17,6 +21,7 @@ class FirebaseService:NSObject{
     var listener :ListenerRegistration?
     var authStatus :((Status)->())?
     var favoriteArray = [FavoriteStruct]()
+    var cellDelegate:FireBaseCellDelegate?
     
     
     override init() {
@@ -207,34 +212,34 @@ extension FirebaseService{
 extension FirebaseService{
     
     func fetchFavorite(entryID:String,commentID:String, completion:@escaping (Error?)->()){
-        
         let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
         guard let userID = user?.uid else {return}
-        self.listener = commentRef
+        commentRef
             .collection("Favorites")
             .whereField(user_ID, isEqualTo: userID)
             .addSnapshotListener({ [self] (querySnapshot, error) in
+ 
                 if let error = error {
                     completion(error)
                 }else{
                     guard let querySnapShot = querySnapshot else { return }
                     favoriteArray = FavoriteStruct.createFAvoriteArray(querySnapShot: querySnapShot)
                     if favoriteArray.count > 0{
-                        //                        already added as favorite
-                        print("beğenildi")
-                        
+                        cellDelegate?.decideToFavoriteImage(true)
                     }else{
-                        //                    still empty
-                        print("silindi")
+                        cellDelegate?.decideToFavoriteImage(false)
                     }
-                    
+                
                 }
+                
             })
     }
     
     
     func addorRemoveToFavorites(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+   
         guard let userID = user?.uid else {return}
+ 
         let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
         
         db.runTransaction { [self] (transaction, errorPointer) -> Any? in
@@ -252,24 +257,25 @@ extension FirebaseService{
             
             if favoriteArray.count > 0{
                 //  user already have added it to own favorite , user delete it from own list
-                
+              
                 guard let favoriteID = favoriteArray.first?.favoriteID else { return nil}
                 let favoriteRef = commentRef.collection("Favorites").document(favoriteID)
                
                 transaction.updateData([favorites_number:oldValue-1], forDocument: commentRef)
                 transaction.deleteDocument(favoriteRef)
+                favoriteArray.removeAll()
             }else{
                 //  user didn't add favorite before,it is first time
-                do{
-                    try transaction.getDocument(commentRef.collection("Favorites").addDocument(data: [
-                                                                                                user_ID : userID,
-                                                                                                comment_ID :commentDoc.documentID])
-                    )
+               
+                let favoriteRef = commentRef.collection("Favorites").document()
+                transaction.setData([user_ID : userID,
+                                     comment_ID :commentDoc.documentID], forDocument: favoriteRef)
                     transaction.updateData([favorites_number:oldValue+1], forDocument: commentRef)
-                }catch{
-                    completion(error)
-                }
-                
+                    fetchFavorite(entryID: entryID, commentID: commentID) { (error) in
+                        if let error = error {
+                            completion(error)
+                        }
+                    }
             }
             return nil
             
@@ -285,22 +291,3 @@ extension FirebaseService{
     
 }
 
-struct  FavoriteStruct {
-    let userID:String
-    let  commentID:String
-    let favoriteID:String
-    
-    init(data:QueryDocumentSnapshot,favoriteID:String) {
-        userID = data.data()[user_ID] as? String ?? ""
-        commentID = data.data()[comment_ID] as? String ?? ""
-        self.favoriteID = favoriteID
-    }
-   static func createFAvoriteArray(querySnapShot:QuerySnapshot)->[FavoriteStruct]{
-        var favorites = [FavoriteStruct]()
-        for doc in querySnapShot.documents{
-            let id = doc.documentID
-            favorites.append(FavoriteStruct.init(data: doc, favoriteID: id))
-        }
-        return favorites
-    }
-}

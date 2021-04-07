@@ -61,6 +61,7 @@
 		BA82DE35261B2DCB0053DA4A /* CommentNavMenuTopComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE34261B2DCB0053DA4A /* CommentNavMenuTopComponent.swift */; };
 		BA82DE3E261B41A60053DA4A /* CommentsTableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */; };
 		BA82DE41261B41F50053DA4A /* CommentNavigationMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */; };
+		BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -122,6 +123,7 @@
 		BA82DE34261B2DCB0053DA4A /* CommentNavMenuTopComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentNavMenuTopComponent.swift; sourceTree = "<group>"; };
 		BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsTableModel.swift; sourceTree = "<group>"; };
 		BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentNavigationMenuView.swift; sourceTree = "<group>"; };
+		BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStruct.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 				BA67C6F52616F0D000A064C9 /* EntryStruct.swift */,
 				BA67C70726173CC800A064C9 /* CommentStruct.swift */,
 				BA648EDD2615C02B00972746 /* UserStruct.swift */,
+				BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */,
 				BA67C6F82616F79900A064C9 /* Constant.swift */,
 			);
 			path = "Structs&Constant";
@@ -592,6 +595,7 @@
 				BA781DD826123074000C4B0B /* Collections.swift in Sources */,
 				BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */,
 				BA781DE32612310C000C4B0B /* MainPageController.swift in Sources */,
+				BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */,
 				BA648F062615DCEB00972746 /* LogupModel.swift in Sources */,
 				BA67E85C2615ABB0006B11F1 /* DrawLine.swift in Sources */,
 				BA648EDA2615B6BD00972746 /* FirebaseService.swift in Sources */,

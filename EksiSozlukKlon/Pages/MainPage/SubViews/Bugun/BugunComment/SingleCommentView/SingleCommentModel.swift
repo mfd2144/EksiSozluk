@@ -12,13 +12,28 @@ import Firebase
 class SingleCommentModel:NSObject{
     
     let firebaseService=FirebaseService()
+    var comment:CommentStruct?{
+        didSet{
+            fetchFavorite()
+            print("çalıştı")
+        }
+    }
     
     override init() {
         super.init()
     }
     
-    func addorRemoveToFavorites(comment:CommentStruct){
-        
+   private func fetchFavorite(){
+        guard let comment = comment else {return}
+        firebaseService.fetchFavorite(entryID: comment.entryID, commentID: comment.commentID) { (error) in
+            if let error = error{
+                print("fetching favorite data error \(error) ")
+            }
+        }
+    }
+    
+    func addorRemoveToFavorites(){
+        guard let comment = comment else {return}
         firebaseService.addorRemoveToFavorites(entryID: comment.entryID, commentID: comment.commentID) { (error) in
             if let error = error{
                 print(error.localizedDescription)
