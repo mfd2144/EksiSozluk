@@ -37,10 +37,11 @@ class BugunModel:NSObject{
     func callCommentView(row:Int,entry:EntryStruct){
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
-        commentNavVC.modalTransitionStyle = .flipHorizontal
         commentNavVC.entry = entry
         (parent?.view.window?.windowScene?.delegate as? SceneDelegate)?.id = entry.documentID
-        parent?.present(commentNavVC, animated: true, completion: nil)
+        parent?.presentToRight(commentNavVC)
+        
+        
     }
     
     func addNewEntry(){

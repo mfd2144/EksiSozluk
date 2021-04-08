@@ -62,6 +62,8 @@
 		BA82DE3E261B41A60053DA4A /* CommentsTableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */; };
 		BA82DE41261B41F50053DA4A /* CommentNavigationMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */; };
 		BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */; };
+		BA85E8F6261DDA4200F9EC77 /* LikeStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */; };
+		BA85E8FA261DEDFD00F9EC77 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F9261DEDFD00F9EC77 /* UIViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +126,8 @@
 		BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsTableModel.swift; sourceTree = "<group>"; };
 		BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentNavigationMenuView.swift; sourceTree = "<group>"; };
 		BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStruct.swift; sourceTree = "<group>"; };
+		BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeStruct.swift; sourceTree = "<group>"; };
+		BA85E8F9261DEDFD00F9EC77 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,12 +198,12 @@
 			path = FireBase;
 			sourceTree = "<group>";
 		};
-		BA67C6E52616E8B600A064C9 /* TableCell */ = {
+		BA67C6E52616E8B600A064C9 /* BugunTableCell */ = {
 			isa = PBXGroup;
 			children = (
 				BA67C6E62616E8CC00A064C9 /* BugunViewCell.swift */,
 			);
-			path = TableCell;
+			path = BugunTableCell;
 			sourceTree = "<group>";
 		};
 		BA67C70A2617417000A064C9 /* BugunComment */ = {
@@ -230,6 +234,7 @@
 				BA67C70726173CC800A064C9 /* CommentStruct.swift */,
 				BA648EDD2615C02B00972746 /* UserStruct.swift */,
 				BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */,
+				BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */,
 				BA67C6F82616F79900A064C9 /* Constant.swift */,
 			);
 			path = "Structs&Constant";
@@ -339,6 +344,7 @@
 			isa = PBXGroup;
 			children = (
 				BA781DDC261230A5000C4B0B /* UIButton.swift */,
+				BA85E8F9261DEDFD00F9EC77 /* UIViewController.swift */,
 				BA648F092615E73C00972746 /* Date.swift */,
 			);
 			path = Extension;
@@ -411,7 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				BA67C70A2617417000A064C9 /* BugunComment */,
-				BA67C6E52616E8B600A064C9 /* TableCell */,
+				BA67C6E52616E8B600A064C9 /* BugunTableCell */,
 				BA781E0D26123CB0000C4B0B /* BugunView.swift */,
 				BA67C6FC2616F9E800A064C9 /* BugunModel.swift */,
 			);
@@ -595,6 +601,7 @@
 				BA781DD826123074000C4B0B /* Collections.swift in Sources */,
 				BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */,
 				BA781DE32612310C000C4B0B /* MainPageController.swift in Sources */,
+				BA85E8F6261DDA4200F9EC77 /* LikeStruct.swift in Sources */,
 				BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */,
 				BA648F062615DCEB00972746 /* LogupModel.swift in Sources */,
 				BA67E85C2615ABB0006B11F1 /* DrawLine.swift in Sources */,
@@ -612,6 +619,7 @@
 				BA0115772614932100E4799B /* LogMutualView.swift in Sources */,
 				BA648F032615CB6B00972746 /* LoginModel.swift in Sources */,
 				BA82DE35261B2DCB0053DA4A /* CommentNavMenuTopComponent.swift in Sources */,
+				BA85E8FA261DEDFD00F9EC77 /* UIViewController.swift in Sources */,
 				BA781DE92612314C000C4B0B /* MainPageViewModel.swift in Sources */,
 				BA781E192612576D000C4B0B /* BasicView.swift in Sources */,
 				BA67C6F62616F0D000A064C9 /* EntryStruct.swift in Sources */,

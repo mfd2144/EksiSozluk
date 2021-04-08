@@ -12,6 +12,7 @@ class SingleCommentViewController: UITableViewController {
     var comment:CommentStruct!
     let model = SingleCommentModel()
     var favoriteCondition = false
+    var likeCondition = false
     override func viewDidLoad() {
         super.viewDidLoad()
         model.comment = comment
@@ -30,10 +31,11 @@ class SingleCommentViewController: UITableViewController {
             
             cell.contentView.isUserInteractionEnabled = true
             cell.comment = self.comment
-            cell.sendInfos(self, favoriteCondition)
+            cell.sendInfos(self, favoriteCondition,likeCondition)
             return cell
         }else{
           guard  let cell = tableView.dequeueReusableCell(withIdentifier: "SingleCommentBottom", for: indexPath) as? SingleCommentBottom else {return UITableViewCell()}
+            cell.comment = comment
             return cell
             }
     }
@@ -51,6 +53,17 @@ class SingleCommentViewController: UITableViewController {
 }
 
 extension SingleCommentViewController:FireBaseCellDelegate{
+    func decideToLikeImage(_ fill: Bool) {
+        likeCondition = fill
+    }
+    
+    func listenSingleComment(_comment: CommentStruct) {
+        comment = _comment
+        tableView.reloadData()
+    }
+    
+
+    
     func decideToFavoriteImage(_ fill: Bool) {
         self.favoriteCondition = fill
         tableView.reloadData()
@@ -60,9 +73,30 @@ extension SingleCommentViewController:FireBaseCellDelegate{
 }
 
 extension SingleCommentViewController:CommentMainCellDelegate{
+    func shareClicked() {
+        
+        let ac = UIActivityViewController(activityItems: [comment.commentText], applicationActivities: nil)
+        present(ac, animated: true, completion: nil)
+    }
+    
+    func menuClicked() {
+        let alert = model.newAlertView()
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
+   
+    
+    func likeClicked() {
+        model.addorRemoveLikes()
+       
+    }
+    
     func favoriteClicked() {
         model.addorRemoveToFavorites()
     }
-    
+
     
 }
+
+

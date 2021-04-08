@@ -18,7 +18,7 @@ struct  FavoriteStruct {
         commentID = data.data()[comment_ID] as? String ?? ""
         self.favoriteID = favoriteID
     }
-    static func createFAvoriteArray(querySnapShot:QuerySnapshot)->[FavoriteStruct]{
+    static func createFavoriteArray(querySnapShot:QuerySnapshot)->[FavoriteStruct]{
         var favorites = [FavoriteStruct]()
         for doc in querySnapShot.documents{
             let id = doc.documentID

@@ -10,6 +10,8 @@ import Firebase
 
 protocol FireBaseCellDelegate {
     func decideToFavoriteImage(_ fill:Bool)
+    func decideToLikeImage(_ fill:Bool)
+    func listenSingleComment(_comment:CommentStruct)
 }
 
 class FirebaseService:NSObject{
@@ -21,6 +23,7 @@ class FirebaseService:NSObject{
     var listener :ListenerRegistration?
     var authStatus :((Status)->())?
     var favoriteArray = [FavoriteStruct]()
+    var likeArray = [LikeStruct]()
     var cellDelegate:FireBaseCellDelegate?
     
     
@@ -205,35 +208,54 @@ extension FirebaseService{
             
         })
     }
+    func fetchSingleCommentNumber(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+
+        let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
+        commentRef.addSnapshotListener({ [self] (querySnapshot, error) in
+
+                if let error = error {
+                    completion(error)
+                }else{
+                    guard let commentQuery = querySnapshot else {return}
+                   let comment = CommentStruct.init(snapShot: commentQuery, commentID: commentQuery.documentID)
+                    cellDelegate?.listenSingleComment(_comment: comment)
+                    
+                }
+
+            })
+    }
     
 }
 
 //MARK: - Comment Favorite
 extension FirebaseService{
     
-    func fetchFavorite(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+    func fetchFavoriteCondition(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+       
         let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
         guard let userID = user?.uid else {return}
         commentRef
             .collection("Favorites")
             .whereField(user_ID, isEqualTo: userID)
             .addSnapshotListener({ [self] (querySnapshot, error) in
- 
+
                 if let error = error {
                     completion(error)
                 }else{
                     guard let querySnapShot = querySnapshot else { return }
-                    favoriteArray = FavoriteStruct.createFAvoriteArray(querySnapShot: querySnapShot)
+                    favoriteArray = FavoriteStruct.createFavoriteArray(querySnapShot: querySnapShot)
                     if favoriteArray.count > 0{
                         cellDelegate?.decideToFavoriteImage(true)
                     }else{
                         cellDelegate?.decideToFavoriteImage(false)
                     }
-                
+
                 }
-                
+
             })
     }
+    
+   
     
     
     func addorRemoveToFavorites(entryID:String,commentID:String, completion:@escaping (Error?)->()){
@@ -271,11 +293,6 @@ extension FirebaseService{
                 transaction.setData([user_ID : userID,
                                      comment_ID :commentDoc.documentID], forDocument: favoriteRef)
                     transaction.updateData([favorites_number:oldValue+1], forDocument: commentRef)
-                    fetchFavorite(entryID: entryID, commentID: commentID) { (error) in
-                        if let error = error {
-                            completion(error)
-                        }
-                    }
             }
             return nil
             
@@ -287,6 +304,82 @@ extension FirebaseService{
             
         }
 
+    }
+
+    
+    
+    func addorRemoveFromLike(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+   
+        guard let userID = user?.uid else {return}
+ 
+        let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
+        
+        db.runTransaction { [self] (transaction, errorPointer) -> Any? in
+            let commentDoc: DocumentSnapshot!
+            
+            do{
+                commentDoc =  try transaction.getDocument(commentRef)
+            }catch let error as NSError{
+                completion(error)
+                return nil
+            }
+            
+            //            we fetch how many user add it to favorite here
+            guard let oldValue = commentDoc.data()?[likes_number] as? Int else {return nil}
+            
+            if likeArray.count > 0{
+                //  user already have pushed like button , user delete it from own list
+              
+                guard let likeID = likeArray.first?.LikeID else { return nil}
+                let likeRef = commentRef.collection("Likes").document(likeID)
+               
+                transaction.updateData([likes_number:oldValue-1], forDocument: commentRef)
+                transaction.deleteDocument(likeRef)
+                likeArray.removeAll()
+            }else{
+                //  user didn't push like before,it is first time
+               
+                let likeRef = commentRef.collection("Likes").document()
+                transaction.setData([user_ID : userID,
+                                     comment_ID :commentDoc.documentID], forDocument: likeRef)
+                    transaction.updateData([likes_number:oldValue+1], forDocument: commentRef)
+                    
+                    
+            }
+            return nil
+            
+            
+        } completion: { (object, error) in
+            if let error = error {
+                completion(error)
+            }
+            
+        }
+
+    }
+    func fetchlikeCondition(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+       
+        let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
+        guard let userID = user?.uid else {return}
+        commentRef
+            .collection("Likes")
+            .whereField(user_ID, isEqualTo: userID)
+            .addSnapshotListener({ [self] (querySnapshot, error) in
+
+                if let error = error {
+                    completion(error)
+                }else{
+                    guard let querySnapShot = querySnapshot else { return }
+                    likeArray = LikeStruct.createLikeArray(querySnapShot: querySnapShot)
+                    if likeArray.count > 0{
+                        cellDelegate?.decideToLikeImage(true)
+                    }else{
+                        cellDelegate?.decideToLikeImage(false)
+                    }
+
+                }
+
+            })
     }
     
 }

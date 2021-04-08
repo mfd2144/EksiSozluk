@@ -20,8 +20,7 @@ class SingleCommentMain: UITableViewCell {
     }()
     
     let likeView:UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "chevron.up.square"))
-        image.tintColor = .systemGray3
+        let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -149,12 +148,41 @@ class SingleCommentMain: UITableViewCell {
         let tapFavorite = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
         favoriteView.isUserInteractionEnabled = true
         favoriteView.addGestureRecognizer(tapFavorite)
+        
+        let taplike = UITapGestureRecognizer(target: self, action: #selector(likeTapped))
+        likeView.isUserInteractionEnabled = true
+        likeView.addGestureRecognizer(taplike)
+        
+        
+        let tapshare = UITapGestureRecognizer(target: self, action: #selector(shareTapped))
+        shareView.isUserInteractionEnabled = true
+        shareView.addGestureRecognizer(tapshare)
+        
+        let tapMenu = UITapGestureRecognizer(target: self, action: #selector(menuTapped))
+        menuView.isUserInteractionEnabled = true
+        menuView.addGestureRecognizer(tapMenu)
+        
+        
     }
     @objc private func favoriteTapped(){
         delegate?.favoriteClicked()
+    }
+    @objc private func likeTapped(){
+        delegate?.likeClicked()
+        
+    }
+    @objc private func menuTapped(){
+        delegate?.menuClicked()
         
     }
     
+    @objc private func shareTapped(){
+          
+        delegate?.shareClicked()
+
+        
+        
+    }
     
     private func addcommentText(){
         self.contentView.addSubview(commentText)
@@ -203,17 +231,24 @@ class SingleCommentMain: UITableViewCell {
         self.contentView.addSubview(buttonMainStack)
         
         NSLayoutConstraint.activate([
-            likeView.heightAnchor.constraint(equalToConstant: 15),
-            likeView.widthAnchor.constraint(equalToConstant: 15),
+            likeView.heightAnchor.constraint(equalToConstant: 25 ),
+            likeView.widthAnchor.constraint(equalToConstant: 25),
             buttonMainStack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
             buttonMainStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             buttonMainStack.topAnchor.constraint(equalTo: commentText.bottomAnchor,constant: 10)
         ])
     }
     
-    func sendInfos(_ delegate :CommentMainCellDelegate,_  favoriteCondition:Bool) {
+    func sendInfos(_ delegate :CommentMainCellDelegate,_  favoriteCondition:Bool,_ likeCondition:Bool) {
         self.delegate = delegate
         favoriteView.image = favoriteCondition ? UIImage(systemName: "drop.fill") : UIImage(systemName: "drop")
+        if likeCondition{
+            likeView.image = UIImage(systemName: "chevron.up.square.fill")
+            likeView.tintColor = .green
+        }else{
+            likeView.image = UIImage(systemName: "chevron.up.square")
+            likeView.tintColor = .systemGray3
+        }
         
     }
 
@@ -222,4 +257,7 @@ class SingleCommentMain: UITableViewCell {
 
 protocol CommentMainCellDelegate{
     func favoriteClicked()
+    func likeClicked()
+    func shareClicked()
+    func menuClicked()
 }

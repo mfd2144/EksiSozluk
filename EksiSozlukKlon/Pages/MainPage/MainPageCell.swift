@@ -39,7 +39,7 @@ class MainPageCell: UICollectionViewCell {
         addViews()
         selectedCell = { [self] (cellNumber) in
             if cellNumber == Collections.init(rawValue: label.text!)!.value{
-                label.textColor = .black
+                label.textColor = .none
                 selectedCellLine.isHidden = false
             }else{
                 label.textColor = .systemGray2

@@ -36,6 +36,8 @@ class LoginViewModel:LogMutualView{
     let userEmailField :UITextField = {
         let field = UITextField()
         field.text = "e-mail"
+        field.keyboardType = .emailAddress
+        field.textContentType = .emailAddress
         field.layer.borderWidth = 0
         return field
     }()
