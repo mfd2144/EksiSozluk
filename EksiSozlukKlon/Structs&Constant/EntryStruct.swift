@@ -14,14 +14,16 @@ struct  EntryStruct {
     let comments:Int
     let userID:String
     let documentID:String
+    let category: String
 
     
-    init(entryLabel:String,comments:Int,userID:String) {
+    init(entryLabel:String,comments:Int,userID:String,category:String) {
         self.comments = comments
         self.userID = userID
         self.entryLabel = entryLabel
         date = FieldValue.serverTimestamp()
         documentID = ""
+        self.category = category
     }
     
     init(querySnapshot:DocumentSnapshot,documentID:String) {
@@ -30,5 +32,8 @@ struct  EntryStruct {
         comments = querySnapshot[comments_number] as? Int ?? 0
         userID = querySnapshot[user_ID] as? String ?? "misafir"
         self.documentID = documentID
+        self.category = querySnapshot[categoryString] as? String ?? "diğer"
     }
 }
+
+

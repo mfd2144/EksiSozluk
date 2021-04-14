@@ -8,6 +8,7 @@
 import UIKit
 
 class CommentNavTopComponent:UIView{
+    var delegate :CommentTopNavDelegate?
     
     let label:UILabel = {
         let label = UILabel()
@@ -25,31 +26,36 @@ class CommentNavTopComponent:UIView{
     }()
     lazy var searchButton:UIButton = {
       let button = setButton("magnifyingglass")
+        button.addTarget(self, action: #selector(searchButtonPushed), for: .touchUpInside)
         return button
     }()
     
     lazy var shareButton:UIButton = {
         let button = setButton("square.and.arrow.up")
+        button.addTarget(self, action: #selector(shareEntityPushed), for: .touchUpInside)
           return button
     }()
     
-    lazy var addFavoriteButton:UIButton = {
+    lazy var followButton:UIButton = {
         let button = setButton("bell")
+        button.addTarget(self, action: #selector(followPushed), for: .touchUpInside)
           return button
     }()
     
-    lazy var sukelaButton:UIButton = {
-        let button = setButton("slider.vertical.3")
+    lazy var mostLikedButton:UIButton = {
+        let button = setButton("heart")
+        button.addTarget(self, action: #selector(showMostLikedPushed), for: .touchUpInside)
           return button
      }()
     
-    lazy var searcInCommnetButton:UIButton = {
-        let button = setButton("heart")
+    lazy var searcInEntryButton:UIButton = {
+        let button = setButton("slider.vertical.3")
+        button.addTarget(self, action: #selector(searhInEntryPushed), for: .touchUpInside)
           return button
      }()
 
     lazy var imageStack:UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [sukelaButton,searcInCommnetButton,addFavoriteButton,shareButton,searchButton])
+        let stack = UIStackView(arrangedSubviews: [mostLikedButton,searcInEntryButton,followButton,shareButton,searchButton])
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .trailing
@@ -94,7 +100,44 @@ class CommentNavTopComponent:UIView{
         button.backgroundColor = .systemBackground
         return button
     }
+    
+    
+    @objc func searchButtonPushed(){
+        
+        delegate?.searchClicked()
+        
+    }
+    @objc func shareEntityPushed(){
+        
+        delegate?.shareEntityClicked()
+        
+    }
+    @objc func followPushed(){
+        
+        delegate?.followClicked()
+        
+    }
+    @objc func searhInEntryPushed(){
+        
+        delegate?.searhInEntryClicked()
+        
+    }
+    @objc func showMostLikedPushed(){
+        
+        delegate?.showMostLikedClicked()
+        
+    }
+    
+    
     func otherSettings(){
         
     }
+}
+
+protocol CommentTopNavDelegate{
+    func searchClicked()
+    func shareEntityClicked()
+    func followClicked()
+    func searhInEntryClicked()
+    func showMostLikedClicked()
 }

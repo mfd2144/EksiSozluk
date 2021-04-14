@@ -31,7 +31,7 @@ class BugunView:MainTableView{
         super.startingOptions()
        
         
-        tableView.register(BugunViewCell.self, forCellReuseIdentifier: "CellBugun")
+        tableView.register(CommentViewCell.self, forCellReuseIdentifier: "CellBugun")
         setAddButton()
         
         // inherit this method from basic view
@@ -72,7 +72,7 @@ class BugunView:MainTableView{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: "CellBugun", for: indexPath) as? BugunViewCell else {return UITableViewCell()}
+                .dequeueReusableCell(withIdentifier: "CellBugun", for: indexPath) as? CommentViewCell else {return UITableViewCell()}
         
         guard let entry = entries?[indexPath.row] else {return cell}
         cell.setCellValues(text: entry.entryLabel, number: entry.comments)

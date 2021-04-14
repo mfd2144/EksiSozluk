@@ -9,14 +9,15 @@ import UIKit
 
 class SingleCommentViewController: UITableViewController {
     
+    var cellModel: CommentCellBottomModel?
     var comment:CommentStruct!
-    let model = SingleCommentModel()
     var favoriteCondition = false
     var likeCondition = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        model.comment = comment
         setTableView()
+        cellModel = CommentCellBottomModel(self, comment: comment)
+        cellModel?.delegate = self
     }
 
    
@@ -28,10 +29,9 @@ class SingleCommentViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0{
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "SingleCommentMain", for: indexPath) as? SingleCommentMain else {return UITableViewCell()}
-            
             cell.contentView.isUserInteractionEnabled = true
-            cell.comment = self.comment
-            cell.sendInfos(self, favoriteCondition,likeCondition)
+            cell.fetchInfos(comment:comment , favoriteCondition,likeCondition)
+            cell.fetchDelegate(delegate: self)
             return cell
         }else{
           guard  let cell = tableView.dequeueReusableCell(withIdentifier: "SingleCommentBottom", for: indexPath) as? SingleCommentBottom else {return UITableViewCell()}
@@ -47,56 +47,43 @@ class SingleCommentViewController: UITableViewController {
         tableView.allowsSelection = false
         tableView.isUserInteractionEnabled = true
         tableView.separatorStyle = .none
-    model.firebaseService.cellDelegate = self
     }
    
 }
 
-extension SingleCommentViewController:FireBaseCellDelegate{
-    func decideToLikeImage(_ fill: Bool) {
-        likeCondition = fill
-    }
-    
-    func listenSingleComment(_comment: CommentStruct) {
-        comment = _comment
-        tableView.reloadData()
-    }
-    
-
-    
-    func decideToFavoriteImage(_ fill: Bool) {
-        self.favoriteCondition = fill
-        tableView.reloadData()
-    }
-    
-    
-}
 
 extension SingleCommentViewController:CommentMainCellDelegate{
     func shareClicked() {
-        
-        let ac = UIActivityViewController(activityItems: [comment.commentText], applicationActivities: nil)
-        present(ac, animated: true, completion: nil)
+        cellModel?.shareClicked()
     }
     
     func menuClicked() {
-        let alert = model.newAlertView()
-        present(alert, animated: true, completion: nil)
+        cellModel?.menuClicked()
         
     }
     
    
     
     func likeClicked() {
-        model.addorRemoveLikes()
+        cellModel?.likeClicked()
        
     }
     
     func favoriteClicked() {
-        model.addorRemoveToFavorites()
+        cellModel?.favoriteClicked()
     }
 
     
 }
 
+
+extension SingleCommentViewController:CommentCellBottomModelDelegate{
+    func sendInfos(_ likeCondition: Bool, _ favoriteCondition: Bool, comment: CommentStruct) {
+        self.likeCondition = likeCondition
+        self.favoriteCondition = favoriteCondition
+        self.comment = comment
+        tableView.reloadData()
+    }
+
+}
 

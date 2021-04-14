@@ -7,250 +7,37 @@
 
 import UIKit
 
-class SingleCommentMain: UITableViewCell {
-    var comment:CommentStruct?
+class SingleCommentMain:CommentCellBottom  {
     var delegate: CommentMainCellDelegate?
-
-    let commentText:UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .justified
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    let likeView:UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-    let favoriteView:UIImageView = {
-        let image = UIImageView()
-        image.tintColor = .systemGray3
-        return image
-    }()
-    
-    let shareView:UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "square.and.arrow.up"))
-        image.tintColor = .systemGray3
-        return image
-    }()
-    
-    let menuView:UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "ellipsis.rectangle"))
-        image.tintColor = .systemGray3
-        return image
-    }()
-    
-    let entityTime:UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGray3
-        label.textAlignment = .left
-        return label
-    }()
-    
-    let favoriteLabel:UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGray3
-        label.textAlignment = .center
-        return label
-    }()
-    let userName:UILabel = {
-        let label = UILabel()
-        label.textColor = .systemGreen
-        label.textAlignment = .left
-        return label
-    }()
-    
-    let avatarPhoto:UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "person.circle"))
-        image.tintColor = .systemGray
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
-    
-   
-    
-    let userLabelStack:UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.distribution = .fill
-        stack.spacing = 0
-        stack.alignment = .trailing
-        
-        return stack
-    }()
-    
-    let userStack:UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.spacing = 0
-        stack.alignment = .trailing
-        stack.alignment = .center
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    let buttonStackLeft:UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.spacing = 10
-        stack.alignment = .leading
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    let buttonStackRight:UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .fill
-        stack.spacing = 10
-        stack.alignment = .trailing
-        stack.alignment = .fill
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    let buttonMainStack :UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.distribution = .equalSpacing
-        stack.alignment = .fill
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    
-    
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-       
-    }
  
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        addcommentText()
-        setButtonStacks()
-        setPersonStack()
-        setCommentToCell()
-        setViewGestures()
-     
-        
+        NSLayoutConstraint.activate([mainView.topAnchor.constraint(equalTo: topAnchor),
+                                     mainView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                                     mainView.leadingAnchor.constraint(equalTo: leadingAnchor),
+                                     mainView.trailingAnchor.constraint(equalTo: trailingAnchor)])
     }
-    
-    private func setViewGestures(){
-        let tapFavorite = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
-        favoriteView.isUserInteractionEnabled = true
-        favoriteView.addGestureRecognizer(tapFavorite)
-        
-        let taplike = UITapGestureRecognizer(target: self, action: #selector(likeTapped))
-        likeView.isUserInteractionEnabled = true
-        likeView.addGestureRecognizer(taplike)
-        
-        
-        let tapshare = UITapGestureRecognizer(target: self, action: #selector(shareTapped))
-        shareView.isUserInteractionEnabled = true
-        shareView.addGestureRecognizer(tapshare)
-        
-        let tapMenu = UITapGestureRecognizer(target: self, action: #selector(menuTapped))
-        menuView.isUserInteractionEnabled = true
-        menuView.addGestureRecognizer(tapMenu)
-        
-        
-    }
-    @objc private func favoriteTapped(){
+    override func favoriteTapped() {
         delegate?.favoriteClicked()
     }
-    @objc private func likeTapped(){
+    
+    override func likeTapped() {
         delegate?.likeClicked()
-        
     }
-    @objc private func menuTapped(){
-        delegate?.menuClicked()
-        
-    }
-    
-    @objc private func shareTapped(){
-          
+   
+    override func shareTapped() {
         delegate?.shareClicked()
-
-        
-        
     }
     
-    private func addcommentText(){
-        self.contentView.addSubview(commentText)
-        NSLayoutConstraint.activate([
-                                        commentText.topAnchor.constraint(equalTo: contentView.topAnchor,constant: 10),
-            commentText.widthAnchor.constraint(equalTo:contentView.widthAnchor, multiplier: 0.90),
-                                        commentText.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
+    override func menuTapped() {
+        delegate?.menuClicked()
     }
     
-    private func setPersonStack(){
-        userLabelStack.addArrangedSubview(userName)
-        userLabelStack.addArrangedSubview(entityTime)
-        userStack.addArrangedSubview(userLabelStack)
-        userStack.addArrangedSubview(avatarPhoto)
-        self.contentView.addSubview(userStack)
-        
-        NSLayoutConstraint.activate([
-            avatarPhoto.widthAnchor.constraint(equalToConstant: 60),
-            avatarPhoto.heightAnchor.constraint(equalToConstant: 60),
-            userStack.topAnchor.constraint(equalTo: buttonMainStack.bottomAnchor, constant: 10),
-            userStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -20),
-            userStack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.90),
-            userStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
-        ])
-    }
-    
-    private func setCommentToCell(){
-        guard let comment = comment else { return }
-        commentText.text = comment.commentText
-        entityTime.text = comment.createDate.convertDateToString()
-        userName.text = comment.userNick
-        favoriteLabel.text = String(comment.favories)
-        
-      
-    }
-    
-    private func setButtonStacks(){
-        buttonStackLeft.addArrangedSubview(likeView)
-        buttonStackLeft.addArrangedSubview(favoriteView)
-        buttonStackLeft.addArrangedSubview(favoriteLabel)
-        buttonStackRight.addArrangedSubview(shareView)
-        buttonStackRight.addArrangedSubview(menuView)
-        buttonMainStack.addArrangedSubview(buttonStackLeft)
-        buttonMainStack.addArrangedSubview(buttonStackRight)
-        self.contentView.addSubview(buttonMainStack)
-        
-        NSLayoutConstraint.activate([
-            likeView.heightAnchor.constraint(equalToConstant: 25 ),
-            likeView.widthAnchor.constraint(equalToConstant: 25),
-            buttonMainStack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9),
-            buttonMainStack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            buttonMainStack.topAnchor.constraint(equalTo: commentText.bottomAnchor,constant: 10)
-        ])
-    }
-    
-    func sendInfos(_ delegate :CommentMainCellDelegate,_  favoriteCondition:Bool,_ likeCondition:Bool) {
+    func fetchDelegate(delegate:CommentMainCellDelegate){
         self.delegate = delegate
-        favoriteView.image = favoriteCondition ? UIImage(systemName: "drop.fill") : UIImage(systemName: "drop")
-        if likeCondition{
-            likeView.image = UIImage(systemName: "chevron.up.square.fill")
-            likeView.tintColor = .green
-        }else{
-            likeView.image = UIImage(systemName: "chevron.up.square")
-            likeView.tintColor = .systemGray3
-        }
-        
     }
+   
 
 }
 
@@ -261,3 +48,11 @@ protocol CommentMainCellDelegate{
     func shareClicked()
     func menuClicked()
 }
+
+
+
+
+
+
+
+

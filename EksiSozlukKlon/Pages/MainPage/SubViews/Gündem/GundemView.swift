@@ -11,6 +11,9 @@ import UIKit
 
 class GundemView:BasicView{
     let tableView = MainTableView()
+    let model = GundemModel()
+    var entries: [EntryStruct]?
+    
     
     let settingView: UIView = {
         let view = UIView()
@@ -42,18 +45,32 @@ class GundemView:BasicView{
         ])
  
         view.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(filterButtonClicked), for: .touchUpInside)
         return view
     }()
+    
+ 
+    
  
 
     override func startingOptions() {
         super.startingOptions()
         addViews()
         setConstraits()
-       
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
-        tableView.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.tableView.register(CommentViewCell.self, forCellReuseIdentifier: "GundemCell")
+        
+        parentController = { controller in
+            self.model.parent = controller as? MainPageController
+        }
+        
+        
+        model.entries = { entries in
+            self.entries = entries
+            self.tableView.tableView.reloadData()
+        }
+        
     }
     
     func addViews(){
@@ -73,18 +90,35 @@ class GundemView:BasicView{
             tableView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
     }
+    
+    @objc private func filterButtonClicked(_ sender:UIButton){
+        model.showAlert()
+ 
+        
+        
+    }
 }
+
+
 extension GundemView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return entries?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-     
-        cell.textLabel!.text = "başka"
+        guard let cell = tableView
+                .dequeueReusableCell(withIdentifier: "GundemCell", for: indexPath) as? CommentViewCell else {return UITableViewCell()}
+        
+        guard let entry = entries?[indexPath.row] else {return cell}
+        cell.setCellValues(text: entry.entryLabel, number: entry.comments)
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let entry = entries?[indexPath.row] else {return}
+        model.callCommentView(row: indexPath.row, entry: entry)
+       
+    }
+    
+ 
 
 }
-

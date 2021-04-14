@@ -16,9 +16,9 @@ class CommentsTableModel: NSObject {
         super.init()
     }
     
-    func fetchComments(documentID:String){
-       
-        firebaseService.fetchComments(documentID:documentID) { [self] (_comments, error) in
+    func fetchComments(documentID:String?){
+        guard let id = documentID else {return}
+        firebaseService.fetchComments(documentID:id) { [self] (_comments, error) in
             if let _ = error {
                 print("Fetching comments error \(error!.localizedDescription)")
             }else{
@@ -28,5 +28,33 @@ class CommentsTableModel: NSObject {
         
     }
     
+    func newAlert()->UIAlertController{
+        
+        let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let actionFollowed = UIAlertAction(title: "takip ettiklerim", style: .default) { (actionSendMes) in
+            print("takip ettiklerim")
+        }
+        let actionMyComment = UIAlertAction(title: "benimkiler", style: .default) { (actionBlock) in
+            print("benimkiler")
+        }
+                let actionCancel = UIAlertAction(title: "vazgeç", style: .cancel)
+        alertView.addAction(actionFollowed)
+        alertView.addAction(actionMyComment)
+        alertView.addAction(actionCancel)
+        
+        return alertView
+    }
+    
+    func searchKeyWord(_ documentID:String?, _ keyWord: String){
+        guard let id = documentID else {return}
+        firebaseService.fetchComments(documentID: id, keyWord: keyWord) { [self] (_comments, error) in
+            if let _ = error {
+                print("Fetching comments error \(error!.localizedDescription)")
+            }else{
+                comments?(_comments)
+            }
+    }
+    
    
+}
 }

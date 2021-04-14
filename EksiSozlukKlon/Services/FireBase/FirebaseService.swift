@@ -112,7 +112,8 @@ extension FirebaseService{
         entryCollection.addDocument(data: [entry_text : entry.entryLabel,
                                            comments_number:entry.comments,
                                            user_ID:entry.userID,
-                                           create_date:entry.date
+                                           create_date:entry.date,
+                                           categoryString:entry.category
         ]) { (error) in
             if let _ = error{
                 print("entity could't be created  \(error!.localizedDescription)")
@@ -120,9 +121,18 @@ extension FirebaseService{
         }
     }
     
-    func fetchEntities(handler:@escaping([EntryStruct],Error?)->()){
-        listener = entryCollection.order(by: create_date, descending: true)
-            .addSnapshotListener { (querySnapshot, error) in
+    func fetchEntities(yesterday:Bool? = nil,today:Bool? = nil,handler:@escaping([EntryStruct],Error?)->()){
+        var query:Query?
+        
+        if yesterday != nil && yesterday! {
+            query = entryCollection.order(by: create_date, descending: true).newYesterdayWhereQuery()
+        }else if today != nil && today!{
+            query = entryCollection.order(by: create_date, descending: true).newTodayWhereQuery()
+        }else {
+            query = entryCollection.order(by: create_date, descending: true)
+        }
+
+        listener = query!.addSnapshotListener { (querySnapshot, error) in
                 var entities = [EntryStruct]()
                 if let error = error{
                     handler(entities,error)
@@ -144,6 +154,40 @@ extension FirebaseService{
         listener?.remove()
     }
     
+
+
+    func fetchEntitiesAccordingToSettings(handler:@escaping([EntryStruct],Error?)->()){
+        let settings = GundemSettings.fetchStartingSettings()
+        var searchKeys = [String]()
+        let _ = settings.map{
+            if $0.value == true {
+                searchKeys.append($0.key)}
+        }
+        searchKeys.append("diğer")
+    
+
+        listener = entryCollection
+            .order(by: create_date, descending: true)
+            .whereField(categoryString, in: searchKeys)
+            .addSnapshotListener { (querySnapshot, error) in
+            var entities = [EntryStruct]()
+            if let error = error{
+                handler(entities,error)
+            }else{
+                guard let querySnapshotDocs = querySnapshot?.documents else { handler(entities,nil)
+                    return}
+                
+                for doc in querySnapshotDocs{
+                    let entity = EntryStruct.init(querySnapshot: doc,documentID: doc.documentID)
+                    entities.append(entity)
+                }
+                
+                handler(entities,nil)
+            }
+        }
+}
+
+
 }
 
 
@@ -188,9 +232,18 @@ extension FirebaseService{
         }
         
     }
-    
-    func fetchComments(documentID:String,handler:@escaping ([CommentStruct],Error?)->()){
-        listener = entryCollection.document(documentID).collection("Comments").addSnapshotListener({ (querySnapshot, error) in
+
+    func fetchComments(documentID:String,keyWord:String? = nil,handler:@escaping ([CommentStruct],Error?)->()){
+        
+        let query:Query?
+        
+        if keyWord != nil {
+            query = entryCollection.document(documentID).collection("Comments").whereField(comment_text,in:[ keyWord!])
+        }else{
+            query = entryCollection.document(documentID).collection("Comments").order(by: create_date, descending: false)
+        }
+        
+        listener = query!.addSnapshotListener({ (querySnapshot, error) in
             var comments = [CommentStruct]()
             if let error = error{
                 
@@ -200,6 +253,7 @@ extension FirebaseService{
                 for doc in querySnapshotDocs{
                     let id = doc.documentID
                     let comment = CommentStruct(snapShot: doc, commentID: id)
+                   
                     comments.append(comment)
                 }
                 handler(comments,nil)
@@ -208,10 +262,11 @@ extension FirebaseService{
             
         })
     }
-    func fetchSingleCommentNumber(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+    
+    func fetchCommentListener(entryID:String,commentID:String, completion:@escaping (Error?)->()){
 
         let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
-        commentRef.addSnapshotListener({ [self] (querySnapshot, error) in
+       commentRef.addSnapshotListener({ [self] (querySnapshot, error) in
 
                 if let error = error {
                     completion(error)
@@ -244,6 +299,7 @@ extension FirebaseService{
                 }else{
                     guard let querySnapShot = querySnapshot else { return }
                     favoriteArray = FavoriteStruct.createFavoriteArray(querySnapShot: querySnapShot)
+            
                     if favoriteArray.count > 0{
                         cellDelegate?.decideToFavoriteImage(true)
                     }else{
@@ -309,14 +365,14 @@ extension FirebaseService{
     
     
     func addorRemoveFromLike(entryID:String,commentID:String, completion:@escaping (Error?)->()){
-   
+     
         guard let userID = user?.uid else {return}
  
         let commentRef = entryCollection.document(entryID).collection("Comments").document(commentID)
         
         db.runTransaction { [self] (transaction, errorPointer) -> Any? in
             let commentDoc: DocumentSnapshot!
-            
+    
             do{
                 commentDoc =  try transaction.getDocument(commentRef)
             }catch let error as NSError{

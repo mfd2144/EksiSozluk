@@ -1,0 +1,6 @@
+framework module Pods_EksiSozlukKlon {
+  umbrella header "Pods-EksiSozlukKlon-umbrella.h"
+
+  export *
+  module * { export * }
+}

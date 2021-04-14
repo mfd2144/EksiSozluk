@@ -15,7 +15,7 @@ extension UIViewController{
         transition.type = .push
         transition.subtype = .fromRight
         transition.duration = 0.3
-        self.view.window?.layer.add(transition, forKey: "pushLeftAnimation")
+        self.view.window?.layer.add(transition, forKey: "pushRightAnimation")
         self.present(vc, animated: false, completion: nil)
     }
     func dissmisToLeft(){
