@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class CommentsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     let model = CommentsTableModel()
     var navBarHeight:CGFloat?
-    var commets:[CommentStruct]?
+    var comments:[CommentStruct]?
     var id :String?
     
     let tableView :MainTableView = {
@@ -41,54 +43,47 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         setViews()
         view.addSubview(tableView)
         view.addSubview(commentNavMenuView)
-        
-        
-        
-        
-        
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
+        commentNavMenuView.delegate = self
         
-//        program add id to sceneDelegate ,thus take information there
+        tableView.tableView.register(CommenTableCell.self, forCellReuseIdentifier: "CommentTableCell")
+        
+        //        program add id to sceneDelegate ,thus take information there
         id = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.id
         model.fetchComments(documentID: id!)
-        
-        
-        
         model.comments = { commetsArray in
-            self.commets = commetsArray
+            self.comments = commetsArray
             self.tableView.tableView.reloadData()
         }
-       
+        
         
     }
     
     @objc func dismissView(_ sender:UIBarButtonItem){
         dissmisToLeft()
-   
+        
     }
     
-   
-
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return commets?.count ?? 0
+        return comments?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = commets?[indexPath.row].commentText
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableCell", for: indexPath) as? CommenTableCell,let comment = comments?[indexPath.row] else {return UITableViewCell()}
+        cell.parentController = self
+        cell.comment = comment
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let comment = commets?[indexPath.row] else { return }
+        guard let comment = comments?[indexPath.row] else { return }
         
         let singleCommentVC = SingleCommentViewController()
         singleCommentVC.comment = comment
@@ -111,35 +106,35 @@ extension CommentsTableViewController{
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let currentYtransition =  scrollView.panGestureRecognizer.translation(in: tableView).y
-            if currentYtransition<0{
-                // swipe down
-                UIView.animate(withDuration: 1) {
-                    if  currentYtransition >= -100 && self.commentNavMenuView.frame.maxY >= (self.navBarHeight)!{
-                        
-                        self.tableView.frame.origin.y += currentYtransition
-                        self.commentNavMenuView.frame.origin.y += currentYtransition
-                        self.tableView.frame.size.height -= currentYtransition
-                        if self.commentNavMenuView.frame.maxY < (self.navBarHeight)!{
-                            self.commentNavMenuView.frame.origin.y = (self.navBarHeight)!-100
-                           let newTableSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height-self.navBarHeight!)
-                            self.tableView.frame = CGRect(origin: CGPoint(x: 0, y: self.navBarHeight!), size: newTableSize)
-                        }
-                        
+        if currentYtransition<0{
+            // swipe down
+            UIView.animate(withDuration: 1) {
+                if  currentYtransition >= -100 && self.commentNavMenuView.frame.maxY >= (self.navBarHeight)!{
+                    
+                    self.tableView.frame.origin.y += currentYtransition
+                    self.commentNavMenuView.frame.origin.y += currentYtransition
+                    self.tableView.frame.size.height -= currentYtransition
+                    if self.commentNavMenuView.frame.maxY < (self.navBarHeight)!{
+                        self.commentNavMenuView.frame.origin.y = (self.navBarHeight)!-100
+                        let newTableSize = CGSize(width: self.view.frame.size.width, height: self.view.frame.size.height-self.navBarHeight!)
+                        self.tableView.frame = CGRect(origin: CGPoint(x: 0, y: self.navBarHeight!), size: newTableSize)
                     }
+                    
                 }
-            }else if currentYtransition>0 {
-                //    swipe up
-                UIView.animate(withDuration: 0.5) {
-                    if  currentYtransition <= 100 && self.commentNavMenuView.frame.maxY <= (self.navigationController?.navigationBar.frame.maxY)!+100 {
-                        self.tableView.frame.size.height -= currentYtransition
-                        self.commentNavMenuView.frame.origin.y += currentYtransition
-                        self.tableView.frame.origin.y += currentYtransition
-                        if self.commentNavMenuView.frame.maxY > (self.navBarHeight)!{
-                            self.setViews()
-                        }
+            }
+        }else if currentYtransition>0 {
+            //    swipe up
+            UIView.animate(withDuration: 0.5) {
+                if  currentYtransition <= 100 && self.commentNavMenuView.frame.maxY <= (self.navigationController?.navigationBar.frame.maxY)!+100 {
+                    self.tableView.frame.size.height -= currentYtransition
+                    self.commentNavMenuView.frame.origin.y += currentYtransition
+                    self.tableView.frame.origin.y += currentYtransition
+                    if self.commentNavMenuView.frame.maxY > (self.navBarHeight)!{
+                        self.setViews()
                     }
                 }
             }
+        }
     }
     
     func setViews(yValue:CGFloat = 0){
@@ -158,8 +153,66 @@ extension CommentsTableViewController{
     @objc private func addClicked(){
         let addController = AddNewCommentViewController()
         addController.commentString = (self.navigationController as? CommentNavController)?.entry?.entryLabel
-    present(addController, animated: true, completion: nil)
+        guard let _ = Auth.auth().currentUser else {return}
+        present(addController, animated: true, completion: nil)
     }
-
+    
     
 }
+
+extension CommentsTableViewController:CommentTopNavDelegate{
+    func followClicked() {
+        //        firebaseservice will handle here
+    }
+    
+    func searhInEntryClicked() {
+        let alert = model.newAlert()
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func showMostLikedClicked() {
+//        firebaseservice will handle here
+    }
+    
+    func searchClicked() {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        commentNavMenuView.addViewWithAnimation(searchBar)
+        NSLayoutConstraint.activate([searchBar.topAnchor.constraint(equalTo: commentNavMenuView.topAnchor),
+                                     searchBar.bottomAnchor.constraint(equalTo: commentNavMenuView.bottomAnchor,constant: -40),
+                                     searchBar.trailingAnchor.constraint(equalTo: commentNavMenuView.trailingAnchor),
+                                     searchBar.leadingAnchor.constraint(equalTo: commentNavMenuView.leadingAnchor)
+
+                                        
+        ])
+  searchBar.delegate = self
+        
+    }
+    func shareEntityClicked(){
+    
+        let ac = UIActivityViewController(activityItems: ["www.eksisozlukklon.com/\(id ?? "error")"], applicationActivities: nil)
+        present(ac, animated: true, completion: nil)
+    }
+    
+    
+}
+
+extension CommentsTableViewController: UISearchBarDelegate{
+ 
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        model.fetchComments(documentID: id)
+        searchBar.removeFromSuperview()
+    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if searchBar.text != ""{
+            model.searchKeyWord(id, searchBar.text!)
+            tableView.tableView.reloadData()
+        }
+    }
+    
+    }

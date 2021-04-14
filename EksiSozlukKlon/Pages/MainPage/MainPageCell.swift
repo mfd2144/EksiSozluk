@@ -80,13 +80,9 @@ class MainPageCell: UICollectionViewCell {
         self.delegate = delegate
         
     }
-    
-    
-    
-    
+
     @objc private func cellTapped(_ gesture:UIGestureRecognizer){
         delegate?.cellPressed(name:label.text!)
-        
     }
     
 }

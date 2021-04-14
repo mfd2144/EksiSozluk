@@ -8,7 +8,7 @@
 import UIKit
 
 
-class BugunViewCell:UITableViewCell{
+class CommentViewCell:UITableViewCell{
     
     
     private let cellStack:UIStackView = {

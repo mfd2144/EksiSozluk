@@ -1,24 +1,20 @@
 //
-//  UIView.swift
+//  UIview.swift
 //  EksiSozlukKlon
 //
-//  Created by Mehmet fatih DOĞAN on 29.03.2021.
+//  Created by Mehmet fatih DOĞAN on 9.04.2021.
 //
 
 import UIKit
 
-
-class BasicView:UIView{
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        startingOptions()
-    }
+extension UIView{
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func startingOptions(){
-                
-    }
+    func addViewWithAnimation(_ view:UIView){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = .push
+        transition.subtype = .fromRight
+        self.layer.add(transition, forKey: "searcBarAnimation")
+        self.addSubview(view)
+}
 }
