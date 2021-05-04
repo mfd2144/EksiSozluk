@@ -17,4 +17,7 @@ extension UIView{
         self.layer.add(transition, forKey: "searcBarAnimation")
         self.addSubview(view)
 }
+    
+    
+  
 }

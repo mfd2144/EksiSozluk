@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class LogupViewController:UIViewController{
     let viewModel = LogupViewModel()
@@ -16,11 +17,14 @@ class LogupViewController:UIViewController{
         setViewModel()
         viewModel.delegate = self
         viewModel.controller?(self)
+        GIDSignIn.sharedInstance()?.presentingViewController = self
     }
+    
+    
     func setViewModel(){
         view.addSubview(viewModel)
         NSLayoutConstraint.activate([
-                          viewModel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                        viewModel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                         viewModel.topAnchor.constraint(equalTo: view.topAnchor),
                                         viewModel.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                         viewModel.trailingAnchor.constraint(equalTo: view.trailingAnchor)])
@@ -29,13 +33,15 @@ class LogupViewController:UIViewController{
         
         let bounds = UIScreen.main.bounds
         viewModel.scrollView.contentSize = CGSize(width: bounds.width, height: bounds.height*CGFloat(1.5))
-   
+        
     }
 }
 extension LogupViewController:LogupViewModelDelegate{
     func logupButtonClicked(_ user: UserStruct) {
         model.saveNewUser(user)
     }
-
+    func googleSignInPressed() {
+        GIDSignIn.sharedInstance().signIn()
+    }
     
 }

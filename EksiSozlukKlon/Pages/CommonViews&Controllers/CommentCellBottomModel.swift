@@ -14,13 +14,15 @@ protocol CommentCellBottomModelDelegate {
 
 
 class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
-  
+    
     var delegate:CommentCellBottomModelDelegate?
     let firebaseService = FirebaseService()
     var favoriteCondition:Bool=false
     var likeCondition:Bool=false
     var comment:CommentStruct?
     var controller:UIViewController?
+
+    
     
     override init() {
         super.init()
@@ -31,35 +33,35 @@ class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
         self.comment = comment
         firebaseService.cellDelegate = self
         firebaseTriggered()
-       
+        
     }
     
     private func firebaseTriggered(){
-         guard let comment = comment else {return} // check comment is not nill
+        guard let comment = comment else {return} // check comment is not nill
         
-//        fetch favorite condition for actual user
-         firebaseService.fetchFavoriteCondition(entryID: comment.entryID, commentID: comment.commentID) { (error) in
-             if let error = error{
-                 print("fetching favorite data error \(error) ")
-             }
-         }
+        //        fetch favorite condition for actual user
+        firebaseService.fetchFavoriteCondition(entryID: comment.entryID, commentID: comment.commentID) { (error) in
+            if let error = error{
+                print("fetching favorite data error \(error) ")
+            }
+        }
         
-//        add listener because app show snap change
-             firebaseService.fetchCommentListener(entryID: comment.entryID, commentID: comment.commentID) { (error) in
-                 if let error = error{
-                     print("fetching favorite number error \(error) ")
-                 }
-     }
+        //        add listener because app show snap change
+        firebaseService.fetchCommentListener(entryID: comment.entryID, commentID: comment.commentID) { (error) in
+            if let error = error{
+                print("fetching favorite number error \(error) ")
+            }
+        }
         
-//        fetch favorite condition for actual user like condition
+        //        fetch favorite condition for actual user like condition
         
-     firebaseService.fetchlikeCondition(entryID: comment.entryID, commentID: comment.commentID) {(error) in
-         if let error = error{
-             print("fetching like number error \(error) ")
-         }
-         }
+        firebaseService.fetchlikeCondition(entryID: comment.entryID, commentID: comment.commentID) {(error) in
+            if let error = error{
+                print("fetching like number error \(error) ")
+            }
+        }
     }
-
+    
     
     func decideToFavoriteImage(_ fill: Bool) {
         self.favoriteCondition = fill
@@ -96,6 +98,7 @@ class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
     func menuClicked() {
         guard let controller = controller else {return}
         let alertView = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         let actionSendMessage = UIAlertAction(title: "mesaj gönder", style: .default) { (actionSendMes) in
             print("send a message")
         }
@@ -105,6 +108,19 @@ class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
         let actionCompliant = UIAlertAction(title: "şikayet et", style: .default) { (actionComp) in
             print("şikayet et")
         }
+        
+        
+        
+        if firebaseService.user?.uid == comment?.userId {
+            let deleteAction = UIAlertAction(title: "sil", style: .destructive) { (_) in
+                self.deleteComment()
+            }
+            alertView.addAction(deleteAction)
+            
+            }
+        
+        
+        
         let actionCancel = UIAlertAction(title: "vazgeç", style: .cancel)
         alertView.addAction(actionSendMessage)
         alertView.addAction(actionBlockUser)
@@ -114,19 +130,19 @@ class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
         
     }
     
-   
+    
     
     func likeClicked() {
         
         guard let comment = comment else {return}
         
         firebaseService.addorRemoveFromLike(entryID: comment.entryID, commentID: comment.commentID) { (error) in
-           
+            
             if let error = error{
                 print(error.localizedDescription)
+            }
         }
-        }
-       
+        
     }
     
     
@@ -136,8 +152,32 @@ class CommentCellBottomModel:NSObject,FireBaseCellDelegate{
         firebaseService.addorRemoveToFavorites(entryID: comment.entryID, commentID: comment.commentID) { (error) in
             if let error = error{
                 print(error.localizedDescription)
-        }
+            }
         }
     }
+    
+    private func deleteComment(){
+        
+        
+        guard let entryId = comment?.entryID,  let commentId = comment?.commentID else{return}
+        
+        
+        self.controller?.dismiss(animated: true){
+            self.firebaseService.deleteComment(entryId, commentId) { (error) in
+                if let error = error {
+                    print("can't delete comment \(error.localizedDescription)")
+                }else{
+                    self.firebaseService.depleteOneCommentToEntry(entryID: entryId) { (error) in
+                        if let error = error {
+                            print("deplete comment error \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+        }
+       
+        
+    }
+    
     
 }

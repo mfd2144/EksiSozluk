@@ -29,7 +29,7 @@ class GundemView:BasicView{
         let button = UIButton()
         button.backgroundColor = .systemBackground
         button.setImage(UIImage(systemName: "slider.vertical.3"), for: .normal)
-        button.setTitle("filtrele", for: .normal)
+        button.setTitle("filter", for: .normal)
         button.drawCorner()
         button.tintColor = .systemGray2
         button.setTitleColor(.systemGray2, for: .normal)
@@ -59,7 +59,7 @@ class GundemView:BasicView{
         setConstraits()
         tableView.tableView.delegate = self
         tableView.tableView.dataSource = self
-        tableView.tableView.register(CommentViewCell.self, forCellReuseIdentifier: "GundemCell")
+        tableView.tableView.register(EntriesViewCell.self, forCellReuseIdentifier: "GundemCell")
         
         parentController = { controller in
             self.model.parent = controller as? MainPageController
@@ -93,9 +93,6 @@ class GundemView:BasicView{
     
     @objc private func filterButtonClicked(_ sender:UIButton){
         model.showAlert()
- 
-        
-        
     }
 }
 
@@ -107,7 +104,7 @@ extension GundemView:UITableViewDelegate,UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: "GundemCell", for: indexPath) as? CommentViewCell else {return UITableViewCell()}
+                .dequeueReusableCell(withIdentifier: "GundemCell", for: indexPath) as? EntriesViewCell else {return UITableViewCell()}
         
         guard let entry = entries?[indexPath.row] else {return cell}
         cell.setCellValues(text: entry.entryLabel, number: entry.comments)

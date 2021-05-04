@@ -55,7 +55,7 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         tableView.tableView.register(CommenTableCell.self, forCellReuseIdentifier: "CommentTableCell")
         
         //        program add id to sceneDelegate ,thus take information there
-        id = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.id
+        id = IdSingleton.shared.entryID
         model.fetchComments(documentID: id!)
         model.comments = { commetsArray in
             self.comments = commetsArray

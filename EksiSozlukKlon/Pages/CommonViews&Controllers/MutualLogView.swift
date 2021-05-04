@@ -6,7 +6,9 @@
 //
 import UIKit
 
-class LogMutualView:UIView{
+class MutualLogView:UIView{
+    
+
     
     let scrollView:UIScrollView = {
         let scroll = UIScrollView()
@@ -51,7 +53,7 @@ class LogMutualView:UIView{
         return button
     }()
     
-    let appleButton:UIButton = {
+    let googleButton:UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
         button.backgroundColor = .black
@@ -85,6 +87,7 @@ class LogMutualView:UIView{
         setScrollView()
         setEksiStack()
         setButtonStack()
+        setTargets()
         
     }
     required init?(coder: NSCoder) {
@@ -113,7 +116,7 @@ class LogMutualView:UIView{
     }
     private func setButtonStack(){
         buttonStack.addArrangedSubview(faceButton)
-        buttonStack .addArrangedSubview(appleButton)
+        buttonStack .addArrangedSubview(googleButton)
         buttonStack.addArrangedSubview(buttonStackLabel)
         
         
@@ -127,5 +130,17 @@ class LogMutualView:UIView{
             
         ])
     }
+    private func setTargets(){
+        googleButton.addTarget(self, action: #selector(googleButtonPressed(_ :)), for: .touchUpInside)
+    }
+    
+    @objc private func googleButtonPressed(_ sender:UIButton){
+     googlePressed()
+    }
+    
+    func googlePressed(){
+        
+    }
     
 }
+

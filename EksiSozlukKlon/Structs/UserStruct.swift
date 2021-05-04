@@ -12,18 +12,25 @@ import Firebase
 
 struct  UserStruct{
     let email:String
-    let password:String
+    let password:String?
     let gender:Int
     let nick:String
-    let birtday: Date
+    let birtday: Date?
     let createDate: FieldValue
+    let totalEntity :Int
+    let totalContact: Int
+  
     
-    init(email:String,nick:String,password:String,gender:Int,birthday:Date) {
+    init(email:String,nick:String,password:String?,gender:Int,birthday:Date?) {
         self.createDate = FieldValue.serverTimestamp()
         self.email = email
         self.nick = nick
         self.password = password
         self.gender = gender
         self.birtday = birthday
+        self.totalEntity = 0
+        self.totalContact = 0
+     
     }
 }
+

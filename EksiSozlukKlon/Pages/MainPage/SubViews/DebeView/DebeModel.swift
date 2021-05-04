@@ -21,7 +21,7 @@ class DebeModel:NSObject{
     
     override init() {
         super.init()
-        firebaseService.fetchEntities(yesterday: true){ (entities, error) in
+        firebaseService.fetchEntries(yesterday: true){ (entities, error) in
             if let _ = error{
                 print("entity fetching error\(error!.localizedDescription)")
             }else{
@@ -37,7 +37,7 @@ class DebeModel:NSObject{
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        (parent?.view.window?.windowScene?.delegate as? SceneDelegate)?.id = entry.documentID
+        IdSingleton.shared.entryID = entry.documentID
         parent?.presentToRight(commentNavVC)
         
         

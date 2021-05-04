@@ -9,6 +9,13 @@ import UIKit
 
 class CommentNavTopComponent:UIView{
     var delegate :CommentTopNavDelegate?
+    let fireservice = FirebaseService()
+    var followLogic = false
+    var id:String?{
+        get{
+            return IdSingleton.shared.entryID
+        }
+    }
     
     let label:UILabel = {
         let label = UILabel()
@@ -68,11 +75,20 @@ class CommentNavTopComponent:UIView{
         super.init(frame: frame)
         backgroundColor = .systemBackground
         setStacks()
+        fireservice.entryDelegate = self
+        getFollowCondition()
         otherSettings()
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    
+    func otherSettings(){
+//        for child view
+    }
+    
+    
     
     func setStacks(){
         topComponentStack.addArrangedSubview(label)
@@ -113,8 +129,14 @@ class CommentNavTopComponent:UIView{
         
     }
     @objc func followPushed(){
+        followLogic = !followLogic
+        setFollowImage()
+        guard let id = id else { return }
+        fireservice.followUnfollowAnEntity(id) { (error) in
+            guard let error = error else {return}
+            print("follow list error \(error.localizedDescription)")
+        }
         
-        delegate?.followClicked()
         
     }
     @objc func searhInEntryPushed(){
@@ -129,15 +151,42 @@ class CommentNavTopComponent:UIView{
     }
     
     
-    func otherSettings(){
-        
+    func setFollowImage(){
+        if followLogic {
+            followButton.backgroundColor = .systemGreen
+            followButton.tintColor = .systemBackground
+            followButton.layer.borderColor = UIColor.systemGreen.cgColor
+        } else {
+            followButton.backgroundColor = .systemBackground
+            followButton.tintColor = .systemGray3
+            followButton.layer.borderColor = UIColor.systemGray3.cgColor
+        }
     }
 }
+
+
+extension CommentNavTopComponent:FireBaseEntryDelegate{
+    func decideToFollowContoion(_ fill: Bool) {
+        followLogic = fill
+        setFollowImage()
+    }
+    
+    
+    func  getFollowCondition(){
+        guard let id = id else { return }
+        fireservice.fetchFollowCondition(entryID: id) { (error) in
+            if let error = error {
+                print( "follower load error \(error.localizedDescription)")
+            }
+        }
+    }
+    
+}
+
 
 protocol CommentTopNavDelegate{
     func searchClicked()
     func shareEntityClicked()
-    func followClicked()
     func searhInEntryClicked()
     func showMostLikedClicked()
 }

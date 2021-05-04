@@ -15,7 +15,7 @@ struct  EntryStruct {
     let userID:String
     let documentID:String
     let category: String
-
+    let followNumber:Int
     
     init(entryLabel:String,comments:Int,userID:String,category:String) {
         self.comments = comments
@@ -24,16 +24,26 @@ struct  EntryStruct {
         date = FieldValue.serverTimestamp()
         documentID = ""
         self.category = category
+        self.followNumber = 0
+        
     }
     
     init(querySnapshot:DocumentSnapshot,documentID:String) {
-        entryLabel = querySnapshot[entry_text] as? String ?? "boş"
+        entryLabel = querySnapshot[entry_text] as? String ?? "empty"
         date = querySnapshot[create_date] as? FieldValue   ?? FieldValue.serverTimestamp()
         comments = querySnapshot[comments_number] as? Int ?? 0
-        userID = querySnapshot[user_ID] as? String ?? "misafir"
+        userID = querySnapshot[user_ID] as? String ?? "quest"
         self.documentID = documentID
-        self.category = querySnapshot[categoryString] as? String ?? "diğer"
+        self.category = querySnapshot[category_string] as? String ?? "other"
+        self.followNumber = querySnapshot[follow_number] as? Int ?? 0
     }
+    
+
+   
 }
 
-
+extension EntryStruct:Equatable{
+    static func == (lhs:EntryStruct,rhs:EntryStruct)->Bool{
+        return lhs.documentID == rhs.documentID
+    }
+}

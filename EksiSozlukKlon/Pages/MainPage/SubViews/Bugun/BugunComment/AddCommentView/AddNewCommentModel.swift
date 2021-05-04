@@ -16,7 +16,7 @@ let firebaseService = FirebaseService()
         super.init()
     }
     func addNewComment(text:String){
-        guard let id = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.id else {return}
+        guard let id = IdSingleton.shared.entryID else {return}
         firebaseService.addNewComment(id, comment: text)
     }
     

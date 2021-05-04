@@ -6,20 +6,18 @@
 //
 
 import UIKit
-
+import Firebase
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     let firebaseService = FirebaseService()
-    var id:String?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowsscene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowsscene.coordinateSpace.bounds)
         window?.windowScene = windowsscene
-        let tabBar =  TabBar()
+        let tabBar =  TabBarController()
         NotificationCenter.default.addObserver(self, selector: #selector(userDidChangeStatus(_ :)), name: .AuthStateDidChange, object: nil)
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
@@ -50,13 +48,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+        
     }
   
     @objc func userDidChangeStatus(_ responder:NSNotification){
-        let tabBar = TabBar()
+        let tabBar = TabBarController()
+        firebaseService.getUserDocID() //for some user's process
+        
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
     }

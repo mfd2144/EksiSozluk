@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Firebase
 
 class LoginModel:NSObject{
     
@@ -19,9 +19,15 @@ class LoginModel:NSObject{
     func userLogin(_ email:String,_ password:String){
         firebaseService.userSignIn(email, password)
     }
+
     
-    func userLogout(){
-        firebaseService.logout()
+    func userLogin(_ credential:AuthCredential){
+        firebaseService.credentialLogin(credential)
     }
     
+    
+    
 }
+    
+    
+

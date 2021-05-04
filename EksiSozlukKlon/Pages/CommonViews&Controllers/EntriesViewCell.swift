@@ -8,7 +8,7 @@
 import UIKit
 
 
-class CommentViewCell:UITableViewCell{
+class EntriesViewCell:UITableViewCell{
     
     
     private let cellStack:UIStackView = {
@@ -50,7 +50,7 @@ class CommentViewCell:UITableViewCell{
         cellStack.addArrangedSubview(numberOfComments)
         addSubview(cellStack)
         NSLayoutConstraint.activate([
-                                        
+            cellStack.topAnchor.constraint(equalTo: topAnchor),
             cellStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             cellStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             cellStack.heightAnchor.constraint(equalToConstant: 40)

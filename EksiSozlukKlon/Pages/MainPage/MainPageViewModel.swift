@@ -23,7 +23,7 @@ class MainPageViewModel:BasicView{
         let bounds = UIScreen.main.bounds
         let scroll = UIScrollView()
         scroll.showsHorizontalScrollIndicator = true
-        scroll.contentSize = CGSize(width: 9*bounds.width, height:self.frame.height)//Scrollview have 9 horizantal view on it
+        scroll.contentSize = CGSize(width: 5*bounds.width, height:self.frame.height)//Scrollview have 5 horizantal view on it
         scroll.translatesAutoresizingMaskIntoConstraints = false
         return scroll
     }()
@@ -81,7 +81,7 @@ class MainPageViewModel:BasicView{
         case.ended:
             if difference > 0{
                 delegate?.changePage(upOrDown: 1)
-            }else{
+            }else if difference < 0{
                 delegate?.changePage(upOrDown: -1)
             }
             

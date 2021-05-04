@@ -22,8 +22,8 @@ extension Query{
         let dateCompanent = Calendar.current.dateComponents([.year,.month,.day], from: Date())
         let today = Calendar.current.date(from: dateCompanent)!
         let yesterday = Calendar.current.date(byAdding: .hour, value:-24, to: today)
-        let dayBeforeYesterday =  Calendar.current.date(byAdding: .hour, value:-24, to: yesterday!)
-        return whereField(create_date, isGreaterThanOrEqualTo: dayBeforeYesterday!).whereField(create_date, isLessThanOrEqualTo: yesterday!).limit(to: 30)
+//        let dayBeforeYesterday =  Calendar.current.date(byAdding: .hour, value:-24, to: yesterday!)
+        return whereField(create_date, isGreaterThanOrEqualTo: yesterday!).whereField(create_date, isLessThan:today).limit(to: 30)
         
     }
 }

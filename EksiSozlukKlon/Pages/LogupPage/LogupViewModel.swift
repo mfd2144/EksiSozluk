@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LogupViewModel:LogMutualView{
+class LogupViewModel:MutualLogView{
     
     var controller:((UIViewController)->())?
     var parentController:UIViewController?
@@ -35,6 +35,7 @@ class LogupViewModel:LogMutualView{
     let userNickField :UITextField = {//nick field
         let field = UITextField()
         field.text = "nick"
+        field.restorationIdentifier = "nick"
         field.layer.borderWidth = 0
         return field
     }()
@@ -61,6 +62,8 @@ class LogupViewModel:LogMutualView{
         field.keyboardType = .emailAddress
         field.textContentType = .emailAddress
         field.text = "e-mail"
+        field.restorationIdentifier = "e-mail"
+
         field.layer.borderWidth = 0
         return field
     }()
@@ -141,6 +144,7 @@ class LogupViewModel:LogMutualView{
     let userPasswordField :UITextField = {//birthday field
         let field = UITextField()
         field.text = "şifre"
+        field.textContentType = .password
         field.layer.borderWidth = 0
         return field
     }()
@@ -291,7 +295,7 @@ class LogupViewModel:LogMutualView{
         parentController?.dismiss(animated: true, completion: nil)
     }
     @objc func logupButtonPressed(){
-        guard let email = userEmailField.text,let password = userPasswordField.text, let nick = userNickField.text else {return}
+        guard let email = userEmailField.text?.lowercased(),let password = userPasswordField.text, let nick = userNickField.text?.lowercased() else {return}
         
         let date = datePicker.date
         let user = UserStruct(email: email, nick: nick, password: password, gender: genderSegment.selectedSegmentIndex, birthday: date)
@@ -301,10 +305,20 @@ class LogupViewModel:LogMutualView{
     @objc func dateChanged(){
         userBirthdayField.text = datePicker.date.convertDateToString()
     }
+    override func googlePressed() {
+        delegate?.googleSignInPressed()
+    }
    
 }
 
 extension LogupViewModel:UITextFieldDelegate{
+    
+   
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("burada yazı kayma efekti")
+        return true
+       
+    }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField.restorationIdentifier != nil && textField.restorationIdentifier! == "birthday" {
             
@@ -316,14 +330,26 @@ extension LogupViewModel:UITextFieldDelegate{
         }else{
             setCancelButton()
         }
+        if textField.restorationIdentifier == "e-mail" ||  textField.restorationIdentifier == "nick"{
+            
+            textField.text = ""
+        }
+        
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.endEditing(true)
 
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.restorationIdentifier == "e-mail" ||  textField.restorationIdentifier == "nick"{
+            textField.text = textField.text?.lowercased()
+        }
+        return true
     }
 
 }
 
 protocol  LogupViewModelDelegate {
     func  logupButtonClicked(_ user:UserStruct)
+    func googleSignInPressed()
 }

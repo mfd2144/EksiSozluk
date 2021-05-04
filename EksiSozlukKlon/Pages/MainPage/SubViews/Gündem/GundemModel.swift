@@ -16,10 +16,11 @@ class GundemModel:NSObject{
     override init() {
         super.init()
        loadSettings()
-     
     }
+    
+    
     func loadSettings(){
-        settings = GundemSettings.fetchStartingSettings()
+        settings = AgendaSettings.fetchStartingSettings()
         loadEntries()
     }
     func loadEntries(){
@@ -35,17 +36,17 @@ class GundemModel:NSObject{
     
     func showAlert(){
         let alert = CustomAlert()
-        alert.settings = settings
         alert.modalPresentationStyle = .overFullScreen
         alert.delegate = self
         parent?.present(alert, animated: true, completion: nil)
     }
     
     func callCommentView(row:Int,entry:EntryStruct){
+        loadSettings()
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        (parent?.view.window?.windowScene?.delegate as? SceneDelegate)?.id = entry.documentID
+        IdSingleton.shared.entryID = entry.documentID
         parent?.presentToRight(commentNavVC)
         
         

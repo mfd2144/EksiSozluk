@@ -7,7 +7,10 @@
 
 import UIKit
 
-class LoginViewModel:LogMutualView{
+
+class LoginViewModel:MutualLogView{
+
+    
    
     var controller:((UIViewController)->())?
     var parentController:UIViewController?
@@ -124,6 +127,7 @@ class LoginViewModel:LogMutualView{
             
         }
         
+        
     }
     
     
@@ -189,6 +193,12 @@ class LoginViewModel:LogMutualView{
          
      ])
      }
+    
+    
+    override func googlePressed() {
+        delegate?.googleSignInPressed()
+    }
+    
 }
 
 extension LoginViewModel:UITextFieldDelegate{
@@ -205,12 +215,17 @@ extension LoginViewModel:UITextFieldDelegate{
         delegate?.loginButonClicked()
     }
     @objc func logoutButtonPressed(){
-        delegate?.logoutButonClicked()
+        delegate?.eraseFormandDissmissed()
     }
+    
+
+    
+ 
 }
 
 
 protocol LoginViewModelDelegate {
     func loginButonClicked()
-    func logoutButonClicked()
+    func eraseFormandDissmissed()
+    func googleSignInPressed()
 }

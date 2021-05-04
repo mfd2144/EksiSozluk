@@ -14,7 +14,7 @@ class CustomAlert:UIViewController{
         didSet{
             var string = [String]()
             var bool = [Bool]()
-            for (keys,values) in settings!{
+            for (keys,values) in settings!.sorted(by: {$0.key < $1.key}){
                 string.append(keys)
                 bool.append(values)
             }
@@ -56,7 +56,7 @@ class CustomAlert:UIViewController{
         
         
         let label2 = UILabel()
-        label2.text = "gündem sekmesinde görmek istediğiniz içerikleri düzenle, kafan rahat olsun."
+        label2.text = "set agenda segment to see which entry category you want to see"
         label2.numberOfLines = 0
         label2.textAlignment = .center
         let stack2 = UIStackView(arrangedSubviews: [stack1,label2])
@@ -84,7 +84,7 @@ class CustomAlert:UIViewController{
     override func viewDidLoad() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.2)
         setSubViews()
-       
+        settings = AgendaSettings.fetchStartingSettings()
         
         tableView.register(CustomaAlertCell.self, forCellReuseIdentifier: "AlertCell")
         tableView.delegate = self
@@ -154,8 +154,9 @@ extension CustomAlert:AlertCellDelegate{
     func senderChanged(_ sender: UISwitch,_ text:String) {
         settings![text] = sender.isOn
         guard let settings = settings else {return}
-        GundemSettings.saveData(settings)
+        AgendaSettings.saveData(settings)
         delegate?.settingsDidChanged()
+        
     }
     
     

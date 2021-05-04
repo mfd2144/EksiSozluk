@@ -13,8 +13,8 @@ class BugunView:MainTableView{
   
     let model = BugunModel()
     var entries: [EntryStruct]?
-    var id:String? // adding to this id to send document or other identification number to parent, thus we can send information to segue
-    
+//    var id:String? // adding to this id to send document or other identification number to parent, thus we can send information to segue
+
     let addButton:UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -31,7 +31,7 @@ class BugunView:MainTableView{
         super.startingOptions()
        
         
-        tableView.register(CommentViewCell.self, forCellReuseIdentifier: "CellBugun")
+        tableView.register(EntriesViewCell.self, forCellReuseIdentifier: "CellBugun")
         setAddButton()
         
         // inherit this method from basic view
@@ -72,7 +72,7 @@ class BugunView:MainTableView{
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView
-                .dequeueReusableCell(withIdentifier: "CellBugun", for: indexPath) as? CommentViewCell else {return UITableViewCell()}
+                .dequeueReusableCell(withIdentifier: "CellBugun", for: indexPath) as? EntriesViewCell else {return UITableViewCell()}
         
         guard let entry = entries?[indexPath.row] else {return cell}
         cell.setCellValues(text: entry.entryLabel, number: entry.comments)

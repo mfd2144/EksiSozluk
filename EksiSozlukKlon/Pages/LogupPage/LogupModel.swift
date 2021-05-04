@@ -17,6 +17,16 @@ class LogupModel:NSObject{
     }
     
     func saveNewUser(_ user:UserStruct){
-        firebaseService.createUser(userInfo: user)
+        firebaseService.createUser(userInfo: user){ message,error  in
+            if let error = error{
+                print(error)
+            }
+            
+        }
+    }
+    
+    func userLogin(_ credential:AuthCredential){
+        firebaseService.credentialLogin(credential)
+        print(" logup model userLogin çalıştı")
     }
 }

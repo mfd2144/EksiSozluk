@@ -18,27 +18,32 @@ class BugunModel:NSObject{
     
     override init() {
         super.init()
-        firebaseService.fetchEntities(today: true){ (entities, error) in
+        
+        firebaseService.fetchEntries(today: true){ (entities, error) in
             if let _ = error{
                 print("entity fetching error\(error!.localizedDescription)")
             }else{
                 self.sendEntity?(entities)
             }
         }
+       
     }
     
     
     func addNewEntryToService(_ text:String,category:String){
         guard let userID = firebaseService.user?.uid else {return}
         let entry = EntryStruct(entryLabel: text, comments: 0, userID: userID,category: category )
-        firebaseService.addNewEntity(entry: entry)
+        firebaseService.addNewEntry(entry: entry){ error in
+            guard let error = error else {return}
+            print("adding new entry error \(error.localizedDescription)")
+        }
     }
     
     func callCommentView(row:Int,entry:EntryStruct){
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        (parent?.view.window?.windowScene?.delegate as? SceneDelegate)?.id = entry.documentID
+        IdSingleton.shared.entryID = entry.documentID
         parent?.presentToRight(commentNavVC)
         
         
@@ -47,10 +52,10 @@ class BugunModel:NSObject{
     func addNewEntry(){
         
         
-        let alert = UIAlertController(title: "entity giriş", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "enter new entry", message: nil, preferredStyle: .alert)
         
         
-        let cancelAction = UIAlertAction(title: "vazgeç", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
         alert.addTextField { (textField) in
             
         }
@@ -61,7 +66,7 @@ class BugunModel:NSObject{
         //       picker handler
         class PickerHandler: NSObject, UIPickerViewDelegate, UIPickerViewDataSource{
             var items: [String]
-            lazy var lastSelectedItem = items[0]
+            lazy var lastSelectedItem = items[2]
             
             init(items: [String]){
                 self.items = items
@@ -89,14 +94,14 @@ class BugunModel:NSObject{
         }
         DispatchQueue.main.async { [weak self] in
             
-            let handler = PickerHandler(items: ["ilişki","yetişkin","diğer","siyasi","spor"])
+            let handler = PickerHandler(items: ["relation","entertainment","other","politicial","spor"])
             let pickerView = UIPickerView(frame: .zero)
             alert.view.addSubview(pickerView)
             
             pickerView.delegate = handler
             pickerView.dataSource = handler
             pickerView.selectRow(2, inComponent: 0, animated: false)
-            let selectAction = UIAlertAction(title: "kaydet", style: .default) { (action) in
+            let selectAction = UIAlertAction(title: "save", style: .default) { (action) in
                
                 guard let text = alert.textFields?.first?.text, text != ""  else {return}
                 self!.addNewEntryToService(text,category : handler.lastSelectedItem)
@@ -123,4 +128,5 @@ class BugunModel:NSObject{
             self!.parent?.present(alert, animated: true, completion: nil)
         }
     }
+    
 }

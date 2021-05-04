@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import GoogleSignIn
+
 
 class LoginViewController: UIViewController {
-  
 
+    
+  
+    let firebaseService = FirebaseService()
     let model = LoginModel()
     let viewModel = LoginViewModel()
     
@@ -22,6 +26,11 @@ class LoginViewController: UIViewController {
         viewModel.scrollView.contentSize = CGSize(width: bounds.width, height: bounds.height*CGFloat(1.2))
  }
     
+    override func viewDidLoad() {
+        GIDSignIn.sharedInstance()?.presentingViewController = self
+    
+    }
+    
     func setViewModel(){
         view.addSubview(viewModel)
         NSLayoutConstraint.activate([
@@ -33,14 +42,29 @@ class LoginViewController: UIViewController {
     }
     
     
-}
+
+    }
+    
+
+
+
+
 
 extension LoginViewController:LoginViewModelDelegate{
+   
+    
     func loginButonClicked() {
         guard let email = viewModel.userEmailField.text, let password = viewModel.passwordField.text else { return }
         model.userLogin(email , password)
     }
-    func logoutButonClicked() {
-        model.userLogout()
+    
+    func eraseFormandDissmissed() {
+        firebaseService.logout()
+//        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    func googleSignInPressed() {
+        GIDSignIn.sharedInstance().signIn()
     }
 }

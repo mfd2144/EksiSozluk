@@ -9,14 +9,14 @@ import UIKit
 
 
 class MainPageController: UIViewController {
-    var id:String?
+
 
     
     let collectionView:UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 4)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -32,7 +32,7 @@ class MainPageController: UIViewController {
     
     let pageControl :UIPageControl = {
        let pageControl = UIPageControl()
-        pageControl.numberOfPages = 9
+        pageControl.numberOfPages = 5
         pageControl.currentPage = 0
         pageControl.isHidden = true
         return pageControl
@@ -65,6 +65,7 @@ class MainPageController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 50),
+            collectionView.leadingAnchor.constraint(equalTo:view.leadingAnchor),
             viewModel.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             viewModel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             viewModel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -81,7 +82,7 @@ class MainPageController: UIViewController {
 extension MainPageController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 9
+        return 5
     }
     
     

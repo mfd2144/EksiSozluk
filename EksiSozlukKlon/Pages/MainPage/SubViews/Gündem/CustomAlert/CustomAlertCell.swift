@@ -46,9 +46,6 @@ class CustomaAlertCell:UITableViewCell{
         
     }
  
-    
-    
-    
     @objc private func switchChanged(_ sender:UISwitch){
         delegate?.senderChanged(sender,(labelText.text)!)
         
