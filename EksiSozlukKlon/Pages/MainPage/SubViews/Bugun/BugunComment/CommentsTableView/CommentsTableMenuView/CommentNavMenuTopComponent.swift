@@ -13,7 +13,7 @@ class CommentNavTopComponent:UIView{
     var followLogic = false
     var id:String?{
         get{
-            return IdSingleton.shared.entryID
+            return AppSingleton.shared.entryID
         }
     }
     

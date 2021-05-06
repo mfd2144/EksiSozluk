@@ -18,7 +18,6 @@ class BugunModel:NSObject{
     
     override init() {
         super.init()
-        
         firebaseService.fetchEntries(today: true){ (entities, error) in
             if let _ = error{
                 print("entity fetching error\(error!.localizedDescription)")
@@ -32,6 +31,10 @@ class BugunModel:NSObject{
     
     func addNewEntryToService(_ text:String,category:String){
         guard let userID = firebaseService.user?.uid else {return}
+        
+        
+        let stringArray=text.components(separatedBy: .whitespacesAndNewlines)
+        print(stringArray)
         let entry = EntryStruct(entryLabel: text, comments: 0, userID: userID,category: category )
         firebaseService.addNewEntry(entry: entry){ error in
             guard let error = error else {return}
@@ -43,7 +46,7 @@ class BugunModel:NSObject{
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        IdSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.entryID = entry.documentID
         parent?.presentToRight(commentNavVC)
         
         
@@ -57,7 +60,7 @@ class BugunModel:NSObject{
         
         let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
         alert.addTextField { (textField) in
-            
+
         }
         
         alert.addAction(cancelAction)
@@ -94,7 +97,7 @@ class BugunModel:NSObject{
         }
         DispatchQueue.main.async { [weak self] in
             
-            let handler = PickerHandler(items: ["relation","entertainment","other","politicial","spor"])
+            let handler = PickerHandler(items: ["relation","entertainment","other","political","sport"])
             let pickerView = UIPickerView(frame: .zero)
             alert.view.addSubview(pickerView)
             
@@ -103,7 +106,7 @@ class BugunModel:NSObject{
             pickerView.selectRow(2, inComponent: 0, animated: false)
             let selectAction = UIAlertAction(title: "save", style: .default) { (action) in
                
-                guard let text = alert.textFields?.first?.text, text != ""  else {return}
+                guard let text = alert.textFields?.first?.text?.lowercased(), text != ""  else {return}
                 self!.addNewEntryToService(text,category : handler.lastSelectedItem)
             }
             
@@ -112,7 +115,7 @@ class BugunModel:NSObject{
             
             pickerView.translatesAutoresizingMaskIntoConstraints = false
             
-            let constantAbovePicker: CGFloat = 70
+            let constantAbovePicker: CGFloat = 100
             let constantBelowPicker: CGFloat = 50
             
             NSLayoutConstraint.activate([

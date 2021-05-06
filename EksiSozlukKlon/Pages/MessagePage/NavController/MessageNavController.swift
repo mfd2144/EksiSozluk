@@ -9,6 +9,6 @@ import UIKit
 
 class  MessageNavController: UINavigationController {
     override func viewDidLoad() {
-        viewControllers = [MessageSigned()]
+        viewControllers = [MessageSignedViewController()]
     }
 }

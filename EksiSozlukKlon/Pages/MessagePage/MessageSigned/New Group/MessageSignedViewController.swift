@@ -8,7 +8,7 @@
 import UIKit
 
 
-class MessageSigned:MessageCommonController{
+class MessageSignedViewController:MessageCommonController{
     
     let firebaseService = FirebaseService()
 
@@ -85,7 +85,7 @@ class MessageSigned:MessageCommonController{
 }
 
 
-extension MessageSigned{
+extension MessageSignedViewController{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
     }
 }

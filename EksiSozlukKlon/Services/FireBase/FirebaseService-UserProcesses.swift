@@ -155,7 +155,7 @@ extension FirebaseService{
             }
             guard let docID = querySnapshot?.documents.first?.data()[user_docID] as? String else {return}
             
-            let singleton = IdSingleton.shared
+            let singleton = AppSingleton.shared
             
             singleton.userDocID = docID
             

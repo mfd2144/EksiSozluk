@@ -79,7 +79,7 @@ class TakipModel:NSObject{
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        IdSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.entryID = entry.documentID
         parent?.presentToRight(commentNavVC)
         
         

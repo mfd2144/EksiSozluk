@@ -16,8 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowsscene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowsscene.coordinateSpace.bounds)
+        firebaseService.fetchMostFollowedEntries { mostFollowed in
+            AppSingleton.shared.mostFollowed = mostFollowed
+        }
         window?.windowScene = windowsscene
         let tabBar =  TabBarController()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(userDidChangeStatus(_ :)), name: .AuthStateDidChange, object: nil)
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()

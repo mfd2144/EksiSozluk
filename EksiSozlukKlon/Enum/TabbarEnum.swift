@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseAuth
 
-
 enum Tabbar{
     
     
@@ -18,10 +17,12 @@ enum Tabbar{
     case userControlPage
     case messagePage
     
+   
+    
     var controller:UIViewController{
         switch self {
         case .mainPage: return MainPageController()
-        case .searchPage:return SearchView()
+        case .searchPage:return SearchPageNavController()
         case.messagePage: return  Auth.auth().currentUser != nil ? MessageNavController() : MessageUnsigned()
         case.userControlPage:return  Auth.auth().currentUser != nil ? UIViewController() : UserControlUnsigned()
         case.updatePage:return UpdateUnsigned()

@@ -8,11 +8,12 @@
 import Foundation
 
 
-class IdSingleton{
-    static let shared = IdSingleton()
+class AppSingleton{
+    static let shared = AppSingleton()
     private init(){
         
     }
     var entryID:String?
     var userDocID:String?
+    var mostFollowed:[MostFollowedStruct]?
 }

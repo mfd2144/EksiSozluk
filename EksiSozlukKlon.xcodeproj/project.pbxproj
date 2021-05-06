@@ -43,7 +43,7 @@
 		BA781DE92612314C000C4B0B /* MainPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DE82612314C000C4B0B /* MainPageViewModel.swift */; };
 		BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DEE2612318F000C4B0B /* GundemView.swift */; };
 		BA781DF4261231E1000C4B0B /* MessageUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */; };
-		BA781DFA26123223000C4B0B /* SearchPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DF926123223000C4B0B /* SearchPage.swift */; };
+		BA781DFA26123223000C4B0B /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DF926123223000C4B0B /* SearchViewController.swift */; };
 		BA781DFF2612324F000C4B0B /* UpdateUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781DFE2612324F000C4B0B /* UpdateUnsigned.swift */; };
 		BA781E042612328B000C4B0B /* UserControlUnsigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E032612328B000C4B0B /* UserControlUnsigned.swift */; };
 		BA781E0A2612337A000C4B0B /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA781E092612337A000C4B0B /* MainTableView.swift */; };
@@ -63,11 +63,11 @@
 		BA82DE3E261B41A60053DA4A /* CommentsTableModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */; };
 		BA82DE41261B41F50053DA4A /* CommentNavigationMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */; };
 		BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */; };
-		BA85E8F6261DDA4200F9EC77 /* LikeStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */; };
+		BA85E8F6261DDA4200F9EC77 /* LikedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F5261DDA4200F9EC77 /* LikedStruct.swift */; };
 		BA85E8FA261DEDFD00F9EC77 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA85E8F9261DEDFD00F9EC77 /* UIViewController.swift */; };
 		BA881BF4262D59B300DAC84F /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881BF3262D59B300DAC84F /* MessageCell.swift */; };
 		BA881BFC262D691000DAC84F /* MessageStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881BFB262D691000DAC84F /* MessageStruct.swift */; };
-		BA881C02262D84C900DAC84F /* MessageSigned.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881C01262D84C900DAC84F /* MessageSigned.swift */; };
+		BA881C02262D84C900DAC84F /* MessageSignedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881C01262D84C900DAC84F /* MessageSignedViewController.swift */; };
 		BA881C06262D8A9500DAC84F /* SearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881C05262D8A9500DAC84F /* SearchUser.swift */; };
 		BA881C0B262DB7AA00DAC84F /* SendMessagePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA881C0A262DB7AA00DAC84F /* SendMessagePage.swift */; };
 		BA883C1E263AA6C2003D1D2A /* ChatStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA883C1D263AA6C2003D1D2A /* ChatStruct.swift */; };
@@ -84,10 +84,17 @@
 		BA8C9E41261F9EED00DC6055 /* CommentCellBottom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C9E40261F9EED00DC6055 /* CommentCellBottom.swift */; };
 		BA8C9E45261FA2A200DC6055 /* CommentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C9E44261FA2A200DC6055 /* CommentTableCell.swift */; };
 		BA8C9E48261FB5FA00DC6055 /* CommentCellBottomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8C9E47261FB5FA00DC6055 /* CommentCellBottomModel.swift */; };
+		BA96C3CA26417D9300564C14 /* MostFollowedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96C3C926417D9300564C14 /* MostFollowedStruct.swift */; };
+		BA96C3CC26417EB600564C14 /* FirebaseService-MostLikedEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96C3CB26417EB600564C14 /* FirebaseService-MostLikedEntries.swift */; };
 		BAA7BA1C26218F6100D872E1 /* GundemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA1B26218F6100D872E1 /* GundemModel.swift */; };
 		BAA7BA272621F8C500D872E1 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA262621F8C500D872E1 /* CustomAlert.swift */; };
 		BAA7BA2B2624579000D872E1 /* CustomAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA2A2624579000D872E1 /* CustomAlertCell.swift */; };
 		BAA7BA32262468FE00D872E1 /* GundemSettingsStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA31262468FE00D872E1 /* GundemSettingsStruct.swift */; };
+		BAB1E3B42643D26A00839D20 /* HeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3B32643D26A00839D20 /* HeaderReusableView.swift */; };
+		BAB1E3B62643D2B600839D20 /* CollectionCompotionalLayoutProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3B52643D2B600839D20 /* CollectionCompotionalLayoutProvider.swift */; };
+		BAB1E3B82643D31F00839D20 /* SearchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3B72643D31F00839D20 /* SearchCollectionCell.swift */; };
+		BAB1E3BA2643DBA300839D20 /* SearchPageNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3B92643DBA300839D20 /* SearchPageNavController.swift */; };
+		BAB1E3C52643E4D200839D20 /* SearchViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3C42643E4D200839D20 /* SearchViewControllerModel.swift */; };
 		BACAA69B262CA86D008E2366 /* MessageCommonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACAA69A262CA86D008E2366 /* MessageCommonController.swift */; };
 		BACAA69E262CAA7D008E2366 /* MessageNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACAA69D262CAA7D008E2366 /* MessageNavController.swift */; };
 		BAFB044C263BEF6E009A7CEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAFB044B263BEF6E009A7CEE /* GoogleService-Info.plist */; };
@@ -134,8 +141,8 @@
 		BA781DE526123131000C4B0B /* MainPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageCell.swift; sourceTree = "<group>"; };
 		BA781DE82612314C000C4B0B /* MainPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewModel.swift; sourceTree = "<group>"; };
 		BA781DEE2612318F000C4B0B /* GundemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GundemView.swift; sourceTree = "<group>"; };
-		BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUnsigned.swift; sourceTree = "<group>"; };
-		BA781DF926123223000C4B0B /* SearchPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPage.swift; sourceTree = "<group>"; };
+		BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageUnsigned.swift; path = EksiSozlukKlon/Pages/MessagePage/MessageUnsigned.swift; sourceTree = SOURCE_ROOT; };
+		BA781DF926123223000C4B0B /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		BA781DFE2612324F000C4B0B /* UpdateUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUnsigned.swift; sourceTree = "<group>"; };
 		BA781E032612328B000C4B0B /* UserControlUnsigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserControlUnsigned.swift; sourceTree = "<group>"; };
 		BA781E092612337A000C4B0B /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
@@ -155,11 +162,11 @@
 		BA82DE3D261B41A60053DA4A /* CommentsTableModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsTableModel.swift; sourceTree = "<group>"; };
 		BA82DE40261B41F50053DA4A /* CommentNavigationMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentNavigationMenuView.swift; sourceTree = "<group>"; };
 		BA85E8F2261DA7CC00F9EC77 /* FavoriteStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStruct.swift; sourceTree = "<group>"; };
-		BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeStruct.swift; sourceTree = "<group>"; };
+		BA85E8F5261DDA4200F9EC77 /* LikedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedStruct.swift; sourceTree = "<group>"; };
 		BA85E8F9261DEDFD00F9EC77 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		BA881BF3262D59B300DAC84F /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		BA881BFB262D691000DAC84F /* MessageStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStruct.swift; sourceTree = "<group>"; };
-		BA881C01262D84C900DAC84F /* MessageSigned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSigned.swift; sourceTree = "<group>"; };
+		BA881C01262D84C900DAC84F /* MessageSignedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageSignedViewController.swift; path = "../New Group/MessageSignedViewController.swift"; sourceTree = "<group>"; };
 		BA881C05262D8A9500DAC84F /* SearchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUser.swift; sourceTree = "<group>"; };
 		BA881C0A262DB7AA00DAC84F /* SendMessagePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessagePage.swift; sourceTree = "<group>"; };
 		BA883C1D263AA6C2003D1D2A /* ChatStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStruct.swift; sourceTree = "<group>"; };
@@ -172,14 +179,21 @@
 		BA88D6D42628499C00F5272D /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 		BA88D6DB26287CBE00F5272D /* UserFavoriteStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFavoriteStruct.swift; sourceTree = "<group>"; };
 		BA8A52F126302836007FF525 /* BasicUserStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUserStruct.swift; sourceTree = "<group>"; };
-		BA8A52F826304CB4007FF525 /* MessageSignedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSignedModel.swift; sourceTree = "<group>"; };
+		BA8A52F826304CB4007FF525 /* MessageSignedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MessageSignedModel.swift; path = "../New Group1/MessageSignedModel.swift"; sourceTree = "<group>"; };
 		BA8C9E40261F9EED00DC6055 /* CommentCellBottom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellBottom.swift; sourceTree = "<group>"; };
 		BA8C9E44261FA2A200DC6055 /* CommentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableCell.swift; sourceTree = "<group>"; };
 		BA8C9E47261FB5FA00DC6055 /* CommentCellBottomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCellBottomModel.swift; sourceTree = "<group>"; };
+		BA96C3C926417D9300564C14 /* MostFollowedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostFollowedStruct.swift; sourceTree = "<group>"; };
+		BA96C3CB26417EB600564C14 /* FirebaseService-MostLikedEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseService-MostLikedEntries.swift"; sourceTree = "<group>"; };
 		BAA7BA1B26218F6100D872E1 /* GundemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GundemModel.swift; sourceTree = "<group>"; };
 		BAA7BA262621F8C500D872E1 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		BAA7BA2A2624579000D872E1 /* CustomAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertCell.swift; sourceTree = "<group>"; };
 		BAA7BA31262468FE00D872E1 /* GundemSettingsStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GundemSettingsStruct.swift; sourceTree = "<group>"; };
+		BAB1E3B32643D26A00839D20 /* HeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderReusableView.swift; sourceTree = "<group>"; };
+		BAB1E3B52643D2B600839D20 /* CollectionCompotionalLayoutProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCompotionalLayoutProvider.swift; sourceTree = "<group>"; };
+		BAB1E3B72643D31F00839D20 /* SearchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionCell.swift; sourceTree = "<group>"; };
+		BAB1E3B92643DBA300839D20 /* SearchPageNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageNavController.swift; sourceTree = "<group>"; };
+		BAB1E3C42643E4D200839D20 /* SearchViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerModel.swift; sourceTree = "<group>"; };
 		BACAA69A262CA86D008E2366 /* MessageCommonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCommonController.swift; sourceTree = "<group>"; };
 		BACAA69D262CAA7D008E2366 /* MessageNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageNavController.swift; sourceTree = "<group>"; };
 		BAFB044B263BEF6E009A7CEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -258,6 +272,7 @@
 				BA88D6CF26281DDD00F5272D /* FirebaseService-CommentProcess.swift */,
 				BA88D6C626281CE600F5272D /* FirebaseService-CommentSubProcesses.swift */,
 				BA883C20263AACA9003D1D2A /* FirebaseService-MessageProcess.swift */,
+				BA96C3CB26417EB600564C14 /* FirebaseService-MostLikedEntries.swift */,
 			);
 			path = FireBase;
 			sourceTree = "<group>";
@@ -296,7 +311,8 @@
 				BAA7BA31262468FE00D872E1 /* GundemSettingsStruct.swift */,
 				BA881BFB262D691000DAC84F /* MessageStruct.swift */,
 				BA883C1D263AA6C2003D1D2A /* ChatStruct.swift */,
-				BA85E8F5261DDA4200F9EC77 /* LikeStruct.swift */,
+				BA85E8F5261DDA4200F9EC77 /* LikedStruct.swift */,
+				BA96C3C926417D9300564C14 /* MostFollowedStruct.swift */,
 			);
 			path = Structs;
 			sourceTree = "<group>";
@@ -450,13 +466,9 @@
 		BA781DF2261231B5000C4B0B /* MessagePage */ = {
 			isa = PBXGroup;
 			children = (
-				BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */,
-				BA881C01262D84C900DAC84F /* MessageSigned.swift */,
-				BA8A52F826304CB4007FF525 /* MessageSignedModel.swift */,
-				BA881BF3262D59B300DAC84F /* MessageCell.swift */,
+				BAB1E3C02643E41D00839D20 /* MessageUnsigned */,
 				BA881BF2262D598A00DAC84F /* NavController */,
-				BA881BFF262D845800DAC84F /* SearchUser */,
-				BA881C09262DB72A00DAC84F /* SendMessagePage */,
+				BAB1E3C12643E42A00839D20 /* MessageSigned */,
 			);
 			path = MessagePage;
 			sourceTree = "<group>";
@@ -464,7 +476,8 @@
 		BA781DF726123206000C4B0B /* SearchPage */ = {
 			isa = PBXGroup;
 			children = (
-				BA781DF926123223000C4B0B /* SearchPage.swift */,
+				BAB1E3BB2643E38500839D20 /* SearchNav */,
+				BAB1E3BC2643E38C00839D20 /* SearchViewController */,
 			);
 			path = SearchPage;
 			sourceTree = "<group>";
@@ -543,6 +556,7 @@
 			isa = PBXGroup;
 			children = (
 				BA881C05262D8A9500DAC84F /* SearchUser.swift */,
+				BA881C09262DB72A00DAC84F /* SendMessagePage */,
 			);
 			path = SearchUser;
 			sourceTree = "<group>";
@@ -574,6 +588,85 @@
 			path = CustomAlert;
 			sourceTree = "<group>";
 		};
+		BAB1E3BB2643E38500839D20 /* SearchNav */ = {
+			isa = PBXGroup;
+			children = (
+				BAB1E3B92643DBA300839D20 /* SearchPageNavController.swift */,
+			);
+			path = SearchNav;
+			sourceTree = "<group>";
+		};
+		BAB1E3BC2643E38C00839D20 /* SearchViewController */ = {
+			isa = PBXGroup;
+			children = (
+				BAB1E3BE2643E3E800839D20 /* Controller */,
+				BAB1E3BF2643E3FB00839D20 /* Model&CompositionalView */,
+				BAB1E3BD2643E39900839D20 /* Cell&ReusableView */,
+			);
+			path = SearchViewController;
+			sourceTree = "<group>";
+		};
+		BAB1E3BD2643E39900839D20 /* Cell&ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				BAB1E3B32643D26A00839D20 /* HeaderReusableView.swift */,
+				BAB1E3B72643D31F00839D20 /* SearchCollectionCell.swift */,
+			);
+			path = "Cell&ReusableView";
+			sourceTree = "<group>";
+		};
+		BAB1E3BE2643E3E800839D20 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DF926123223000C4B0B /* SearchViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BAB1E3BF2643E3FB00839D20 /* Model&CompositionalView */ = {
+			isa = PBXGroup;
+			children = (
+				BAB1E3B52643D2B600839D20 /* CollectionCompotionalLayoutProvider.swift */,
+				BAB1E3C42643E4D200839D20 /* SearchViewControllerModel.swift */,
+			);
+			path = "Model&CompositionalView";
+			sourceTree = "<group>";
+		};
+		BAB1E3C02643E41D00839D20 /* MessageUnsigned */ = {
+			isa = PBXGroup;
+			children = (
+				BA781DF3261231E1000C4B0B /* MessageUnsigned.swift */,
+			);
+			path = MessageUnsigned;
+			sourceTree = "<group>";
+		};
+		BAB1E3C12643E42A00839D20 /* MessageSigned */ = {
+			isa = PBXGroup;
+			children = (
+				BAB1E3C32643E46300839D20 /* Model&Cell */,
+				BAB1E3C22643E45100839D20 /* MainController */,
+			);
+			path = MessageSigned;
+			sourceTree = "<group>";
+		};
+		BAB1E3C22643E45100839D20 /* MainController */ = {
+			isa = PBXGroup;
+			children = (
+				BA881C01262D84C900DAC84F /* MessageSignedViewController.swift */,
+				BA881BFF262D845800DAC84F /* SearchUser */,
+			);
+			path = MainController;
+			sourceTree = "<group>";
+		};
+		BAB1E3C32643E46300839D20 /* Model&Cell */ = {
+			isa = PBXGroup;
+			children = (
+				BA881BF3262D59B300DAC84F /* MessageCell.swift */,
+				BA8A52F826304CB4007FF525 /* MessageSignedModel.swift */,
+			);
+			path = "Model&Cell";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -585,8 +678,8 @@
 				BA781DA726122DC5000C4B0B /* Sources */,
 				BA781DA826122DC5000C4B0B /* Frameworks */,
 				BA781DA926122DC5000C4B0B /* Resources */,
-				BF150EE1EC8BCFCAB33C48AC /* [CP] Embed Pods Frameworks */,
-				BB7AAA09EA3FAAC038797387 /* [CP] Copy Pods Resources */,
+				47125EC6051AF2441C9BA173 /* [CP] Embed Pods Frameworks */,
+				F6672D644DA7DC64B3C12B9F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -666,24 +759,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BB7AAA09EA3FAAC038797387 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BF150EE1EC8BCFCAB33C48AC /* [CP] Embed Pods Frameworks */ = {
+		47125EC6051AF2441C9BA173 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -700,6 +776,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F6672D644DA7DC64B3C12B9F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EksiSozlukKlon/Pods-EksiSozlukKlon-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -709,8 +802,10 @@
 			files = (
 				BA0115742614814100E4799B /* LoginViewModel.swift in Sources */,
 				BA8A52F926304CB4007FF525 /* MessageSignedModel.swift in Sources */,
+				BAB1E3BA2643DBA300839D20 /* SearchPageNavController.swift in Sources */,
 				BA01156C261453CC00E4799B /* LoginViewController.swift in Sources */,
 				BA883C21263AACA9003D1D2A /* FirebaseService-MessageProcess.swift in Sources */,
+				BA96C3CC26417EB600564C14 /* FirebaseService-MostLikedEntries.swift in Sources */,
 				BA7F444F262077B200751055 /* UIView.swift in Sources */,
 				BA648EDE2615C02B00972746 /* UserStruct.swift in Sources */,
 				BA881BF4262D59B300DAC84F /* MessageCell.swift in Sources */,
@@ -728,16 +823,18 @@
 				BACAA69E262CAA7D008E2366 /* MessageNavController.swift in Sources */,
 				BA7EB1FB261C35E600F1CB68 /* SingleCommentBottom.swift in Sources */,
 				BA88D6D026281DDD00F5272D /* FirebaseService-CommentProcess.swift in Sources */,
-				BA781DFA26123223000C4B0B /* SearchPage.swift in Sources */,
+				BA781DFA26123223000C4B0B /* SearchViewController.swift in Sources */,
 				BACAA69B262CA86D008E2366 /* MessageCommonController.swift in Sources */,
 				BA781E042612328B000C4B0B /* UserControlUnsigned.swift in Sources */,
 				BA781DAF26122DC5000C4B0B /* AppDelegate.swift in Sources */,
 				BA82DE3E261B41A60053DA4A /* CommentsTableModel.swift in Sources */,
+				BAB1E3B42643D26A00839D20 /* HeaderReusableView.swift in Sources */,
 				BA67C6F92616F79900A064C9 /* Constant.swift in Sources */,
 				BA68F39B261BA47600BA92E6 /* SingleCommentViewController.swift in Sources */,
 				BA781E0E26123CB0000C4B0B /* BugunView.swift in Sources */,
 				BA88D6C726281CE600F5272D /* FirebaseService-CommentSubProcesses.swift in Sources */,
-				BA881C02262D84C900DAC84F /* MessageSigned.swift in Sources */,
+				BA96C3CA26417D9300564C14 /* MostFollowedStruct.swift in Sources */,
+				BA881C02262D84C900DAC84F /* MessageSignedViewController.swift in Sources */,
 				BA67C70826173CC800A064C9 /* CommentStruct.swift in Sources */,
 				BA8C9E48261FB5FA00DC6055 /* CommentCellBottomModel.swift in Sources */,
 				BA7EB1F7261C35D100F1CB68 /* SingleCommentMain.swift in Sources */,
@@ -753,12 +850,14 @@
 				BA8A52F226302836007FF525 /* BasicUserStruct.swift in Sources */,
 				BA781DE32612310C000C4B0B /* MainPageController.swift in Sources */,
 				BA8C9E45261FA2A200DC6055 /* CommentTableCell.swift in Sources */,
-				BA85E8F6261DDA4200F9EC77 /* LikeStruct.swift in Sources */,
+				BA85E8F6261DDA4200F9EC77 /* LikedStruct.swift in Sources */,
 				BA7015AD2626CA8E00DDF305 /* DebeModel.swift in Sources */,
 				BA85E8F3261DA7CC00F9EC77 /* FavoriteStruct.swift in Sources */,
 				BA648F062615DCEB00972746 /* LogupModel.swift in Sources */,
 				BA648EDA2615B6BD00972746 /* FirebaseService.swift in Sources */,
+				BAB1E3B82643D31F00839D20 /* SearchCollectionCell.swift in Sources */,
 				BA67C6E72616E8CC00A064C9 /* EntriesViewCell.swift in Sources */,
+				BAB1E3B62643D2B600839D20 /* CollectionCompotionalLayoutProvider.swift in Sources */,
 				BA7D38E72618CC5C0019838A /* CommentsTableViewController.swift in Sources */,
 				BA67E8502614A9EF006B11F1 /* LogupViewModel.swift in Sources */,
 				BA88D6C12628173600F5272D /* TakipModel.swift in Sources */,
@@ -770,6 +869,7 @@
 				BA88D6DC26287CBE00F5272D /* UserFavoriteStruct.swift in Sources */,
 				BA88D6D52628499C00F5272D /* Singleton.swift in Sources */,
 				BA781E0A2612337A000C4B0B /* MainTableView.swift in Sources */,
+				BAB1E3C52643E4D200839D20 /* SearchViewControllerModel.swift in Sources */,
 				BA7F444B262065EB00751055 /* Firebase.swift in Sources */,
 				BA648F0D2615FA0600972746 /* Status.swift in Sources */,
 				BA881BFC262D691000DAC84F /* MessageStruct.swift in Sources */,

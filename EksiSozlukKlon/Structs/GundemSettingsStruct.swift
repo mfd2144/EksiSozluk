@@ -9,16 +9,16 @@ import UIKit
 
 struct AgendaSettings:Codable {
     
-    var sporOn:Bool
-    var iliskiOn:Bool
-    var yetiskinOn:Bool
-    var siyasiOn:Bool
+    var sportOn:Bool
+    var relationOn:Bool
+    var entertainmentOn:Bool
+    var politicalOn:Bool
     
-    init(sporOn:Bool=true,iliskiOn:Bool=true,yetiskinOn:Bool=false,siyasiOn:Bool=true) {
-        self.sporOn = sporOn
-        self.iliskiOn = iliskiOn
-        self.yetiskinOn = yetiskinOn
-        self.siyasiOn = siyasiOn
+    init(sportOn:Bool=true,iliskiOn:Bool=true,yetiskinOn:Bool=false,siyasiOn:Bool=true) {
+        self.sportOn = sportOn
+        self.relationOn = iliskiOn
+        self.entertainmentOn = yetiskinOn
+        self.politicalOn = siyasiOn
     }
     
   
@@ -49,10 +49,10 @@ struct AgendaSettings:Codable {
     static func fetchStartingSettings() -> Dictionary<String,Bool> {
         var dic = Dictionary<String,Bool>()
         let model = startingSettingsModel
-        dic["spor"] = model.sporOn
-        dic["relation"] = model.iliskiOn
-        dic["entertainment"] = model.yetiskinOn
-        dic["politicial"] = model.siyasiOn
+        dic["sport"] = model.sportOn
+        dic["relation"] = model.relationOn
+        dic["entertainment"] = model.entertainmentOn
+        dic["political"] = model.politicalOn
         return dic
     }
     
@@ -63,10 +63,10 @@ struct AgendaSettings:Codable {
 
         for (keys,values) in settingsArray{
             switch keys {
-            case "spor": settings.sporOn = values
-            case "relation": settings.iliskiOn = values
-            case "entertainment": settings.yetiskinOn = values
-            case "politicial":settings.siyasiOn = values
+            case "sport": settings.sportOn = values
+            case "relation": settings.relationOn = values
+            case "entertainment": settings.entertainmentOn = values
+            case "political":settings.politicalOn = values
             default: return
             }
         }
