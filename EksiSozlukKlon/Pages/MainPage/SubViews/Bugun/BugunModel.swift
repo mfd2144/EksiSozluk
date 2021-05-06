@@ -34,8 +34,8 @@ class BugunModel:NSObject{
         
         
         let stringArray=text.components(separatedBy: .whitespacesAndNewlines)
-        print(stringArray)
-        let entry = EntryStruct(entryLabel: text, comments: 0, userID: userID,category: category )
+        
+        let entry = EntryStruct(entryLabel: stringArray, comments: 0, userID: userID,category: category )
         firebaseService.addNewEntry(entry: entry){ error in
             guard let error = error else {return}
             print("adding new entry error \(error.localizedDescription)")
@@ -60,7 +60,7 @@ class BugunModel:NSObject{
         
         let cancelAction = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
         alert.addTextField { (textField) in
-
+            textField.delegate = self
         }
         
         alert.addAction(cancelAction)
@@ -132,4 +132,18 @@ class BugunModel:NSObject{
         }
     }
     
+}
+
+
+extension BugunModel:UITextFieldDelegate{
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        textField.text = textField.text?.lowercased()
+        if string == "." || string == "?" || string == "!" || string == ","{
+            textField.text = textField.text! + " "
+        }
+     return true
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.text = textField.text?.lowercased()
+    }
 }

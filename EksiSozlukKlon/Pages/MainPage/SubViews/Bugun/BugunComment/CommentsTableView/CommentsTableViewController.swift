@@ -152,7 +152,13 @@ extension CommentsTableViewController{
     
     @objc private func addClicked(){
         let addController = AddNewCommentViewController()
-        addController.commentString = (self.navigationController as? CommentNavController)?.entry?.entryLabel
+        
+        var entryString :String = ""
+        
+        (self.navigationController as? CommentNavController)?.entry?.entryLabel.forEach({entryString += ($0+" ") })
+        
+        
+        addController.commentString = entryString
         guard let _ = Auth.auth().currentUser else {return}
         present(addController, animated: true, completion: nil)
     }

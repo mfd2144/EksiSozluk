@@ -108,6 +108,13 @@ extension SearchViewController:UICollectionViewDelegate,UICollectionViewDataSour
         return header
 }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let commentVC = CommentsTableViewController()
+        guard let id = mostFollowed?[indexPath.section].entries[indexPath.row].documentID  else { return }
+        AppSingleton.shared.entryID = id
+        navigationController?.pushViewController(commentVC, animated: true)
+        
+    }
 
 
 

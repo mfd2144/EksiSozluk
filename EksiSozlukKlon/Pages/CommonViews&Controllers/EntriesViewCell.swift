@@ -57,8 +57,10 @@ class EntriesViewCell:UITableViewCell{
         ])
     }
     
-    func setCellValues(text:String,number:Int){
-        entityLabel.text = text
+    func setCellValues(text:[String],number:Int){
+        var entryString :String = ""
+        text.forEach({entryString += ($0+" ") })
+        entityLabel.text = entryString
         numberOfComments.text = String(number)
     }
     

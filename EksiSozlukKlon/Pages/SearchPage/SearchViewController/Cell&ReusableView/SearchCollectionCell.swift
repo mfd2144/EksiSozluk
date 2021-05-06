@@ -29,9 +29,11 @@ class SearchCollectionCell: UICollectionViewCell {
         layer.cornerRadius = 10
         configure()
         guard let entry = entryStruct else {return}
-        textLabel.text = entry.entryLabel.lowercased()
+        var entryString :String = ""
+        entry.entryLabel.forEach({entryString += ($0+" ") })
+        textLabel.text = entryString
+        
     }
-    
     
     private func configure(){
         addSubview(textLabel)

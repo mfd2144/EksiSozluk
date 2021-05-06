@@ -62,7 +62,7 @@ extension FirebaseService{
                         }
                         
                         mostFollowed = MostFollowedStruct(category: categoryName, entries: entries)
-                       
+                       print(mostFollowed)
                        return completionHandler(mostFollowed)
                     }
                     

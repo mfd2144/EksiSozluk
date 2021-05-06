@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 
 struct  EntryStruct {
-    let entryLabel:String
+    let entryLabel:[String]
     let date: FieldValue
     let comments:Int
     let userID:String
@@ -17,7 +17,7 @@ struct  EntryStruct {
     let category: String
     let followNumber:Int
     
-    init(entryLabel:String,comments:Int,userID:String,category:String) {
+    init(entryLabel:[String],comments:Int,userID:String,category:String) {
         self.comments = comments
         self.userID = userID
         self.entryLabel = entryLabel
@@ -29,7 +29,7 @@ struct  EntryStruct {
     }
     
     init(querySnapshot:DocumentSnapshot,documentID:String) {
-        entryLabel = querySnapshot[entry_text] as? String ?? "empty"
+        entryLabel = querySnapshot[entry_text] as? [String] ?? []
         date = querySnapshot[create_date] as? FieldValue   ?? FieldValue.serverTimestamp()
         comments = querySnapshot[comments_number] as? Int ?? 0
         userID = querySnapshot[user_ID] as? String ?? "quest"

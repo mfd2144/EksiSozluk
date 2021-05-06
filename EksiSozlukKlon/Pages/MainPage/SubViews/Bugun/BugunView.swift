@@ -75,6 +75,9 @@ class BugunView:MainTableView{
                 .dequeueReusableCell(withIdentifier: "CellBugun", for: indexPath) as? EntriesViewCell else {return UITableViewCell()}
         
         guard let entry = entries?[indexPath.row] else {return cell}
+       
+      
+        
         cell.setCellValues(text: entry.entryLabel, number: entry.comments)
         return cell
     }
