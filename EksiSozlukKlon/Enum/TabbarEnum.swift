@@ -24,8 +24,8 @@ enum Tabbar{
         case .mainPage: return MainPageController()
         case .searchPage:return SearchPageNavController()
         case.messagePage: return  Auth.auth().currentUser != nil ? MessageNavController() : MessageUnsigned()
-        case.userControlPage:return  Auth.auth().currentUser != nil ? UIViewController() : UserControlUnsigned()
-        case.updatePage:return UpdateUnsigned()
+        case.userControlPage:return  Auth.auth().currentUser != nil ? UserNavViewController() : UserControlUnsigned()
+        case.updatePage:return Auth.auth().currentUser != nil ? UpdateNavController() : UpdateUnsigned()
         }
     }
     var image:UIImage{
@@ -33,8 +33,8 @@ enum Tabbar{
         case .mainPage: return UIImage(systemName: "drop")!
         case .searchPage:return UIImage(systemName: "magnifyingglass")!
         case.messagePage: return UIImage(systemName: "bubble.right")!
-        case.userControlPage:return UIImage(systemName: "bell")!
-        case.updatePage:return UIImage(systemName: "person")!
+        case.userControlPage:return UIImage(systemName: "person")!
+        case.updatePage:return UIImage(systemName: "bell")!
             
         }
     }
@@ -43,8 +43,8 @@ enum Tabbar{
         case .mainPage: return UIImage(systemName: "drop.fill")!
         case .searchPage:return UIImage(systemName: "magnifyingglass.circle.fill")!
         case.messagePage: return UIImage(systemName: "bubble.right.fill")!
-        case.userControlPage:return UIImage(systemName: "bell.fill")!
-        case.updatePage:return UIImage(systemName: "person.fill")!
+        case.userControlPage:return UIImage(systemName: "person.fill")!
+        case.updatePage:return UIImage(systemName: "bell.fill")!
             
         }
     }

@@ -16,6 +16,7 @@ struct  EntryStruct {
     let documentID:String
     let category: String
     let followNumber:Int
+    let likeNumber:Int
     
     init(entryLabel:[String],comments:Int,userID:String,category:String) {
         self.comments = comments
@@ -25,6 +26,7 @@ struct  EntryStruct {
         documentID = ""
         self.category = category
         self.followNumber = 0
+        self.likeNumber = 0
         
     }
     
@@ -36,6 +38,7 @@ struct  EntryStruct {
         self.documentID = documentID
         self.category = querySnapshot[category_string] as? String ?? "other"
         self.followNumber = querySnapshot[follow_number] as? Int ?? 0
+        self.likeNumber = querySnapshot[likes_number] as? Int ?? 0
     }
     
 

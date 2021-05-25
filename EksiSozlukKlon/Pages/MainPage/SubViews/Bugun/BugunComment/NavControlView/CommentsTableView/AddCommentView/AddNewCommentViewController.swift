@@ -13,6 +13,7 @@ class AddNewCommentViewController: UIViewController {
             entryLabel.text = commentString
         }
     }
+    var id:String?
     let model = AddNewCommentModel()
     
     let entryLabel:UILabel = {
@@ -89,7 +90,7 @@ class AddNewCommentViewController: UIViewController {
     
     @objc private func addClicked(_ sender:UIButton){
         if commentText.text != nil,commentText.text != ""{
-            model.addNewComment(text: commentText.text!)
+            model.addNewComment(id: id!, text: commentText.text!)
             self.dismiss(animated: true, completion: nil)
         }
       

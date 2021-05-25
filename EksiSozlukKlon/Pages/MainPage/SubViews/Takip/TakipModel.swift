@@ -14,20 +14,21 @@ class TakipModel:NSObject{
     var selectedIndex:((Int)->())?
     let firebaseService = FirebaseService()
     var parent:UIViewController?
-    var entries:(([EntryStruct])->())?
-    var comments:(([CommentStruct])->())?
+    var entriesContainer:(([EntryStruct])->())?
+    var commentsContainer:(([CommentStruct])->())?
+    var emptyCommentList = [String]()
     
     override init() {
         super.init()
         selectedIndex = { [self] selectedIndex in
-            selectedIndex == 0 ? searchFollowedEntryList() : searchFavoriteCommentList()
+            selectedIndex == 0 ? searchLikedEntryList() : searchFavoriteCommentList()
         }
         
     }
     
     
-    func searchFollowedEntryList(){
-        firebaseService.fetchUserFollowList { (followedList, error) in
+    func searchLikedEntryList(){
+        firebaseService.fetchUserDemandedList { (followedList, error) in
             if let error = error{
                 print("fetching followed entry list fail \(error.localizedDescription)")
             }else{
@@ -44,11 +45,14 @@ class TakipModel:NSObject{
             }
            
             let entriesArray = entryStruct.compactMap({ $0 })
-            self.entries?(entriesArray)
+            self.entriesContainer?(entriesArray)
+
             
             
         }
     }
+    
+    
     
     func searchFavoriteCommentList(){
         firebaseService.fetchUserFavoriteList { (favoriteList, error) in
@@ -56,6 +60,7 @@ class TakipModel:NSObject{
                 print("fetching followed entry list fail \(error.localizedDescription)")
             }else{
                 self.searchFavoriteComment(favoriteList)
+              
                
             }
         }
@@ -63,28 +68,48 @@ class TakipModel:NSObject{
     }
     
     private func searchFavoriteComment(_ list: [UserFavoriteStruct]){
-
-        firebaseService.fetchCommentsByList(list) { (commentStruct, error) in
+        firebaseService.fetchCommentsByList(list) { (favoriteComments, error) in
             if let error = error{
                 print("fetching favorite comment list fail \(error.localizedDescription)")
-            }else{
-                self.comments!(commentStruct)
             }
-        
+
+                var comments = [CommentStruct]()
+
+            for (index,comment) in  favoriteComments.enumerated(){
+                if comment.commentText == ""{
+                    self.emptyCommentList.append(comment.commentID)
+                  
+                }else{
+                    comments.append(comment)
+                }
+                if index == favoriteComments.count-1{
+                    self.commentsContainer?(comments)
+                }
+            }
+            
+            
+            
+            
+               
         }
      
     }
     
-    func callCommentView(row:Int,entry:EntryStruct){
+    func callEntryView(row:Int,entry:EntryStruct){
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        AppSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.selectedView = Collections.takip
         parent?.presentToRight(commentNavVC)
         
         
     }
     
+    func clearEmptyComments(){
+        if !emptyCommentList.isEmpty{
+            print("ssss")
+        }
+    }
     
     
 }

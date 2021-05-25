@@ -39,7 +39,7 @@ class TakipView:BasicView{
         let view = UIView()
         view.backgroundColor = .systemGray6
         
-        let segment = UISegmentedControl(items: ["entry'ler","favoriler"])
+        let segment = UISegmentedControl(items: ["entry'ler","yorumlar"])
         segment.selectedSegmentIndex = 0
         segment.translatesAutoresizingMaskIntoConstraints = false
         segment.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
@@ -70,13 +70,13 @@ class TakipView:BasicView{
             self.model.parent = controller as? MainPageController
         }
         
-        model.entries = { entries in
+        model.entriesContainer = { entries in
             self.entries = entries
             self.tableView.tableView.reloadData()
             
         }
         
-        model.comments = { comments in
+        model.commentsContainer = { comments in
             self.comments = comments
             self.tableView.tableView.reloadData()
         }
@@ -135,8 +135,7 @@ class TakipView:BasicView{
 }
 
 
-extension TakipView:UITableViewDelegate,UITableViewDataSource
-{
+extension TakipView:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if selectedIndex == 0{
             entries == nil || entries == [] ?  emptyViewShow() : removeEmptyView()
@@ -171,7 +170,7 @@ extension TakipView:UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if selectedIndex == 0{
         guard let entry = entries?[indexPath.row] else {return}
-        model.callCommentView(row: indexPath.row, entry: entry)
+            model.callEntryView(row: indexPath.row, entry: entry)
         }else{
             tableView.deselectRow(at: indexPath, animated: true)
             guard let comment = comments?[indexPath.row] else { return }

@@ -10,7 +10,8 @@ import UIKit
 
 class MainPageController: UIViewController {
 
-
+    let viewModel = MainPageViewModel()
+    
     
     let collectionView:UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(80), heightDimension: .fractionalHeight(1))
@@ -26,25 +27,32 @@ class MainPageController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.showsHorizontalScrollIndicator = false
         
-    
+        
         return collection
     }()
     
     let pageControl :UIPageControl = {
-       let pageControl = UIPageControl()
+        let pageControl = UIPageControl()
         pageControl.numberOfPages = 5
         pageControl.currentPage = 0
         pageControl.isHidden = true
         return pageControl
     }()
     
-    let viewModel = MainPageViewModel()
+    //    override func viewWillAppear(_ animated: Bool) {
+    //        backToCommentTableView()
+    //    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
-            super.viewDidAppear(animated)
-            viewModel.selectedSubView?(Collections.init(value: pageControl.currentPage)!)
+        
+        super.viewDidAppear(animated)
+        
+        selectCollectionView()
+        
+        
     }
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,24 +100,25 @@ extension MainPageController:UICollectionViewDelegate,UICollectionViewDataSource
         cell.selectedCell?(pageControl.currentPage)
         return cell
     }
-
+    
 }
 
 extension MainPageController:MainPageCellDelegate{
-  
+    
     func cellPressed(name: String) {
         let cellNumber = (Collections.init(rawValue: name)?.value)!
-       pageControl.currentPage = cellNumber
+        pageControl.currentPage = cellNumber
         let indexPath = IndexPath(item: cellNumber, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        scrollToPage(cellNumber)
+        scrollToPage(cellNumber, animated: true)
         
     }
     
-    func scrollToPage(_ page:Int){
+    func scrollToPage(_ page:Int,animated:Bool ){
         let xPoint = CGFloat(page)*UIScreen.main.bounds.width
         let cgPoint = CGPoint(x: xPoint, y: 0)
-        viewModel.scrollView.setContentOffset(cgPoint, animated: true)
+        
+        viewModel.scrollView.setContentOffset(cgPoint, animated: animated)
         collectionView.reloadData()
         guard let collectionSelected = Collections.init(value: page) else {return}
         viewModel.selectedSubView?(collectionSelected)
@@ -119,12 +128,27 @@ extension MainPageController:MainPageCellDelegate{
 
 extension MainPageController:MainPageViewModelDelegate{
     func changePage(upOrDown: Int) {
-    
+        
         let goToPage = pageControl.currentPage + upOrDown
-        if goToPage >= 0 && goToPage < 9{
+        if goToPage >= 0 && goToPage < 5{
             pageControl.currentPage = goToPage
-            scrollToPage(goToPage)
+            scrollToPage(goToPage,animated: false)
         }
+    }
+    
+    func selectCollectionView(){
+        
+        if let lastView = AppSingleton.shared.selectedView {
+            pageControl.currentPage = lastView.value
+            AppSingleton.shared.selectedView = nil
+            viewModel.selectedSubView?(lastView)
+            scrollToPage(lastView.value, animated: false)
+            
+        }else{
+            viewModel.selectedSubView?(Collections.init(value: pageControl.currentPage)!)
+        }
+        
+       
     }
     
     

@@ -85,7 +85,7 @@ class BugunView:MainTableView{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let entry = entries?[indexPath.row] else {return}
-        model.callCommentView(row: indexPath.row, entry: entry)
+        model.callCommentView(entry: entry)
        
     }
  

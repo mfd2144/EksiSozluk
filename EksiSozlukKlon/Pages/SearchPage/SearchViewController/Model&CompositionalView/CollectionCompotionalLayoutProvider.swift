@@ -48,6 +48,7 @@ struct  CollectionCompotionalLayoutProvider {
         return section
         
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 60)
     }

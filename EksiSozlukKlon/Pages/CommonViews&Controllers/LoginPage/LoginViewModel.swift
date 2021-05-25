@@ -94,7 +94,7 @@ class LoginViewModel:MutualLogView{
         let button = UIButton()
         button.layer.cornerRadius = 20
         button.backgroundColor = .systemGreen
-        button.setTitle("çık silinecek", for: .normal)
+        button.setTitle("şifremi unuttum", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .systemBackground
         button.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
@@ -215,7 +215,23 @@ extension LoginViewModel:UITextFieldDelegate{
         delegate?.loginButonClicked()
     }
     @objc func logoutButtonPressed(){
-        delegate?.eraseFormandDissmissed()
+        let alert = UIAlertController(title: "şifreyi yenileme", message: nil, preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "vazgeç", style: .cancel, handler: nil)
+        let actionReset = UIAlertAction(title: "reset password", style: .default) { _ in
+            guard let text = alert.textFields?.first?.text else {return}
+            self.delegate?.resetPassword(text)
+            
+        }
+        alert.addTextField { textField in
+            textField.keyboardType = .emailAddress
+            textField.placeholder = "emailinizi girin"
+        }
+        alert.addAction(actionCancel)
+        alert.addAction(actionReset)
+        parentController?.present(alert, animated: true, completion: nil)
+        
+  
+    
     }
     
 
@@ -226,6 +242,6 @@ extension LoginViewModel:UITextFieldDelegate{
 
 protocol LoginViewModelDelegate {
     func loginButonClicked()
-    func eraseFormandDissmissed()
+    func resetPassword(_ email:String)
     func googleSignInPressed()
 }

@@ -42,22 +42,10 @@ extension FirebaseService{
                     }
                 }
                 
-                
-                
-                
             }else{
                 handler("kullanıcı mevcut",nil)
             }
-            
         }
-        
-        
-        
-        
-        
-        
-        
-        
     }
     
     func saveNewUsersInfo(_ userInfo: UserStruct,_ currentUser:User){
@@ -70,19 +58,20 @@ extension FirebaseService{
             if querySnapshot?.documents.first == nil{
                 
                 let newUser = self.userCollection.document()
-            
+                
                 newUser.setData([user_nick : userInfo.nick,
+                                 user_email:userInfo.email,
                                  create_date: userInfo.createDate,
                                  user_birthday: userInfo.birtday as Any,
                                  user_gender:userInfo.gender,
                                  user_ID :currentUser.uid,
                                  user_docID:newUser.documentID,
-                                 user_total_entity:userInfo.totalEntity,
+                                 user_total_entity:userInfo.totalEntry,
                                  user_total_contact :userInfo.totalContact,
                                  
                 ])
                 { error in
-                    self.getUserDocID()
+                    self.getUserDocID(){ }
                     guard let _ = error else {return}
                     print("User information couldn't be added \(error!.localizedDescription)")
                 }
@@ -104,7 +93,7 @@ extension FirebaseService{
     }
     
     func credentialLogin(_ credential:AuthCredential){
-       
+        
         Auth.auth().signIn(with: credential) { (authDataResult, error) in
             if let error = error {
                 print("while opening google user,an error ocurred \(error.localizedDescription)")
@@ -117,18 +106,35 @@ extension FirebaseService{
                 if let _ = error {
                     print("while opening google user,an error ocurred \(error!.localizedDescription)")
                 }
-                })
-
+            })
+            
             let email = userInfo.email?.lowercased()
             let nick = userInfo.displayName?.lowercased()
             let gender = 3 //boşver/empty
             
             let user = UserStruct(email: email!, nick: nick!, password: nil, gender: gender, birthday:nil)
-         
+            
             guard let currentUser = Auth.auth().currentUser else {return}
             
             self.saveNewUsersInfo(user,currentUser )
         }
+    }
+    
+    func fetchUserInformation(handler:@escaping(UserStruct?,Error?)->() ){
+        guard let userDocID = userDocID else {handler(nil,nil);return}
+        userCollection.document(userDocID).getDocument { docSnapshot, error in
+            if let error = error {
+                handler(nil,error)
+            }else{
+                guard let userSnapshot = docSnapshot?.data() else { handler(nil,nil);return }
+                let user = UserStruct.init(userSnapshot)
+                handler(user,nil)
+            }
+        }
+        
+        
+        
+        
     }
     
     func logout(){
@@ -141,27 +147,32 @@ extension FirebaseService{
         self.authStatus?(.logout)
     }
     
-    func getUserDocID(){
+    func getUserDocID(handler:@escaping()->()){
         
         user = Auth.auth().currentUser
-        
         guard let uid = user?.uid else {  return }
         
         userCollection.whereField(user_ID, isEqualTo: uid).getDocuments { (querySnapshot, error) in
             if let error = error{
-                
                 print("fetching user document ID error \(error.localizedDescription)")
                 return
             }
             guard let docID = querySnapshot?.documents.first?.data()[user_docID] as? String else {return}
-            
             let singleton = AppSingleton.shared
-            
             singleton.userDocID = docID
+            handler()
             
         }
     }
     
+    func addFollowedEntryToUser(entryID:String){
+        guard let docID = userDocID else {  return  }
+        self.userCollection.document(docID).collection(followedPath).addDocument(data: [entry_ID:entryID]){ error in
+            if let error = error  {
+                print("adding followed list error \(error.localizedDescription)")
+            }
+        }
+    }
     
     func deleteFollowedEntryToUser(entryID:String){
         
@@ -175,49 +186,73 @@ extension FirebaseService{
                 
                 self.userCollection.document(docID).collection(followedPath).document(followID).delete { (error) in
                     if let error = error  {
-                        print("deleting followed list error \(error.localizedDescription)")
+                        print("followed list delete error \(error.localizedDescription)")
                         
                     }
                 }
             })
     }
     
+    func deleteEntryLikeToUser(entryID:String){
+        
+        guard let docID = userDocID else {return}
+        
+        self.userCollection.document(docID)
+            .collection(likesPath)
+            .whereField(entry_ID, isEqualTo: entryID)
+            .getDocuments(completion: { (querySnapshot, error) in
+                guard let likeID = querySnapshot?.documents.first?.documentID else {return}
+                
+                self.userCollection.document(docID).collection(likesPath).document(likeID).delete { (error) in
+                    if let error = error  {
+                        print(" like erase error \(error.localizedDescription)")
+                        
+                    }
+                }
+            })
+    }
     
-    
-    func addFollowedEntryToUser(entryID:String){
+    func addLikedEntryToUser(entryID:String){
         guard let docID = userDocID else {  return  }
-        self.userCollection.document(docID).collection(followedPath).addDocument(data: [entry_ID:entryID]){ error in
+        self.userCollection.document(docID).collection(likesPath).addDocument(data: [entry_ID:entryID]){ error in
             if let error = error  {
-                print("adding followed list error \(error.localizedDescription)")
+                print("adding liked list error \(error.localizedDescription)")
             }
         }
     }
     
     
-    func fetchUserFollowList(completion:@escaping ([String],Error?)->()){
-        var followedEntryList = [String]()
-        guard let docID = userDocID else {  completion(followedEntryList,nil); return  }
+    
+    
+    
+    //    if user demand nothing this function return favorite entries list otherwise like entries list
+    func fetchUserDemandedList(_ likeList:Bool? = nil,completion:@escaping ([String],Error?)->()){
+        var demandedEntryList = [String]()
+        guard let docID = userDocID else {  completion(demandedEntryList,nil); return  }
         
-        userCollection.document(docID).collection(followedPath).getDocuments { (querySnapshot, error) in
+        var query:Query?
+        if likeList != nil{
+            query = userCollection.document(docID).collection(likesPath)
+        }else{
+            query = userCollection.document(docID).collection(followedPath)
+        }
+        
+        query!.getDocuments { (querySnapshot, error) in
             if let error = error  {
                 
-                completion(followedEntryList,error)
+                completion(demandedEntryList,error)
                 
             }else{
-                
-                guard let docs = querySnapshot?.documents else {  completion(followedEntryList,nil); return }
+                guard let docs = querySnapshot?.documents else {  completion(demandedEntryList,nil); return }
                 for doc in docs{
-                    followedEntryList.append(doc[entry_ID] as? String ?? "")
+                    demandedEntryList.append(doc[entry_ID] as? String ?? "")
                 }
-                completion(followedEntryList,nil)
+                completion(demandedEntryList,nil)
             }
-            
-            
-            
         }
-        
-        
     }
+    
+    
     
     func addUserFavoriteList(_ commentID:String,entryID:String){
         guard let docID = userDocID else {  return  }
@@ -291,7 +326,7 @@ extension FirebaseService{
                 handler(error)
             }
             
-            guard let oldValue = userDoc.data()?[user_total_entity] as? Int else {return nil}
+            guard userDoc != nil, let oldValue = userDoc.data()?[user_total_entity] as? Int else {return nil}
             
             transaction.updateData([user_total_entity:oldValue + value], forDocument:userRef )
             
@@ -372,7 +407,7 @@ extension FirebaseService{
     func searchForUser(keyWord:String,handler:@escaping (([BasicUserStruct],Error?)->())){
         var users = [BasicUserStruct]()
         
-        listener =  userCollection.whereField(user_nick, isGreaterThanOrEqualTo: keyWord).whereField(user_nick, isNotEqualTo: user?.displayName ?? "").addSnapshotListener { (querys, error) in
+        userCollection.whereField(user_nick, isGreaterThanOrEqualTo: keyWord).whereField(user_nick, isNotEqualTo: user?.displayName ?? "").getDocuments { (querys, error) in
             if let error = error{
                 handler(users,error)
             }else{
@@ -383,7 +418,186 @@ extension FirebaseService{
         }
     }
     
+    func checkUserInList(otherUserId:String,handler:@escaping(Bool,Error?)->()){
+        guard  let userDocID = userDocID else {handler(false,nil);return}
+        
+        let userFollowedRef = userCollection.document(userDocID).collection(followedUserPath).whereField(followed_user_id, isEqualTo: otherUserId)
+        userFollowedRef.getDocuments { querySnapshot,error in
+            if let error = error {
+                handler(false,error)
+            }else{
+                if querySnapshot?.documents.first?.data() != nil{
+                    handler(true,nil)
+                }else{
+                    handler(false,nil)
+                }
+            }
+        }
+    }
     
+    
+    func addUserToFollowList(otherUserId:String,handler:@escaping(Error?)->()){
+        guard  let userDocID = userDocID else {handler(nil);return}
+        
+        let userRef = userCollection.document(userDocID)
+        db.runTransaction { transaction, _ in
+            var userDoc:DocumentSnapshot?
+            do{
+                userDoc = try transaction.getDocument(userRef)
+            }catch let error{
+                handler(error)
+            }
+            guard let contactNumber = userDoc?.data()?[user_total_contact] as? Int else{handler(nil);return nil}
+            transaction.updateData([user_total_contact:contactNumber+1], forDocument: userRef)
+            
+            let  userFollowedRef = userRef.collection(followedUserPath).document()
+            transaction.setData([followed_user_id : otherUserId,
+                                 "follow_date":FieldValue.serverTimestamp(),
+                                 "pathID":userFollowedRef.documentID], forDocument: userFollowedRef)
+            
+            return nil
+        } completion: { _, error in
+            handler(error)
+        }
+        
+        
+        
+        
+        
+    }
+    
+    func deleteUserFromFollowList(otherUserId:String,handler:@escaping(Error?)->()){
+        
+        guard  let userDocID = userDocID else {handler(nil);return}
+        
+        
+        let userRef = userCollection.document(userDocID)
+        
+        userRef.collection(followedUserPath).whereField(followed_user_id,isEqualTo: otherUserId).getDocuments { querySnapshot, error in
+            if let error = error {
+                handler(error)
+            }else{
+                guard let followedUserDocID = querySnapshot?.documents.first?.documentID else { return }
+                self.db.runTransaction { transaction, _ in
+                    var userDoc:DocumentSnapshot?
+                    do{
+                        userDoc = try transaction.getDocument(userRef)
+                    }catch let error{
+                        handler(error)
+                    }
+                    guard let contactNumber = userDoc?.data()?[user_total_contact] as? Int else{handler(nil);return nil}
+                    transaction.updateData([user_total_contact:contactNumber-1], forDocument: userRef)
+                    let willDeletedRef = userRef.collection(followedUserPath).document(followedUserDocID)
+                    transaction.deleteDocument(willDeletedRef)
+                    
+                    return nil
+                } completion: { _, error in
+                    handler(error)
+                }
+                
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    
+    func resetUserLastUpdateDate(handler:@escaping (Error?)->()){
+        guard let userDocId = userDocID else {return}
+        let ref = userCollection.document(userDocId).collection(followedUserPath)
+        ref.getDocuments { querySnapshot, error in
+            if let error = error {
+                handler(error)
+            }else{
+                guard let followedUserSnapshot = querySnapshot else { return }
+                let batch = ref.firestore.batch()
+                followedUserSnapshot.documents.forEach {batch.updateData([followed_date:FieldValue.serverTimestamp()], forDocument: $0.reference)}
+                batch.commit { error in
+                    if let error = error{
+                        handler(error)
+                    }else{
+                        handler(nil)
+                    }
+                }
+                
+            }
+            
+            
+        }
+    }
+    
+    func sendPasswordReset(email:String,handler:@escaping (Error?)->()){
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error{
+                handler(error)
+            }else{
+                handler(nil)
+            }
+        }
+    }
+    
+    func  changePassword(newPassword:String,handler:@escaping (Error?)->()) {
+        user?.updatePassword(to: newPassword) { error in
+            if let error = error{
+                handler(error)
+            }else{
+                handler(nil)
+            }
+        }
+    }
+    
+    func resetMailAdress(newMail:String,handler:@escaping (Error?)->()){
+        user?.updateEmail(to: newMail) {error in
+            if let error = error{
+                handler(error)
+            }else{
+                
+                self.updateUserInformation(nick: nil, userBirtday: nil, gender: nil, email: newMail) { error in
+                    if let error = error {
+                        handler(error)
+                    }else{
+                        handler(nil)
+                    }
+                    
+                }
+               
+            }
+        }
+    }
+    
+    func updateUserInformation(nick:String?,userBirtday:Date?,gender:Int?,email:String?,handler:@escaping (Error?)->()){
+        
+        guard let userDocID=userDocID else{return}
+        let ref = userCollection.document(userDocID)
+        db.runTransaction { transaction, _ in
+            var userDoc:DocumentSnapshot!
+            
+            do{
+                userDoc = try transaction.getDocument(ref)
+            }catch let error{
+                handler(error)
+                return nil
+            }
+            guard let data = userDoc.data(),let userInfo = UserStruct(data) else {return nil}
+            
+                        
+            transaction.updateData([user_nick : nick ?? userInfo.nick,
+                                    user_birthday: userBirtday ?? userInfo.birtday as Any,
+                                    user_gender: gender ?? userInfo.gender,
+                                    user_email:email ?? userInfo.email], forDocument: ref)
+            
+            
+            return nil
+        } completion: { _, error in
+            if let error = error{
+                handler(error)
+            }
+        }
+
+    }
     
 }
+
 

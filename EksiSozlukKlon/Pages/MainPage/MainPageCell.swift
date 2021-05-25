@@ -60,6 +60,7 @@ class MainPageCell: UICollectionViewCell {
         addGestureRecognizer(tap)
         isUserInteractionEnabled = true
     }
+    
     private func addViews(){
         addSubview(label)
         addSubview(selectedCellLine)

@@ -9,7 +9,7 @@ import UIKit
 
 
 class EntriesViewCell:UITableViewCell{
-    
+    static let cellID = "EntriesCell"
     
     private let cellStack:UIStackView = {
         let stack = UIStackView()
@@ -25,6 +25,7 @@ class EntriesViewCell:UITableViewCell{
         label.textAlignment = .left
         return label
     }()
+    
     private let numberOfComments:UILabel = {
         let label = UILabel()
         label.textAlignment = .right
@@ -32,11 +33,6 @@ class EntriesViewCell:UITableViewCell{
         return label
     }()
         
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-       
-        
-    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

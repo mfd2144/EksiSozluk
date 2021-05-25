@@ -30,7 +30,7 @@ extension FirebaseService{
             guard let oldValue = entryDocument.data()?[comments_number] as? Int else {return nil}
             transaction.updateData([comments_number:oldValue+1], forDocument: selectedDocumentPath)
             
-            let commentPath = selectedDocumentPath.collection(commentsPath)
+            let commentRef = selectedDocumentPath.collection(commentsPath).document()
             let data:[String : Any] = [
                 comment_text:comment,
                 user_ID:user.uid,
@@ -38,10 +38,11 @@ extension FirebaseService{
                 create_date:FieldValue.serverTimestamp(),
                 entry_ID:parentEntityID,
                 likes_number:0,
-                favorites_number:0
+                favorites_number:0,
+                comment_ID:commentRef.documentID
             ]
             
-            transaction.setData(data, forDocument: commentPath.document())
+            transaction.setData(data, forDocument: commentRef)
             
             return nil
         } completion: { (object, error) in
@@ -113,8 +114,17 @@ extension FirebaseService{
                             completionHandler(error)
                         }else{
                             commentRef.delete { (error) in
+                               
                                 if error != nil{
                                     completionHandler(error)
+                                }else{
+                                    self.depleteOneCommentToEntry(entryID: entryID) { error in
+                                        if  error != nil{
+                                            completionHandler(error)
+                                        }else{
+                                            completionHandler(nil)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -157,6 +167,89 @@ extension FirebaseService{
             }
             
         }
+        
+    }
+    
+    func searchMyComments(docID:String,completionHandler:@escaping ([CommentStruct],Error?)->()){
+        guard let user = user else{ return }
+        let query = entryCollection.document(docID).collection(commentsPath).whereField(user_ID, isEqualTo: user.uid).order(by: create_date, descending: false)
+    
+    
+        query.getDocuments(completion: { (querySnapshot, error) in
+        var comments = [CommentStruct]()
+        if let error = error{
+            
+            completionHandler(comments,error)
+        }else{
+            guard let querySnapshotDocs = querySnapshot?.documents else {return}
+            for doc in querySnapshotDocs{
+                let id = doc.documentID
+                let comment = CommentStruct(snapShot: doc, commentID: id)
+                
+                comments.append(comment)
+            }
+            completionHandler(comments,nil)
+            
+        }
+        
+    })
+    }
+    
+    
+    func searchCommentsLikedByUser(docID:String,completionHandler:@escaping ([String],Error?)->()){
+      var list = [String]()
+        
+        guard let _ = user,
+              let userDocID = userDocID else{completionHandler(list,nil); return }
+        
+        userCollection.document(userDocID).collection("CommentLikes")
+            .whereField(entry_ID, isEqualTo: docID)
+            .getDocuments { querySnapshot, error in
+            if let error = error{
+                
+                completionHandler(list,error)
+            }else{
+               
+                guard let querySnapshotDocs = querySnapshot?.documents else {completionHandler(list,nil); return}
+                for doc in querySnapshotDocs{
+                 
+                    let commentId = (doc[comment_ID] as? String) ?? ""
+                    list.append(commentId)
+                }
+               completionHandler(list,nil)
+            }
+        }
+    }
+    
+    func fetchCommentsByList (_ comments: [UserFavoriteStruct],handler:@escaping([CommentStruct],Error?)->()){
+        var commentArray = [CommentStruct]()
+    
+        DispatchQueue.main.async {
+            for (index,favoriteComment) in comments.enumerated(){
+                self.entryCollection
+                    .document(favoriteComment.entryID)
+                    .collection(commentsPath)
+                    .document(favoriteComment.commentID)
+                    .addSnapshotListener { (documentSnapshot, error) in
+                        
+                        if let error = error{
+                            handler(commentArray,error)
+                        }else{
+                            
+                            let comment = CommentStruct.init(snapShot: documentSnapshot!, commentID: documentSnapshot!.documentID)
+                            commentArray.append(comment)
+                            
+                            if index == comments.count-1{
+                                handler(commentArray,nil)
+                            }
+                        }
+                        
+                    }
+               
+            }
+            
+        }
+        
         
     }
     

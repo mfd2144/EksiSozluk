@@ -56,15 +56,16 @@ class MutualLogView:UIView{
     let googleButton:UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
-        button.backgroundColor = .black
-        button.setTitle("apple ile bağlan", for: .normal)
-        let imageView = UIImageView(image: UIImage(systemName:  "applelogo"))
+        button.backgroundColor = .red
+        button.setTitle("google ile bağlan", for: .normal)
+        let imageView = UIImageView(image: UIImage(named:"google"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         button.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: button.centerYAnchor),
-            imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15)
+            imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15),
+            imageView.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 0.8)
         ])
         button.tintColor = .systemBackground
         return button
@@ -132,6 +133,7 @@ class MutualLogView:UIView{
     }
     private func setTargets(){
         googleButton.addTarget(self, action: #selector(googleButtonPressed(_ :)), for: .touchUpInside)
+        faceButton.addTarget(self, action: #selector(faceButtonPressed(_:)), for: .touchUpInside)
     }
     
     @objc private func googleButtonPressed(_ sender:UIButton){
@@ -141,6 +143,13 @@ class MutualLogView:UIView{
     func googlePressed(){
         
     }
+ 
+    @objc private func faceButtonPressed(_ sender:UIButton){
+     facePressed()
+    }
     
+    func facePressed(){
+        
+    }
 }
 

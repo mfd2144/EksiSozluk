@@ -133,6 +133,7 @@ class CustomAlert:UIViewController{
 }
 
 extension CustomAlert:UITableViewDelegate,UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         settings?.count ?? 0
     }

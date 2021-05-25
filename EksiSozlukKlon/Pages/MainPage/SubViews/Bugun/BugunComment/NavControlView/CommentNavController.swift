@@ -11,9 +11,12 @@ class CommentNavController: UINavigationController {
 
     var entry:EntryStruct?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [CommentsTableViewController()]
+        let commentVC = CommentsTableViewController()
+        commentVC.entry = entry
+        viewControllers = [commentVC]
     }
 
 }

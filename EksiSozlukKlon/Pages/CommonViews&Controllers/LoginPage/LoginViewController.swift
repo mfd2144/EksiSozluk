@@ -12,6 +12,8 @@ import GoogleSignIn
 class LoginViewController: UIViewController {
 
     
+
+    
   
     let firebaseService = FirebaseService()
     let model = LoginModel()
@@ -51,20 +53,29 @@ class LoginViewController: UIViewController {
 
 
 extension LoginViewController:LoginViewModelDelegate{
-   
+    
+    func resetPassword(_ email: String) {
+        let cV = CautionView(frame: self.view.bounds)
+        cV.cautionText = "şifre değiştirme isteği gönderildi"
+        self.view.addSubview(cV)
+        
+    }
+    
+    
+
+    
+    
     
     func loginButonClicked() {
         guard let email = viewModel.userEmailField.text, let password = viewModel.passwordField.text else { return }
         model.userLogin(email , password)
     }
-    
-    func eraseFormandDissmissed() {
-        firebaseService.logout()
-//        self.dismiss(animated: true, completion: nil)
-    }
-    
-    
+
     func googleSignInPressed() {
         GIDSignIn.sharedInstance().signIn()
     }
 }
+
+
+
+

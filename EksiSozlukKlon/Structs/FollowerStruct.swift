@@ -1,5 +1,5 @@
 //
-//  FollowerStruct.swift
+//  FollowedStruct.swift
 //  EksiSozlukKlon
 //
 //  Created by Mehmet fatih DOĞAN on 14.04.2021.
@@ -18,7 +18,11 @@ struct  FollowerStruct {
         entryID = data.data()[entry_ID] as? String ?? ""
         self.followID = followID
     }
-    
+    init(userID:String,entryID:String,followID:String){
+        self.userID = userID
+        self.entryID = entryID
+        self.followID = followID
+    }
     
     static func createFavoriteArray(querySnapShot:QuerySnapshot)->[FollowerStruct]{
         var followers = [FollowerStruct]()

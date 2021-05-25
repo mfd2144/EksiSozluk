@@ -13,29 +13,29 @@ import Foundation
 
 extension FirebaseService{
     
-    func fetchMostFollowedEntries(handler:@escaping([MostFollowedStruct])->()){
+    func fetchMostLikedEntries(handler:@escaping([MostLikedStruct])->()){
 
-        callMostFollowedByCategory(categoryName: "sport") { [self] mostFollowedSport in
+        callMostLikedByCategory(categoryName: "sport") { [self] mostFollowedSport in
             guard let sports = mostFollowedSport else {return}
             mostFollowed.append(sports)
             handler(mostFollowed)
         }
-        callMostFollowedByCategory(categoryName: "relation") { [self] mostFollowedRelation in
+        callMostLikedByCategory(categoryName: "relation") { [self] mostFollowedRelation in
             guard let relations = mostFollowedRelation else {return}
             mostFollowed.append(relations)
             handler(mostFollowed)
         }
-        callMostFollowedByCategory(categoryName: "political") { [self] mostFollowedPolitical in
+        callMostLikedByCategory(categoryName: "political") { [self] mostFollowedPolitical in
             guard let politics = mostFollowedPolitical else {return}
             mostFollowed.append(politics)
             handler(mostFollowed)
         }
-        callMostFollowedByCategory(categoryName: "other") { [self] mostFollowedOther in
+        callMostLikedByCategory(categoryName: "other") { [self] mostFollowedOther in
             guard let others = mostFollowedOther else {return}
             mostFollowed.append(others)
             handler(mostFollowed)
         }
-        callMostFollowedByCategory(categoryName: "entertainment") { [self] mostFollowedEntertainment in
+        callMostLikedByCategory(categoryName: "entertainment") { [self] mostFollowedEntertainment in
             guard let entertainments = mostFollowedEntertainment else {return}
             mostFollowed.append(entertainments)
             handler(mostFollowed)
@@ -43,27 +43,26 @@ extension FirebaseService{
         
         
         
-        func callMostFollowedByCategory(categoryName:String,completionHandler:@escaping  (MostFollowedStruct?)->()){
-            var mostFollowed:MostFollowedStruct?
+        func callMostLikedByCategory(categoryName:String,completionHandler:@escaping  (MostLikedStruct?)->()){
+            var mostLiked:MostLikedStruct?
             self.entryCollection.whereField(category_string, isEqualTo: categoryName)
-                .order(by: follow_number, descending: true)
+                .order(by: likes_number, descending: true)
                 .limit(to: 10).getDocuments { querySnapshot, error in
                     if let error = error{
                         print(error)
-                        completionHandler(mostFollowed)
+                        completionHandler(mostLiked)
                         return
                     }else{
-                        guard let mostFollowedSnap = querySnapshot?.documents else { return }
+                        guard let mostLikedSnap = querySnapshot?.documents else { return }
                         var entries = [EntryStruct]()
-                        for doc in mostFollowedSnap{
+                        for doc in mostLikedSnap{
                             let entry = EntryStruct(querySnapshot: doc, documentID: doc.documentID)
                             entries.append(entry)
                             
                         }
                         
-                        mostFollowed = MostFollowedStruct(category: categoryName, entries: entries)
-                       print(mostFollowed)
-                       return completionHandler(mostFollowed)
+                        mostLiked = MostLikedStruct(category: categoryName, entries: entries)
+                       return completionHandler(mostLiked)
                     }
                     
                 }

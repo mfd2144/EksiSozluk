@@ -11,9 +11,9 @@ import Foundation
 class AppSingleton{
     static let shared = AppSingleton()
     private init(){
-        
     }
-    var entryID:String?
     var userDocID:String?
-    var mostFollowed:[MostFollowedStruct]?
+    var mostFollowed:[MostLikedStruct]?
+    var followedUsersLastEntries:[EntryStruct]?
+    var selectedView:Collections?
 }

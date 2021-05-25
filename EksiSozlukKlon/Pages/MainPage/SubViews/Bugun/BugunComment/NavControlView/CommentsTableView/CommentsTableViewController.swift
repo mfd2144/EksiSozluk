@@ -8,12 +8,27 @@
 import UIKit
 import FirebaseAuth
 
-class CommentsTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CommentsTableViewController: UIViewController {
+    
+    
     
     let model = CommentsTableModel()
     var navBarHeight:CGFloat?
-    var comments:[CommentStruct]?
-    var id :String?
+    private var id :String?
+    
+    
+    
+    var comments:[CommentStruct]?{
+        didSet{
+            model.totalTableHeight = 0
+        }
+    }
+    
+    var entry:EntryStruct?{
+        didSet{
+            id = entry?.documentID
+        }
+    }
     
     let tableView :MainTableView = {
         let view = MainTableView()
@@ -21,8 +36,9 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         return view
     }()
     
-    let commentNavMenuView:CommentNavMenuView = {
+    lazy var commentNavMenuView:CommentNavMenuView = {
         let view = CommentNavMenuView()
+        view.id = id
         return view
     }()
     
@@ -32,43 +48,73 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
         return button
     }()
     
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let barButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
-        navigationItem.leftBarButtonItem = barButton
         navigationItem.rightBarButtonItem = addCommentButton
         navBarHeight = self.navigationController?.navigationBar.frame.maxY
-        setViews()
+        setCommentNavMenuViews()
         view.addSubview(tableView)
         view.addSubview(commentNavMenuView)
+        if (self.navigationController as? CommentNavController) != nil{
+            let barButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+            navigationItem.leftBarButtonItem = barButton
+        }
+        
+        setEntryLabel()
+        
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        tableView.tableView.delegate = self
-        tableView.tableView.dataSource = self
-        commentNavMenuView.delegate = self
-        
-        tableView.tableView.register(CommenTableCell.self, forCellReuseIdentifier: "CommentTableCell")
-        
-        //        program add id to sceneDelegate ,thus take information there
-        id = AppSingleton.shared.entryID
-        model.fetchComments(documentID: id!)
-        model.comments = { commetsArray in
-            self.comments = commetsArray
-            self.tableView.tableView.reloadData()
-        }
-        
-        
+        setTableProperties()
+        setCommentNavProperties()
+        setModelProperties()
+    
     }
+    
     
     @objc func dismissView(_ sender:UIBarButtonItem){
         dissmisToLeft()
+    }
+    
+    private func setEntryLabel(){
+        guard  let entry = entry else {  return  }
+        var entryString :String = ""
+        entry.entryLabel.forEach({entryString += ($0+" ") })
+        commentNavMenuView.entryLabel.text = entryString
+    }
+    
+    private func setTableProperties(){
+        tableView.tableView.delegate = self
+        tableView.tableView.dataSource = self
+        tableView.tableView.register(CommenTableCell.self, forCellReuseIdentifier: "CommentTableCell")
         
     }
+    
+    private func setCommentNavProperties(){
+        commentNavMenuView.delegate = self
+        commentNavMenuView.pageControlDelegate = model
+        commentNavMenuView.pageControlDataSource = model
+    }
+    
+    private func setModelProperties(){
+        model.parentController = self
+        model.fetchComments(documentID: id!)
+        model.commentsContainer = { [self]  commetsArray in
+            self.comments = commetsArray
+            self.tableView.tableView.reloadData()
+            model.findTotalPage()
+        }
+    }
+    
+    
+}
+
+
+//MARK: - TableView Delegate And DataSource
+extension CommentsTableViewController:  UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments?.count ?? 0
@@ -76,35 +122,28 @@ class CommentsTableViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableCell", for: indexPath) as? CommenTableCell,let comment = comments?[indexPath.row] else {return UITableViewCell()}
+        cell.hideShareMenu()
         cell.parentController = self
         cell.comment = comment
         return cell
     }
-    
+ 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let comment = comments?[indexPath.row] else { return }
-        
         let singleCommentVC = SingleCommentViewController()
         singleCommentVC.comment = comment
         // send single comment information via navbar to 
         navigationController?.pushViewController(singleCommentVC, animated: true)
-        
     }
-    
 }
-
-
-
-
 
 
 //MARK: - Top View Swipe act
 extension CommentsTableViewController{
-    
-    
+       
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+        guard navBarHeight != nil, navigationController != nil else {return}
         let currentYtransition =  scrollView.panGestureRecognizer.translation(in: tableView).y
         if currentYtransition<0{
             // swipe down
@@ -122,6 +161,8 @@ extension CommentsTableViewController{
                     
                 }
             }
+            
+            
         }else if currentYtransition>0 {
             //    swipe up
             UIView.animate(withDuration: 0.5) {
@@ -130,14 +171,14 @@ extension CommentsTableViewController{
                     self.commentNavMenuView.frame.origin.y += currentYtransition
                     self.tableView.frame.origin.y += currentYtransition
                     if self.commentNavMenuView.frame.maxY > (self.navBarHeight)!{
-                        self.setViews()
+                        self.setCommentNavMenuViews()
                     }
                 }
             }
         }
     }
     
-    func setViews(yValue:CGFloat = 0){
+    func setCommentNavMenuViews(yValue:CGFloat = 0){
         
         guard let navMaxY = navBarHeight else {return}
         let commentSize = CGSize(width: UIScreen.main.bounds.width, height:100)
@@ -152,73 +193,80 @@ extension CommentsTableViewController{
     
     @objc private func addClicked(){
         let addController = AddNewCommentViewController()
-        
         var entryString :String = ""
-        
-        (self.navigationController as? CommentNavController)?.entry?.entryLabel.forEach({entryString += ($0+" ") })
-        
-        
+        self.entry?.entryLabel.forEach({entryString += ($0+" ") })
+        addController.id =  id
         addController.commentString = entryString
         guard let _ = Auth.auth().currentUser else {return}
         present(addController, animated: true, completion: nil)
     }
-    
-    
 }
 
+
+
+
+//MARK: - Top View Controls
 extension CommentsTableViewController:CommentTopNavDelegate{
-    func followClicked() {
-        //        firebaseservice will handle here
-    }
     
-    func searhInEntryClicked() {
-        let alert = model.newAlert()
+    func searhcInEntryClicked() {
+        let alert = model.newAlert(id: id)
         present(alert, animated: true, completion: nil)
     }
     
-    func showMostLikedClicked() {
-//        firebaseservice will handle here
-    }
+    func searchButtonClicked(view:inout UIView){
+        
+            let searchBar = UISearchBar()
+            searchBar.delegate = self
+            searchBar.translatesAutoresizingMaskIntoConstraints = false
+            
+            view.addViewWithAnimation(searchBar)
+            NSLayoutConstraint.activate([searchBar.topAnchor.constraint(equalTo: view.topAnchor),
+                                         searchBar.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -40),
+                                         searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                                         searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            ])
+        }
     
     func searchClicked() {
         let searchBar = UISearchBar()
+        searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+        
         commentNavMenuView.addViewWithAnimation(searchBar)
         NSLayoutConstraint.activate([searchBar.topAnchor.constraint(equalTo: commentNavMenuView.topAnchor),
                                      searchBar.bottomAnchor.constraint(equalTo: commentNavMenuView.bottomAnchor,constant: -40),
                                      searchBar.trailingAnchor.constraint(equalTo: commentNavMenuView.trailingAnchor),
                                      searchBar.leadingAnchor.constraint(equalTo: commentNavMenuView.leadingAnchor)
-
-                                        
         ])
-  searchBar.delegate = self
-        
     }
-    func shareEntityClicked(){
     
+    func shareEntityClicked(){
         let ac = UIActivityViewController(activityItems: ["www.eksisozlukklon.com/\(id ?? "error")"], applicationActivities: nil)
         present(ac, animated: true, completion: nil)
     }
-    
-    
 }
 
+
+
+
+
+//MARK: - Search Bar
 extension CommentsTableViewController: UISearchBarDelegate{
- 
-    
+
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
     }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         model.fetchComments(documentID: id)
         searchBar.removeFromSuperview()
     }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         if searchBar.text != ""{
             model.searchKeyWord(id, searchBar.text!)
             tableView.tableView.reloadData()
         }
-    }
-    
-    }
+    } 
+}

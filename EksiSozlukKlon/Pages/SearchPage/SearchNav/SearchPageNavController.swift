@@ -10,9 +10,17 @@ import UIKit
 class SearchPageNavController: UINavigationController {
     
     
+    public override init(rootViewController: UIViewController = SearchViewController()) {
+        super.init(rootViewController: rootViewController)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-      viewControllers = [SearchViewController()]
+     
     }
     
     

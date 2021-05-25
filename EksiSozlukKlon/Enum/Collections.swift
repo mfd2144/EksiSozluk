@@ -12,12 +12,9 @@ enum Collections:String,RawRepresentable{
     case bugun = "bugün"
     case gundem = "gündem"
     case debe = "debe"
-//    case sorunsallar = "sorunsallar"
     case takip = "takip"
-//    case tarihte_bugun = "tarihte bugün"
-//    case son = "son"
     case caylak = "çaylak"
-//    case kenar = "kenar"
+
 
     var value: Int{
         switch self {
@@ -31,15 +28,6 @@ enum Collections:String,RawRepresentable{
             return 3
         case .caylak:
             return 4
-//        case .sorunsallar:
-//            return 4
-//        case .tarihte_bugun:
-//            return 5
-//        case .son:
-//            return 6
-
-//        case .kenar:
-//            return 8
         }
     }
     init?(value: Int) {
@@ -49,12 +37,6 @@ enum Collections:String,RawRepresentable{
         case 2:self = .debe
         case 3:self = .takip
         case 4:self = .caylak
-//        case 4:self = .sorunsallar
-       
-//        case 5:self = .tarihte_bugun
-//        case 6:self = .son
-
-//        case 8:self = .kenar
         default : return nil
             
         }
@@ -65,7 +47,7 @@ enum Collections:String,RawRepresentable{
         case .gundem:return GundemView()
         case.debe:return DebeView()
         case.takip:return TakipView()
-        default: return UIView()
+        default: return RookieView()
     
         }
     }

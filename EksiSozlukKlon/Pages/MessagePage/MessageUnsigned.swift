@@ -11,7 +11,7 @@ class MessageUnsigned: MutualUnregisterViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageCenter.image = UIImage(systemName: "bubble.right")
         // Do any additional setup after loading the view.
     }
     

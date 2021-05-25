@@ -14,7 +14,7 @@ class UserControlUnsigned: MutualUnregisterViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageCenter.image = UIImage(systemName: "person")
         // Do0 any additional setup after loading the view.
     }
 

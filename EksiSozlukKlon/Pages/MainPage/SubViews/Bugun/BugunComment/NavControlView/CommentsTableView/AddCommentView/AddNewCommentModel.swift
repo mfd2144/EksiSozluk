@@ -15,8 +15,8 @@ let firebaseService = FirebaseService()
     override init() {
         super.init()
     }
-    func addNewComment(text:String){
-        guard let id = AppSingleton.shared.entryID else {return}
+    func addNewComment(id:String,text:String){
+//        guard let id = AppSingleton.shared.entryID else {return}
         firebaseService.addNewComment(id, comment: text)
     }
     

@@ -11,7 +11,7 @@ class GundemModel:NSObject{
     var settings :Dictionary<String,Bool>?
     let firebase = FirebaseService()
     var entries:(([EntryStruct])->())?
-    var parent:UIViewController?
+    var parent:MainPageController?
     
     override init() {
         super.init()
@@ -46,7 +46,7 @@ class GundemModel:NSObject{
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        AppSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.selectedView = Collections.gundem
         parent?.presentToRight(commentNavVC)
         
         

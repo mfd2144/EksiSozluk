@@ -17,7 +17,7 @@ class MainPageViewModel:BasicView{
     var difference:CGFloat=0
     var parent:UIViewController?
     var selectedSubView:((Collections)->())?//with this closure view communicate controller and learn which view add on scrool view
-    
+    var oldView:UIView?
     
     lazy var scrollView:UIScrollView={
         let bounds = UIScreen.main.bounds
@@ -53,10 +53,15 @@ class MainPageViewModel:BasicView{
             let point = CGPoint(x: screenWidth * CGFloat(collection.value), y: 0)
             let size = CGSize(width: screenWidth, height: self.frame.height)
             newSubview.frame = CGRect(origin: point, size: size)
+            
+            if  oldView != nil{
+                oldView?.removeFromSuperview()
+            }
+            
             self.scrollView.addSubview(newSubview)
+            oldView = newSubview
             guard let _ = parent else {return}
             (newSubview as? BasicView)?.parentController?(parent!) //send parent controller 
-            
         }
     }
     
@@ -96,6 +101,9 @@ extension MainPageViewModel:UIGestureRecognizerDelegate{
         //        I added this method otherwise scrollview doesn't recognize scroll movement
         return true
     }
+    
+    
+    
 }
 
 

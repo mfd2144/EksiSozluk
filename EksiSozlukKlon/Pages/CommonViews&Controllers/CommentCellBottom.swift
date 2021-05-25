@@ -45,7 +45,7 @@ class CommentCellBottom: UITableViewCell {
         return image
     }()
 
-    let entityTime:UILabel = {
+    let entryTime:UILabel = {
         let label = UILabel()
         label.textColor = .systemGray3
         label.textAlignment = .left
@@ -157,10 +157,12 @@ class CommentCellBottom: UITableViewCell {
     private func setViewGestures(){
         let tapFavorite = UITapGestureRecognizer(target: self, action: #selector(favoriteTapped))
         favoriteView.isUserInteractionEnabled = true
+   
         favoriteView.addGestureRecognizer(tapFavorite)
 
         let taplike = UITapGestureRecognizer(target: self, action: #selector(likeTapped))
         likeView.isUserInteractionEnabled = true
+     
         likeView.addGestureRecognizer(taplike)
 
 
@@ -175,6 +177,7 @@ class CommentCellBottom: UITableViewCell {
 
     }
     @objc func favoriteTapped(){
+    
     }
     @objc  func likeTapped(){
     }
@@ -195,7 +198,7 @@ class CommentCellBottom: UITableViewCell {
 
     private func setPersonStack(){
         userLabelStack.addArrangedSubview(userName)
-        userLabelStack.addArrangedSubview(entityTime)
+        userLabelStack.addArrangedSubview(entryTime)
         userStack.addArrangedSubview(userLabelStack)
         userStack.addArrangedSubview(avatarPhoto)
         mainView.addSubview(userStack)
@@ -213,7 +216,7 @@ class CommentCellBottom: UITableViewCell {
     private func setCommentToCell(){
         guard let comment = comment else { return }
         commentText.text = comment.commentText
-        entityTime.text = comment.createDate.convertDateToString()
+        entryTime.text = comment.createDate.convertDateToString()
         userName.text = comment.userNick
         favoriteLabel.text = String(comment.favories)
 
@@ -250,6 +253,10 @@ class CommentCellBottom: UITableViewCell {
             likeView.tintColor = .systemGray3
         }
 
+    }
+    func hideShareMenu(){
+        menuView.isHidden = true
+        shareView.isHidden = true
     }
 
 }

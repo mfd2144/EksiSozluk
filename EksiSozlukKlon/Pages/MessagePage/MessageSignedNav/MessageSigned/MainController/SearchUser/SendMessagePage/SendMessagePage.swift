@@ -9,13 +9,10 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import Firebase
-import SDWebImage
 
 
 class SendMessageViewController:MessagesViewController,MessagesLayoutDelegate,MessagesDisplayDelegate,MessagesDataSource{
-   
-   
-    
+
     var messages:[Message] = []
     let firebaseService = FirebaseService()
     let model = SendMessageModel()
@@ -30,6 +27,13 @@ class SendMessageViewController:MessagesViewController,MessagesLayoutDelegate,Me
         didSet{
             model.contactedUser = contactedUser
         }
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        model.resetNewMessages()
+        model.stopListener()
     }
 
     
@@ -55,7 +59,6 @@ class SendMessageViewController:MessagesViewController,MessagesLayoutDelegate,Me
         }
         
     }
-    
     
     
     func currentSender() -> SenderType {

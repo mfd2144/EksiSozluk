@@ -13,10 +13,11 @@ class SendMessageModel:NSObject{
     var documentRef:DocumentReference?
     var messageCointainer:(([Message])->())?
     var didChatBefore:Bool?
-    
+    var chat:Chat?
     
     var contactedUser:BasicUserStruct?{
         didSet{
+            
             fetchMessages()
         }
     }
@@ -47,6 +48,7 @@ class SendMessageModel:NSObject{
                 chats.first?.owners.forEach({
                     if $0["owner"] as? String == user{
                         getChatMessages()
+                        self.chat = chats.first!
                         if let messageText = text{
                             sendMessages(messageText)
                         }
@@ -59,6 +61,8 @@ class SendMessageModel:NSObject{
         }
         
     }
+    
+    
     private func getChatMessages(){
         firebaseService.getAllMessages(docRef: documentRef!) { (messages, error) in
             if let error = error{
@@ -68,6 +72,8 @@ class SendMessageModel:NSObject{
             }
         }
     }
+    
+    
     
     private func createNewChat(_ text:String){
         
@@ -86,17 +92,24 @@ class SendMessageModel:NSObject{
         if !didChatBefore! {
             createNewChat(text)
         }
-        guard let _ =  contactedUser?.userId, let docRef = documentRef else {return}
-        firebaseService.createNewMessage(content: text, chatRef: docRef) { (error) in
+        guard let _ =  contactedUser?.userId, let docRef = documentRef,let chat = chat else {return}
+        firebaseService.createNewMessage(content: text, chatRef: docRef) { [self] (error) in
             if let error = error{
                 print("sending message error: \(error.localizedDescription)")
             }else{
+                firebaseService.addNewMessageForBadge(chatId: chat.chatID!, userID: contactedUser!.userId)
                 self.getChatMessages()
             }
         }
     }
     
     
+    func resetNewMessages(){
+        guard let chat = chat else { return }
+        firebaseService.resetNewMessagesCounter(chatId: chat.chatID!)
+    }
     
-    
+    func stopListener() {
+        firebaseService.stopListener()
+    }
 }

@@ -63,16 +63,16 @@ extension FirebaseService{
                 guard let chatSnapshot = querySnapshot else { handler(chats,nil); return }
                 //                is there any chat ?
                 if chatSnapshot.documents.count > 0 {
-                        //                        if app send contacteduser this part will work
-                        
-                        chats = []
-                        for doc in chatSnapshot.documents{
-                            if let chat = Chat(dictionary: doc.data(),ref:doc.reference,id: doc.documentID){
-                                chats.append(chat)
-                                handler(chats,nil)
-                                return
-                            }
+                    
+                    
+                    chats = []
+                    for doc in chatSnapshot.documents{
+                        if let chat = Chat(dictionary: doc.data(),ref:doc.reference,id: doc.documentID){
+                            chats.append(chat)
+                            handler(chats,nil)
+                            return
                         }
+                    }
                 }
                 handler(chats,nil)
             }
@@ -91,12 +91,14 @@ extension FirebaseService{
         let chat = Chat(users: [user.uid,contactedUser.userId],  docRef: nil, usersNick:[(user.displayName ?? ""),contractedUserNick], date: date, owners: [
             ["owner" : user.uid,"since":Timestamp(date: Date()),first_message:firstMessage],
             ["owner" : contactedUser.userId,"since":Timestamp(date: Date()),first_message:firstMessage]
-        ])
+        ], newMessages:[user.uid:0,contactedUser.userId:0]
+        )
         let newChat = db.collection(chatPath).document()
         newChat.setData([users_ID : chat.users,
                          users_nick:chat.usersNick,
                          create_date:chat.date,
-                         "owners":chat.owners
+                         "owners":chat.owners,
+                         new_messages:chat.newMessages
                          
         ]) { (error) in
             if let error = error{
@@ -116,14 +118,14 @@ extension FirebaseService{
     func getAllMessages(docRef:DocumentReference,handler:@escaping ([Message],Error?)->()){
         var messages = [Message]()
         guard let user = user else {handler(messages,nil);return}
-        db.runTransaction { transaction, _ in
-            var chatDoc: DocumentSnapshot!
+        db.runTransaction { [self] transaction, _ in
+            var chatDoc: DocumentSnapshot?
             do{
                 chatDoc = try transaction.getDocument(docRef)
             }catch let error{
                 handler(messages,error)
             }
-            guard let owners = chatDoc.data()?["owners"] as? [[String:Any]] else {handler(messages,nil);return nil}
+            guard let owners = chatDoc?.data()?["owners"] as? [[String:Any]] else {handler(messages,nil);return nil}
             var ownerSince : Timestamp?
             
             owners.forEach({
@@ -132,7 +134,7 @@ extension FirebaseService{
                 }
             })
             guard let ownerSince = ownerSince else {handler(messages,nil);return nil}
-            docRef.collection(messagesPath).order(by: "created", descending: false)
+         listener = docRef.collection(messagesPath).order(by: "created", descending: false)
                 .whereField("created", isGreaterThanOrEqualTo: ownerSince)
                 .addSnapshotListener { (messageSnapshot, error) in
                     if let error = error {
@@ -301,18 +303,90 @@ extension FirebaseService{
     }
     
     
+    func resetNewMessagesCounter(chatId:String){
+        
+        
+        guard let user = user else { return }
+        let ref = db.collection(chatPath).document(chatId)
+
+        db.runTransaction { transaction, _ in
+            var chatDoc:DocumentSnapshot!
+            do{
+                chatDoc = try transaction.getDocument(ref)
+            }catch let error{
+                print(error)
+            }
+            guard var numberOfMessages = chatDoc[new_messages] as? [String:Int] else {return nil}
+            numberOfMessages[user.uid] = 0
+            transaction.updateData([new_messages : numberOfMessages], forDocument: ref)
+            chatDoc = nil
+            return nil
+        } completion: { _, error in
+            if let error = error{
+                print(error)
+            }
+        }
+
+        
+    }
     
     
+    func addNewMessageForBadge(chatId:String,userID:String){
+        
+        let ref = db.collection(chatPath).document(chatId)
+
+        db.runTransaction { transaction, _ in
+            var chatDoc:DocumentSnapshot!
+            do{
+                chatDoc = try transaction.getDocument(ref)
+            }catch let error{
+                print(error)
+            }
+            guard var numberOfMessages = chatDoc[new_messages] as? [String:Int] else {return nil}
+            guard let oldValue = numberOfMessages[userID] else {return nil}
+            numberOfMessages[userID] = oldValue + 1
+            transaction.updateData([new_messages : numberOfMessages], forDocument: ref)
+            
+            return nil
+        } completion: { _, error in
+            if let error = error{
+                print(error)
+            }
+        }
+    }
+        
+        
     
-    
-    
-    
-    
-    
+    func checkNewMessagesForBadge(handler:@escaping (Int,Error?)->()){
+            var totalBadgeNumber:Int = 0
+        guard let user = user else {handler(totalBadgeNumber,nil); return }
+            let ref = db.collection(chatPath).whereField(users_ID, arrayContains:  user.uid)
+        
+           continuesListener =  ref.addSnapshotListener { documentSnapshot, error in
+            totalBadgeNumber = 0
+                if let error = error{
+                    handler(totalBadgeNumber,error)
+                    return
+                }else{
+                    guard let chats = documentSnapshot?.documents else {return}
+                  
+                    for chat in chats{
+                        guard let chatInfo = chat.data()["owners"] as? [[String:Any]] else {handler(totalBadgeNumber,nil); return}
+                        chatInfo.forEach { owner in
+                            if owner["owner"] as! String == user.uid{
+                                totalBadgeNumber += (chat.data()[new_messages] as? [String:Int])?[user.uid] ?? 0
+                                
+                            }
+                    }
+                }
+                    handler(totalBadgeNumber,nil)
+        }
+    }
+       
 }
 
 
-
+}
 
 
 

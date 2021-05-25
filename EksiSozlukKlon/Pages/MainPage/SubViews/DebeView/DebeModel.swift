@@ -37,10 +37,8 @@ class DebeModel:NSObject{
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        AppSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.selectedView = Collections.debe
         parent?.presentToRight(commentNavVC)
-        
-        
     }
     
     

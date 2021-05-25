@@ -15,7 +15,7 @@ class SearchViewController: UIViewController{
     let customLayoutProvider = CollectionCompotionalLayoutProvider()
     let searchBarController = UISearchController(searchResultsController:nil)
     let model = SearchViewControllerModel()
-    var mostFollowed:[MostFollowedStruct]?{
+    var mostFollowed:[MostLikedStruct]?{
         didSet{
             collectionView?.reloadData()
         }
@@ -26,23 +26,18 @@ class SearchViewController: UIViewController{
         super.viewWillAppear(animated)
         mostFollowed = AppSingleton.shared.mostFollowed?.sorted(by: { $0.category < $1.category })
         navigationController?.navigationBar.topItem?.title = "search"
+        navigationItem.searchController?.view.isHidden = false
+       
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .gray
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: customLayoutProvider.getCollectionViewLayout())
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
-        collectionView?.register(SearchCollectionCell.self, forCellWithReuseIdentifier: SearchCollectionCell.cellIdentifier)
-        collectionView?.register(HeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderReusableView.headerReusableIdentifier)
-        collectionView?.backgroundColor = .systemBackground
-        
-        
-        navigationItem.searchController = searchBarController
-        navigationItem.hidesSearchBarWhenScrolling = false
-        searchBarController.searchBar.delegate = self
-        searchBarController.searchBar.backgroundColor = .systemBackground
+        setCollectionView()
+        setSearchBar()
+        model.resultContainer = { results in
+            self.mostFollowed = results
+        }
 }
 
 
@@ -53,6 +48,28 @@ class SearchViewController: UIViewController{
         }
         view.addSubview(collectionV)
         collectionV.frame = view.bounds
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationItem.searchController?.view.isHidden = true
+        
+    }
+    
+    private func setCollectionView(){
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: customLayoutProvider.getCollectionViewLayout())
+        collectionView?.dataSource = self
+        collectionView?.delegate = self
+        collectionView?.register(SearchCollectionCell.self, forCellWithReuseIdentifier: SearchCollectionCell.cellIdentifier)
+        collectionView?.register(HeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderReusableView.headerReusableIdentifier)
+        collectionView?.backgroundColor = .systemBackground
+    }
+    
+    
+    private func setSearchBar(){
+        navigationItem.searchController = searchBarController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchBarController.searchBar.delegate = self
+        searchBarController.searchBar.backgroundColor = .systemBackground
     }
  
    
@@ -109,9 +126,11 @@ extension SearchViewController:UICollectionViewDelegate,UICollectionViewDataSour
 }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         let commentVC = CommentsTableViewController()
-        guard let id = mostFollowed?[indexPath.section].entries[indexPath.row].documentID  else { return }
-        AppSingleton.shared.entryID = id
+        
+        guard let entry = mostFollowed?[indexPath.section].entries[indexPath.row]  else { return }
+        commentVC.entry = entry
         navigationController?.pushViewController(commentVC, animated: true)
         
     }

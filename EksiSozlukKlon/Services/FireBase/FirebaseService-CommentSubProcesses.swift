@@ -14,7 +14,7 @@ extension FirebaseService{
         
         let commentRef = entryCollection.document(entryID).collection(commentsPath).document(commentID)
         guard let userID = user?.uid else {return}
-        commentRef
+        listener = commentRef
             .collection(favoritesPath)
             .whereField(user_ID, isEqualTo: userID)
             .addSnapshotListener({ [self] (querySnapshot, error) in
@@ -98,9 +98,38 @@ extension FirebaseService{
     
     
     
+    
+    func fetchlikeCondition(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+        
+        let commentRef = entryCollection.document(entryID).collection(commentsPath).document(commentID)
+        guard let userID = user?.uid else {return}
+        listener = commentRef
+            .collection(likesPath)
+            .whereField(user_ID, isEqualTo: userID)
+            .addSnapshotListener({ [self] (querySnapshot, error) in
+                
+                if let error = error {
+                    completion(error)
+                }else{
+                    guard let querySnapShot = querySnapshot else { return }
+                    commentLikeArray = LikeStruct.createLikeArray(querySnapShot: querySnapShot)
+                    if commentLikeArray.count > 0{
+                        cellDelegate?.decideToLikeImage(true)
+                    }else{
+                        cellDelegate?.decideToLikeImage(false)
+                    }
+                    
+                }
+                
+            })
+    }
+    
+    
+    
+    
     func addorRemoveFromLike(entryID:String,commentID:String, completion:@escaping (Error?)->()){
         
-        guard let userID = user?.uid else {return}
+        guard let userID = user?.uid,let _  = userDocID else {return}
         
         let commentRef = entryCollection.document(entryID).collection(commentsPath).document(commentID)
         
@@ -117,15 +146,15 @@ extension FirebaseService{
             //            we fetch how many user add it to favorite here
             guard let oldValue = commentDoc.data()?[likes_number] as? Int else {return nil}
             
-            if likeArray.count > 0{
+            if commentLikeArray.count > 0{
                 //  user already have pushed like button , user delete it from own list
                 
-                guard let likeID = likeArray.first?.LikeID else { return nil}
+                guard let likeID = commentLikeArray.first?.likeID else { return nil}
                 let likeRef = commentRef.collection(likesPath).document(likeID)
                 
                 transaction.updateData([likes_number:oldValue-1], forDocument: commentRef)
                 transaction.deleteDocument(likeRef)
-                likeArray.removeAll()
+                commentLikeArray.removeAll()
              
                 
             }else{
@@ -133,8 +162,9 @@ extension FirebaseService{
                 
                 let likeRef = commentRef.collection(likesPath).document()
                 transaction.setData([user_ID : userID,
-                                     comment_ID :commentDoc.documentID], forDocument: likeRef)
+                                     comment_ID :commentID], forDocument: likeRef)
                 transaction.updateData([likes_number:oldValue+1], forDocument: commentRef)
+                addCommentLikeToUser(entryRefID: entryID, commentRefID: commentID)
                
             }
             return nil
@@ -148,29 +178,19 @@ extension FirebaseService{
         }
         
     }
-    func fetchlikeCondition(entryID:String,commentID:String, completion:@escaping (Error?)->()){
+    
+    func addCommentLikeToUser(entryRefID:String,commentRefID:String){
+    
+    let commentLikeRef = userCollection.document(userDocID!).collection("CommentLikes").document()
+    commentLikeRef.setData([entry_ID : entryRefID,
+                            comment_ID:commentRefID
+    ]) { error in
+        if error != nil{
+            print(error!)
+        }
+    }
         
-        let commentRef = entryCollection.document(entryID).collection(commentsPath).document(commentID)
-        guard let userID = user?.uid else {return}
-        commentRef
-            .collection(likesPath)
-            .whereField(user_ID, isEqualTo: userID)
-            .addSnapshotListener({ [self] (querySnapshot, error) in
-                
-                if let error = error {
-                    completion(error)
-                }else{
-                    guard let querySnapShot = querySnapshot else { return }
-                    likeArray = LikeStruct.createLikeArray(querySnapShot: querySnapShot)
-                    if likeArray.count > 0{
-                        cellDelegate?.decideToLikeImage(true)
-                    }else{
-                        cellDelegate?.decideToLikeImage(false)
-                    }
-                    
-                }
-                
-            })
+        
     }
     
    

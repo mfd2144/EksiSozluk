@@ -10,9 +10,6 @@ import UIKit
 
 class MessageCommonController:UITableViewController,UISearchBarDelegate{
     
-    
-
-    
     let cautionLabel :UILabel = {
         let label = UILabel()
         label.text = "yok ki öyle birşey"

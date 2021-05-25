@@ -12,7 +12,7 @@ class BugunModel:NSObject{
     
     let firebaseService = FirebaseService()
     var sendEntity:(([EntryStruct])->())?
-    var parent:UIViewController? //we chose parent as a view controller, thus we can use some method in parent controller
+    var parent:MainPageController? //we chose parent as a view controller, thus we can use some method in parent controller
     
     
     
@@ -42,11 +42,11 @@ class BugunModel:NSObject{
         }
     }
     
-    func callCommentView(row:Int,entry:EntryStruct){
+    func callCommentView(entry:EntryStruct){
         let commentNavVC = CommentNavController()
         commentNavVC.modalPresentationStyle = .fullScreen
         commentNavVC.entry = entry
-        AppSingleton.shared.entryID = entry.documentID
+        AppSingleton.shared.selectedView = Collections.bugun
         parent?.presentToRight(commentNavVC)
         
         

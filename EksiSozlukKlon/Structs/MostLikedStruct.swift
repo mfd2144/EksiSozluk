@@ -8,13 +8,13 @@
 import Foundation
 
 
-struct MostFollowedStruct{
+struct MostLikedStruct{
     let category:String
     var entries:[EntryStruct]
 }
 
 
-extension MostFollowedStruct{
+extension MostLikedStruct{
     init?(dic:[String:Any]) {
         guard let category = dic[category_string] as? String,
               let entries = dic["entries"] as? [EntryStruct] else {return nil}

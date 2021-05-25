@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         guard let windowsscene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowsscene.coordinateSpace.bounds)
-        firebaseService.fetchMostFollowedEntries { mostFollowed in
+        firebaseService.fetchMostLikedEntries { mostFollowed in
             AppSingleton.shared.mostFollowed = mostFollowed
         }
         window?.windowScene = windowsscene
@@ -57,10 +57,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
     @objc func userDidChangeStatus(_ responder:NSNotification){
         let tabBar = TabBarController()
-        firebaseService.getUserDocID() //for some user's process
-        
-        window?.rootViewController = tabBar
-        window?.makeKeyAndVisible()
+        //for some user's process app write user document ID to singleton
+        DispatchQueue.main.async { [self] in
+            firebaseService.getUserDocID{
+                self.firebaseService.fetchFollowedUserEntry(){ result,_ in
+                    AppSingleton.shared.followedUsersLastEntries = result
+                    tabBar.updateBadge = result.count
+                }
+            }
+            window?.rootViewController = tabBar
+            window?.makeKeyAndVisible()
+
+        }
     }
     
 }
