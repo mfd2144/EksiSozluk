@@ -12,6 +12,7 @@ class LogupViewModel:MutualLogView{
     var controller:((UIViewController)->())?
     var parentController:UIViewController?
     var delegate : LogupViewModelDelegate?
+    var lastSelectedField:UITextField?
     
     let textStack:UIStackView = {
         let stack = UIStackView()
@@ -63,7 +64,6 @@ class LogupViewModel:MutualLogView{
         field.textContentType = .emailAddress
         field.text = "e-mail"
         field.restorationIdentifier = "e-mail"
-
         field.layer.borderWidth = 0
         return field
     }()
@@ -88,6 +88,8 @@ class LogupViewModel:MutualLogView{
     }()
     let userBirthdayField :UITextField = {//birthday field
         let field = UITextField()
+        
+        
         field.text = "doğum tarihi"
         field.restorationIdentifier = "birthday"
         field.layer.borderWidth = 0
@@ -116,6 +118,7 @@ class LogupViewModel:MutualLogView{
     let genderLabel: UILabel = {
         let label = UILabel()
         label.text = "cinsiyetiniz"
+        
         return label
     }()
     let genderSegment:UISegmentedControl = {
@@ -144,7 +147,8 @@ class LogupViewModel:MutualLogView{
     let userPasswordField :UITextField = {//birthday field
         let field = UITextField()
         field.text = "şifre"
-        field.textContentType = .password
+        field.restorationIdentifier = "şifre"
+        field.isSecureTextEntry = true
         field.layer.borderWidth = 0
         return field
     }()
@@ -186,7 +190,7 @@ class LogupViewModel:MutualLogView{
         picker.preferredDatePickerStyle = .compact
         picker.locale = Locale(identifier: "tr")
         picker.datePickerMode = .date
-        picker.backgroundColor = .systemGray5
+        picker.backgroundColor = .systemBackground
         picker.translatesAutoresizingMaskIntoConstraints = false
         picker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
         return picker
@@ -212,7 +216,7 @@ class LogupViewModel:MutualLogView{
         userPasswordField.delegate = self
         
         
-
+        
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -260,18 +264,21 @@ class LogupViewModel:MutualLogView{
             
         ])
     }
-    func setDatePicker(handler:()->()
-    ){
+    func setDatePicker(){
         addSubview(datePicker)
+        datePicker.sizeToFit()
+        let width = UIScreen.main.bounds.width
         NSLayoutConstraint.activate([
             
-            datePicker.bottomAnchor.constraint(equalTo: bottomAnchor),
-            datePicker.leadingAnchor.constraint(equalTo: leadingAnchor)
+            datePicker.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: leadingAnchor),
+            datePicker.widthAnchor.constraint(equalToConstant: width/3),
+            datePicker.heightAnchor.constraint(equalToConstant: 50)
             
             
         ])
         userBirthdayField.text = datePicker.date.convertDateToString()
-        handler()
+        userBirthdayField.resignFirstResponder()
     }
     
     private func setLogupButton(){
@@ -308,45 +315,52 @@ class LogupViewModel:MutualLogView{
     override func googlePressed() {
         delegate?.googleSignInPressed()
     }
-   
+    
 }
 
 extension LogupViewModel:UITextFieldDelegate{
+
     
-   
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("burada yazı kayma efekti")
-        return true
-       
-    }
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.restorationIdentifier != nil && textField.restorationIdentifier! == "birthday" {
-            
-         
+        DispatchQueue.main.async { [self] in
+            if textField.restorationIdentifier != nil && textField.restorationIdentifier! == "birthday" {
+                textField.endEditing(true)
                 cancelButton.removeFromSuperview()
-            setDatePicker(){
-                textField.resignFirstResponder()
+                setDatePicker()
+            }else{
+                setCancelButton()
             }
-        }else{
-            setCancelButton()
+
         }
-        if textField.restorationIdentifier == "e-mail" ||  textField.restorationIdentifier == "nick"{
-            
+                
+        if textField.restorationIdentifier == "e-mail" ||  textField.restorationIdentifier == "nick"  || textField.restorationIdentifier == "şifre" {
             textField.text = ""
         }
-        
     }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
 
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        endEditing(true)
+        return true
     }
+    
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField.restorationIdentifier == "e-mail" ||  textField.restorationIdentifier == "nick"{
             textField.text = textField.text?.lowercased()
         }
         return true
     }
-
+    
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        endEditing(true)
+//    }
+    
 }
 
 protocol  LogupViewModelDelegate {

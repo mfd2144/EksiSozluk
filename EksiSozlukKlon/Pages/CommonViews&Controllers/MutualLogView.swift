@@ -40,13 +40,14 @@ class MutualLogView:UIView{
         let button = UIButton()
         button.layer.cornerRadius = 20
         button.backgroundColor = .systemBlue
-        let imageView = UIImageView(image: UIImage(systemName:  "applelogo"))
+        let imageView = UIImageView(image: UIImage(named:"face"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         button.addSubview(imageView)
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: button.centerYAnchor),
-            imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15)
+            imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15),  imageView.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 0.8),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         button.setTitle("facebook ile bağlan", for: .normal)
         button.tintColor = .systemBackground
@@ -56,7 +57,7 @@ class MutualLogView:UIView{
     let googleButton:UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 20
-        button.backgroundColor = .red
+        button.backgroundColor = .lightGray
         button.setTitle("google ile bağlan", for: .normal)
         let imageView = UIImageView(image: UIImage(named:"google"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +66,8 @@ class MutualLogView:UIView{
         NSLayoutConstraint.activate([
             imageView.centerYAnchor.constraint(equalTo: button.centerYAnchor),
             imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor, constant: 15),
-            imageView.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 0.8)
+            imageView.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 0.8),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
         ])
         button.tintColor = .systemBackground
         return button

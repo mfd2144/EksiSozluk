@@ -43,8 +43,8 @@ class UserMainPageModel: NSObject{
                 print("fetching user's followed entries fail \(error.localizedDescription)")
             }
             
-//            let entriesArray = entryStruct.compactMap({ $0 })
-            self.trigger?(entryStruct)
+            let entriesArray = entryStruct.compactMap({ $0 })
+            self.trigger?(entriesArray)
 
             
             

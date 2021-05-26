@@ -44,10 +44,11 @@ class UserMainPageController:UITableViewController{
         navigationItem.rightBarButtonItem = settingsButton
         tableView.register(EntriesViewCell.self, forCellReuseIdentifier: EntriesViewCell.cellID)
         tableView.register(StaticUserCell.self, forCellReuseIdentifier: StaticUserCell.staticCellIdentifier)
-        
+
         model.trigger = { sentEntries in
             self.entries = sentEntries
         }
+    
        
     }
 
@@ -113,12 +114,17 @@ extension UserMainPageController{
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.section == 1{
+        
         guard let entry = entries?[indexPath.row] else { return }
        
         let commentVC = CommentsTableViewController()
         commentVC.entry = entry
         navigationController?.pushViewController(commentVC, animated: true)
-        
+        }else{
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
     }
     
     

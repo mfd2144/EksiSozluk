@@ -581,18 +581,18 @@ extension FirebaseService{
                 return nil
             }
             guard let data = userDoc.data(),let userInfo = UserStruct(data) else {return nil}
-            
-                        
             transaction.updateData([user_nick : nick ?? userInfo.nick,
                                     user_birthday: userBirtday ?? userInfo.birtday as Any,
                                     user_gender: gender ?? userInfo.gender,
                                     user_email:email ?? userInfo.email], forDocument: ref)
-            
+            handler(nil)
             
             return nil
         } completion: { _, error in
             if let error = error{
                 handler(error)
+            }else{
+                handler(nil)
             }
         }
 

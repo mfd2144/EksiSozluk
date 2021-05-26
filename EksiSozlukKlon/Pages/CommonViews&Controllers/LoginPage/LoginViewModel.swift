@@ -47,6 +47,7 @@ class LoginViewModel:MutualLogView{
     let passwordCautionLabel:UILabel = {
         let label = UILabel()
         label.text = "şifreniz gerekli"
+        
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = .systemBackground
@@ -73,7 +74,7 @@ class LoginViewModel:MutualLogView{
     let passwordField :UITextField = {
         let field = UITextField()
         field.text = "şifreniz"
-    
+        field.isSecureTextEntry = true
         field.layer.borderWidth = 0
 
         return field
@@ -199,6 +200,10 @@ class LoginViewModel:MutualLogView{
         delegate?.googleSignInPressed()
     }
     
+    override func facePressed() {
+        delegate?.facebookSignInPressed()
+    }
+    
 }
 
 extension LoginViewModel:UITextFieldDelegate{
@@ -244,4 +249,5 @@ protocol LoginViewModelDelegate {
     func loginButonClicked()
     func resetPassword(_ email:String)
     func googleSignInPressed()
+    func facebookSignInPressed()
 }

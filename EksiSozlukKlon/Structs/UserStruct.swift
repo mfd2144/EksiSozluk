@@ -34,6 +34,7 @@ struct  UserStruct{
     
     
     init?(_ data:[String:Any]){
+    
        guard let email = data[user_email] as? String,
              let nick = data[user_nick] as? String,
              let gender = data[user_gender] as? Int,
@@ -42,7 +43,12 @@ struct  UserStruct{
              let totalContact = data[user_total_contact] as? Int
        else { return nil}
         
-        self.birtday = data[user_birthday] as? Date
+        if let timeStamp = data[user_birthday] as? Timestamp {
+            self.birtday = Timestamp.dateValue(timeStamp)()
+        }else{
+            self.birtday = nil
+        }
+       
         self.createDate = createDate
         self.email = email
         self.nick = nick

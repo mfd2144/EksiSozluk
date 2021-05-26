@@ -7,17 +7,17 @@
 
 import UIKit
 import GoogleSignIn
+import FBSDKLoginKit
+import FirebaseAuth
 
 
 class LoginViewController: UIViewController {
 
-    
-
-    
   
     let firebaseService = FirebaseService()
     let model = LoginModel()
     let viewModel = LoginViewModel()
+    let fbManager = LoginManager()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -53,6 +53,22 @@ class LoginViewController: UIViewController {
 
 
 extension LoginViewController:LoginViewModelDelegate{
+    func facebookSignInPressed() {
+        fbManager.logIn(permissions: ["email"], from: self) { result, error in
+            if let error = error{
+                print("1.durum")
+            }else if result?.isCancelled == true{
+                print(result?.isCancelled)
+            }else{
+                print("here")
+                let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
+                self.firebaseService.credentialLogin(credential)
+                    
+                
+            }
+        }
+    }
+    
     
     func resetPassword(_ email: String) {
         let cV = CautionView(frame: self.view.bounds)
@@ -75,6 +91,9 @@ extension LoginViewController:LoginViewModelDelegate{
         GIDSignIn.sharedInstance().signIn()
     }
 }
+
+
+
 
 
 

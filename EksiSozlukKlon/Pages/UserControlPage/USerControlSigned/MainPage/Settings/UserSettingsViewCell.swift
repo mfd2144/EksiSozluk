@@ -57,7 +57,7 @@ class SettingsModel: NSObject {
     
     func selectViewController(_ selectedIndex:Int){
         switch selectedIndex {
-        case 0:return
+        case 0:changeUserInfo()
         case 1:changeUserMail()
         case 2:changeUserPassword()
         case 3:logOut()
@@ -127,6 +127,13 @@ class SettingsModel: NSObject {
         alert.addAction(actionCAncel)
         alert.addAction(actionChange)
         parentController?.present(alert, animated: true, completion: nil)
+    }
+    
+   func changeUserInfo(){
+        let vc = ChangeUserInformationViewControl()
+    
+    parentController?.navigationController?.pushViewController(vc, animated: true)
+
     }
     
 }

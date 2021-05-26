@@ -9,7 +9,7 @@ target 'EksiSozlukKlon' do
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'GoogleSignIn'
-pod 'SDWebImage' 
+pod 'FBSDKLoginKit'
 pod 'MessageKit'
 
 end

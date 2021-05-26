@@ -12,6 +12,7 @@
 		BA0115742614814100E4799B /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0115732614814000E4799B /* LoginViewModel.swift */; };
 		BA0115772614932100E4799B /* MutualLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0115762614932100E4799B /* MutualLogView.swift */; };
 		BA2497A82613A8C3002B00F0 /* MutualUnregisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */; };
+		BA3F0D4A265D2C460060B354 /* ChangeUserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3F0D49265D2C460060B354 /* ChangeUserInformation.swift */; };
 		BA5636472652838C00D31A55 /* UpdateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5636462652838C00D31A55 /* UpdateTableViewController.swift */; };
 		BA5636492652842800D31A55 /* UpdateNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5636482652842800D31A55 /* UpdateNavController.swift */; };
 		BA56364B2652E49D00D31A55 /* UpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA56364A2652E49D00D31A55 /* UpdateModel.swift */; };
@@ -99,6 +100,7 @@
 		BA9035B126565338000B5AD4 /* UserSettingsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9035B026565338000B5AD4 /* UserSettingsViewCell.swift */; };
 		BA96C3CA26417D9300564C14 /* MostLikedStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96C3C926417D9300564C14 /* MostLikedStruct.swift */; };
 		BA96C3CC26417EB600564C14 /* FirebaseService-MostLikedEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA96C3CB26417EB600564C14 /* FirebaseService-MostLikedEntries.swift */; };
+		BA98452C265E532C00BD2968 /* ChangeUserInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA98452B265E532C00BD2968 /* ChangeUserInformationModel.swift */; };
 		BAA7BA1C26218F6100D872E1 /* GundemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA1B26218F6100D872E1 /* GundemModel.swift */; };
 		BAA7BA272621F8C500D872E1 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA262621F8C500D872E1 /* CustomAlert.swift */; };
 		BAA7BA2B2624579000D872E1 /* CustomAlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA7BA2A2624579000D872E1 /* CustomAlertCell.swift */; };
@@ -122,6 +124,7 @@
 		BA0115732614814000E4799B /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		BA0115762614932100E4799B /* MutualLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualLogView.swift; sourceTree = "<group>"; };
 		BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualUnregisterViewController.swift; sourceTree = "<group>"; };
+		BA3F0D49265D2C460060B354 /* ChangeUserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInformation.swift; sourceTree = "<group>"; };
 		BA5636462652838C00D31A55 /* UpdateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTableViewController.swift; sourceTree = "<group>"; };
 		BA5636482652842800D31A55 /* UpdateNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNavController.swift; sourceTree = "<group>"; };
 		BA56364A2652E49D00D31A55 /* UpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateModel.swift; sourceTree = "<group>"; };
@@ -211,6 +214,7 @@
 		BA9035B026565338000B5AD4 /* UserSettingsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsViewCell.swift; sourceTree = "<group>"; };
 		BA96C3C926417D9300564C14 /* MostLikedStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MostLikedStruct.swift; sourceTree = "<group>"; };
 		BA96C3CB26417EB600564C14 /* FirebaseService-MostLikedEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseService-MostLikedEntries.swift"; sourceTree = "<group>"; };
+		BA98452B265E532C00BD2968 /* ChangeUserInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeUserInformationModel.swift; sourceTree = "<group>"; };
 		BAA7BA1B26218F6100D872E1 /* GundemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GundemModel.swift; sourceTree = "<group>"; };
 		BAA7BA262621F8C500D872E1 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		BAA7BA2A2624579000D872E1 /* CustomAlertCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertCell.swift; sourceTree = "<group>"; };
@@ -284,9 +288,19 @@
 			path = "CommonViews&Controllers";
 			sourceTree = "<group>";
 		};
+		BA3F0D48265D2C130060B354 /* ChangeUserInformation */ = {
+			isa = PBXGroup;
+			children = (
+				BA3F0D49265D2C460060B354 /* ChangeUserInformation.swift */,
+				BA98452B265E532C00BD2968 /* ChangeUserInformationModel.swift */,
+			);
+			path = ChangeUserInformation;
+			sourceTree = "<group>";
+		};
 		BA56364C265314F000D31A55 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				BA3F0D48265D2C130060B354 /* ChangeUserInformation */,
 				BA56364D2653151F00D31A55 /* SettingsViewController.swift */,
 				BA9035B026565338000B5AD4 /* UserSettingsViewCell.swift */,
 			);
@@ -936,6 +950,7 @@
 				BA67E8552615A21C006B11F1 /* LogupViewController.swift in Sources */,
 				BA781DD426123041000C4B0B /* TabbarEnum.swift in Sources */,
 				BA88D6C426281C4600F5272D /* FirebaseService-UserProcesses.swift in Sources */,
+				BA3F0D4A265D2C460060B354 /* ChangeUserInformation.swift in Sources */,
 				BA781DD826123074000C4B0B /* Collections.swift in Sources */,
 				BA6E61C52627043B00FA8ACA /* FollowerStruct.swift in Sources */,
 				BA781DEF2612318F000C4B0B /* GundemView.swift in Sources */,
@@ -984,6 +999,7 @@
 				BA8C9E41261F9EED00DC6055 /* CommentCellBottom.swift in Sources */,
 				BA781E1E26130DC4000C4B0B /* TakipView.swift in Sources */,
 				BA881C0B262DB7AA00DAC84F /* SendMessagePage.swift in Sources */,
+				BA98452C265E532C00BD2968 /* ChangeUserInformationModel.swift in Sources */,
 				BA883C1E263AA6C2003D1D2A /* ChatStruct.swift in Sources */,
 				BA88D6CC26281DA300F5272D /* FirebaseService-EntryProcess.swift in Sources */,
 				BA781DE626123131000C4B0B /* MainPageCell.swift in Sources */,
