@@ -11,6 +11,8 @@ import Firebase
 class LogupModel:NSObject{
     
     let firebaseService = FirebaseService()
+    weak var alertView:MutualAlertViewController!
+    var parentView:UIViewController?
     
     override init() {
         super.init()
@@ -21,6 +23,7 @@ class LogupModel:NSObject{
             if let error = error{
                 print(error)
             }
+            self.alertView = MutualAlertViewController(message: message, self.parentView!)
             
         }
     }

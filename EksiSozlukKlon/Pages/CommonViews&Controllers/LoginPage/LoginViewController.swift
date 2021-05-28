@@ -14,7 +14,7 @@ import FirebaseAuth
 class LoginViewController: UIViewController {
 
   
-    let firebaseService = FirebaseService()
+    
     let model = LoginModel()
     let viewModel = LoginViewModel()
     let fbManager = LoginManager()
@@ -56,13 +56,12 @@ extension LoginViewController:LoginViewModelDelegate{
     func facebookSignInPressed() {
         fbManager.logIn(permissions: ["email"], from: self) { result, error in
             if let error = error{
-                print("1.durum")
+                print("print error \(error)")
             }else if result?.isCancelled == true{
-                print(result?.isCancelled)
+              print("cancel")
             }else{
-                print("here")
                 let credential = FacebookAuthProvider.credential(withAccessToken: AccessToken.current!.tokenString)
-                self.firebaseService.credentialLogin(credential)
+                self.model.firebaseService.credentialLogin(credential)
                     
                 
             }

@@ -55,9 +55,8 @@ class ChangeUserInformationModel: NSObject {
         return field
     }
     
-    func newButton(_ selector:Selector) -> UIButton {
+    func newButton() -> UIButton {
         let button = UIButton()
-        button.addTarget(self, action: selector, for: .touchUpInside)
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 50
         button.setTitleColor(.none, for: .normal)

@@ -43,7 +43,7 @@ extension FirebaseService{
                 }
                 
             }else{
-                handler("kullanıcı mevcut",nil)
+                handler("mail adresi kullanılıyor",nil)
             }
         }
     }
@@ -539,6 +539,7 @@ extension FirebaseService{
     }
     
     func  changePassword(newPassword:String,handler:@escaping (Error?)->()) {
+        print("qqq")
         user?.updatePassword(to: newPassword) { error in
             if let error = error{
                 handler(error)

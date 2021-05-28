@@ -112,6 +112,7 @@
 		BAB1E3C52643E4D200839D20 /* SearchViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1E3C42643E4D200839D20 /* SearchViewControllerModel.swift */; };
 		BACAA69B262CA86D008E2366 /* MessageCommonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACAA69A262CA86D008E2366 /* MessageCommonController.swift */; };
 		BACAA69E262CAA7D008E2366 /* MessageNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACAA69D262CAA7D008E2366 /* MessageNavController.swift */; };
+		BAED2239265F7C16009C67A7 /* MutualAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED2238265F7C16009C67A7 /* MutualAlertView.swift */; };
 		BAFB044C263BEF6E009A7CEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAFB044B263BEF6E009A7CEE /* GoogleService-Info.plist */; };
 		E07635D24C0312D254025F55 /* Pods_EksiSozlukKlon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F496892E842AE45A09B7F13B /* Pods_EksiSozlukKlon.framework */; };
 /* End PBXBuildFile section */
@@ -226,6 +227,7 @@
 		BAB1E3C42643E4D200839D20 /* SearchViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerModel.swift; sourceTree = "<group>"; };
 		BACAA69A262CA86D008E2366 /* MessageCommonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCommonController.swift; sourceTree = "<group>"; };
 		BACAA69D262CAA7D008E2366 /* MessageNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageNavController.swift; sourceTree = "<group>"; };
+		BAED2238265F7C16009C67A7 /* MutualAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutualAlertView.swift; sourceTree = "<group>"; };
 		BAFB044B263BEF6E009A7CEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F496892E842AE45A09B7F13B /* Pods_EksiSozlukKlon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EksiSozlukKlon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -278,6 +280,7 @@
 				BA0115762614932100E4799B /* MutualLogView.swift */,
 				BA781E182612576D000C4B0B /* BasicView.swift */,
 				BA2497A72613A8C3002B00F0 /* MutualUnregisterViewController.swift */,
+				BAED2238265F7C16009C67A7 /* MutualAlertView.swift */,
 				BA67C6E62616E8CC00A064C9 /* EntriesViewCell.swift */,
 				BA8C9E40261F9EED00DC6055 /* CommentCellBottom.swift */,
 				BA8C9E47261FB5FA00DC6055 /* CommentCellBottomModel.swift */,
@@ -936,6 +939,7 @@
 				BA8F66FB264A67BB005A0B18 /* UserMainPageController.swift in Sources */,
 				BA67C6F92616F79900A064C9 /* Constant.swift in Sources */,
 				BA68F39B261BA47600BA92E6 /* SingleCommentViewController.swift in Sources */,
+				BAED2239265F7C16009C67A7 /* MutualAlertView.swift in Sources */,
 				BA81D71226594A4E00572DD0 /* CautionView.swift in Sources */,
 				BA781E0E26123CB0000C4B0B /* BugunView.swift in Sources */,
 				BA88D6C726281CE600F5272D /* FirebaseService-CommentSubProcesses.swift in Sources */,

@@ -202,6 +202,7 @@ class LoginViewModel:MutualLogView{
     
     override func facePressed() {
         delegate?.facebookSignInPressed()
+       
     }
     
 }

@@ -315,6 +315,9 @@ class LogupViewModel:MutualLogView{
     override func googlePressed() {
         delegate?.googleSignInPressed()
     }
+    override func facePressed() {
+        delegate?.faceSignInPressed()
+    }
     
 }
 
@@ -366,4 +369,5 @@ extension LogupViewModel:UITextFieldDelegate{
 protocol  LogupViewModelDelegate {
     func  logupButtonClicked(_ user:UserStruct)
     func googleSignInPressed()
+    func faceSignInPressed()
 }

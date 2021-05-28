@@ -51,14 +51,16 @@ class ChangeUserInformationViewControl:UIViewController{
     }()
     
     lazy var buttonUpdate:UIButton = {
-        let button = model.newButton(#selector(updatePressed))
+        let button = model.newButton()
+        button.addTarget(self, action: #selector(updatePressed), for: .touchUpInside)
         button.setTitle("güncelle", for: .normal)
         button.setTitleColor(nickField.textColor, for: .normal)
         return button
     }()
     
     lazy var buttonCancel:UIButton = {
-        let button = model.newButton(#selector(cancelPressed))
+        let button = model.newButton()
+        button.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
         button.setTitle("vazgeç", for: .normal)
         button.setTitleColor(nickField.textColor, for: .normal)
         return button
@@ -122,7 +124,7 @@ class ChangeUserInformationViewControl:UIViewController{
             buttonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             buttonStack.widthAnchor.constraint(equalToConstant: 300),
             buttonStack.heightAnchor.constraint(equalToConstant: 100),
-            buttonStack.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 200),
+            buttonStack.topAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: 50),
             buttonCancel.widthAnchor.constraint(equalToConstant: 100),
             buttonUpdate.widthAnchor.constraint(equalToConstant: 100),
             
@@ -164,13 +166,17 @@ class ChangeUserInformationViewControl:UIViewController{
     @objc private func dateChanged(){
         userBirthdayField.text = datePicker.date.convertDateToString()
         date = datePicker.date
-        datePicker.removeFromSuperview()
+       
     }
     
     
     
     func setDatePicker(){
         view.addSubview(datePicker)
+        if let date = userInfo?.birtday {
+            datePicker.setDate(date, animated: false)
+        }
+        
         NSLayoutConstraint.activate([
             
             datePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
